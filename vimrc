@@ -41,6 +41,15 @@ noremap <C-right> :bnext<CR>
 let g:qb_hotkey = "<S-TAB>"
 command Bc Bclose
 
+" Scratch buffers
+fun! ScratchBuffer(name)
+  execute "open " . a:name
+  setlocal buftype=nofile
+  setlocal bufhidden=hide
+  setlocal noswapfile
+endfun
+command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
+
 " NERDTree
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 
@@ -53,7 +62,7 @@ RightMargin
 command SudoW w !sudo tee % > /dev/null
 
 " Formatting of pipe-delimited tables in Cucumber
-fun! s:CukeTable() range
+fun! CukeTable() range
   execute ":" . a:firstline . "," . a:lastline . "Align |"
   for linenum in range(a:firstline, a:lastline)
     let curline = getline(linenum)
@@ -62,7 +71,7 @@ fun! s:CukeTable() range
     call setline(linenum, replacement)
   endfor
 endfun
-command! -range CukeTable :<line1>,<line2>call s:CukeTable()
+command! -range CukeTable :<line1>,<line2>call CukeTable()
 noremap <Leader>ct :CukeTable<CR>
 
 " XML Formatting
