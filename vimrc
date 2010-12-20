@@ -39,16 +39,16 @@ nnoremap Q @q
 noremap <C-left> :bprev<CR>
 noremap <C-right> :bnext<CR>
 let g:qb_hotkey = "<S-TAB>"
-command Bc Bclose
+command -bang Bc Bclose<bang>
 
 " Scratch buffers
-fun! ScratchBuffer(name)
+function ScratchBuffer(name)
   execute "open " . a:name
   setlocal buftype=nofile
   setlocal bufhidden=hide
   setlocal noswapfile
 endfun
-command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
+command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
 " NERDTree
 nnoremap <Leader>nt :NERDTreeToggle<CR>
