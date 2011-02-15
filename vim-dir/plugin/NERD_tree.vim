@@ -2,7 +2,7 @@
 " File:        NERD_tree.vim
 " Description: vim global plugin that provides a nice tree explorer
 " Maintainer:  Martin Grenfell <martin.grenfell at gmail dot com>
-" Last Change: 9 October, 2009
+" Last Change: 1 December, 2009
 " License:     This program is free software. It comes without any warranty,
 "              to the extent permitted by applicable law. You can redistribute
 "              it and/or modify it under the terms of the Do What The Fuck You
@@ -10,7 +10,7 @@
 "              See http://sam.zoy.org/wtfpl/COPYING for more details.
 "
 " ============================================================================
-let s:NERD_tree_version = '4.0.0'
+let s:NERD_tree_version = '4.1.0'
 
 " SECTION: Script init stuff {{{1
 "============================================================
@@ -39,7 +39,7 @@ set cpo&vim
 "1 if the var is set, 0 otherwise
 function! s:initVariable(var, value)
     if !exists(a:var)
-        exec 'let ' . a:var . ' = ' . "'" . a:value . "'"
+        exec 'let ' . a:var . ' = ' . "'" . substitute(a:value, "'", "''", "g") . "'"
         return 1
     endif
     return 0
@@ -139,7 +139,11 @@ call s:initVariable("g:NERDTreeMapUpdir", "u")
 call s:initVariable("g:NERDTreeMapUpdirKeepOpen", "U")
 
 "SECTION: Script level variable declaration{{{2
-let s:escape_chars =  " \\`\|\"#%&,?()\*^<>"
+if s:running_windows
+    let s:escape_chars =  " `\|\"#%&,?()\*^<>"
+else
+    let s:escape_chars =  " \\`\|\"#%&,?()\*^<>[]"
+endif
 let s:NERDTreeBufName = 'NERD_tree_'
 
 let s:tree_wid = 2
@@ -157,6 +161,7 @@ command! -n=? -complete=dir -bar NERDTreeToggle :call s:toggle('<args>')
 command! -n=0 -bar NERDTreeClose :call s:closeTreeIfOpen()
 command! -n=1 -complete=customlist,s:completeBookmarks -bar NERDTreeFromBookmark call s:initNerdTree('<args>')
 command! -n=0 -bar NERDTreeMirror call s:initNerdTreeMirror()
+command! -n=0 -bar NERDTreeFind call s:findAndRevealPath()
 " SECTION: Auto commands {{{1
 "============================================================
 augroup NERDTree
@@ -189,6 +194,7 @@ function! s:Bookmark.activate()
         if self.validate()
             let n = s:TreeFileNode.New(self.path)
             call n.open()
+            call s:closeTreeIfQuitOnOpen()
         endif
     endif
 endfunction
@@ -332,6 +338,21 @@ function! s:Bookmark.GetNodeForName(name, searchFromAbsoluteRoot)
     let bookmark = s:Bookmark.BookmarkFor(a:name)
     return bookmark.getNode(a:searchFromAbsoluteRoot)
 endfunction
+" FUNCTION: Bookmark.GetSelected() {{{3
+" returns the Bookmark the cursor is over, or {}
+function! s:Bookmark.GetSelected()
+    let line = getline(".")
+    let name = substitute(line, '^>\(.\{-}\) .\+$', '\1', '')
+    if name != line
+        try
+            return s:Bookmark.BookmarkFor(name)
+        catch /^NERDTree.BookmarkNotFoundError/
+            return {}
+        endtry
+    endif
+    return {}
+endfunction
+
 " Function: Bookmark.InvalidBookmarks()   {{{3
 " Class method to get all invalid bookmark strings read from the bookmarks
 " file
@@ -352,7 +373,7 @@ endfunction
 " FUNCTION: Bookmark.New(name, path) {{{3
 " Create a new bookmark object with the given name and path object
 function! s:Bookmark.New(name, path)
-    if a:name =~ ' '
+    if a:name =~# ' '
         throw "NERDTree.IllegalBookmarkNameError: illegal name:" . a:name
     endif
 
@@ -360,6 +381,21 @@ function! s:Bookmark.New(name, path)
     let newBookmark.name = a:name
     let newBookmark.path = a:path
     return newBookmark
+endfunction
+" FUNCTION: Bookmark.openInNewTab(options) {{{3
+" Create a new bookmark object with the given name and path object
+function! s:Bookmark.openInNewTab(options)
+    let currentTab = tabpagenr()
+    if self.path.isDirectory
+        tabnew
+        call s:initNerdTree(self.name)
+    else
+        exec "tabedit " . self.path.str({'format': 'Edit'})
+    endif
+
+    if has_key(a:options, 'stayInCurrentTab')
+        exec "tabnext " . currentTab
+    endif
 endfunction
 " Function: Bookmark.setPath(path)   {{{3
 " makes this bookmark point to the given path
@@ -771,15 +807,23 @@ endfunction
 "FUNCTION: TreeFileNode.bookmark(name) {{{3
 "bookmark this node with a:name
 function! s:TreeFileNode.bookmark(name)
+
+    "if a bookmark exists with the same name and the node is cached then save
+    "it so we can update its display string
+    let oldMarkedNode = {}
     try
         let oldMarkedNode = s:Bookmark.GetNodeForName(a:name, 1)
-        call oldMarkedNode.path.cacheDisplayString()
     catch /^NERDTree.BookmarkNotFoundError/
+    catch /^NERDTree.BookmarkedNodeNotFoundError/
     endtry
 
     call s:Bookmark.AddBookmark(a:name, self.path)
     call self.path.cacheDisplayString()
     call s:Bookmark.Write()
+
+    if !empty(oldMarkedNode)
+        call oldMarkedNode.path.cacheDisplayString()
+    endif
 endfunction
 "FUNCTION: TreeFileNode.cacheParent() {{{3
 "initializes self.parent if it isnt already
@@ -981,11 +1025,19 @@ function! s:TreeFileNode.getLineNum()
     return -1
 endfunction
 
+"FUNCTION: TreeFileNode.GetRootForTab(){{{3
+"get the root node for this tab
+function! s:TreeFileNode.GetRootForTab()
+    if s:treeExistsForTab()
+        return getbufvar(t:NERDTreeBufName, 'NERDTreeRoot')
+    end
+    return {}
+endfunction
 "FUNCTION: TreeFileNode.GetRootLineNum(){{{3
 "gets the line number of the root node
 function! s:TreeFileNode.GetRootLineNum()
     let rootLine = 1
-    while getline(rootLine) !~ '^/'
+    while getline(rootLine) !~# '^\(/\|<\)'
         let rootLine = rootLine + 1
     endwhile
     return rootLine
@@ -1176,6 +1228,21 @@ function! s:TreeFileNode.openVSplit()
     call s:putCursorInTreeWin()
     exec("silent vertical resize ". winwidth)
     call s:exec('wincmd p')
+endfunction
+"FUNCTION: TreeFileNode.openInNewTab(options) {{{3
+function! s:TreeFileNode.openInNewTab(options)
+    let currentTab = tabpagenr()
+
+    if !has_key(a:options, 'keepTreeOpen')
+        call s:closeTreeIfQuitOnOpen()
+    endif
+
+    exec "tabedit " . self.path.str({'format': 'Edit'})
+
+    if has_key(a:options, 'stayInCurrentTab') && a:options['stayInCurrentTab']
+        exec "tabnext " . currentTab
+    endif
+
 endfunction
 "FUNCTION: TreeFileNode.putCursorHere(isJump, recurseUpward){{{3
 "Places the cursor on the line number this node is rendered on
@@ -1535,7 +1602,7 @@ function! s:TreeDirNode._initChildren(silent)
         "filter out the .. and . directories
         "Note: we must match .. AND ../ cos sometimes the globpath returns
         "../ for path with strange chars (eg $)
-        if i !~ '\/\.\.\/\?$' && i !~ '\/\.\/\?$'
+        if i !~# '\/\.\.\/\?$' && i !~# '\/\.\/\?$'
 
             "put the next file in a new node and attach it
             try
@@ -1606,6 +1673,22 @@ function! s:TreeDirNode.openExplorer()
         exec ("silent edit " . self.path.str({'format': 'Edit'}))
     endif
 endfunction
+"FUNCTION: TreeDirNode.openInNewTab(options) {{{3
+unlet s:TreeDirNode.openInNewTab
+function! s:TreeDirNode.openInNewTab(options)
+    let currentTab = tabpagenr()
+
+    if !has_key(a:options, 'keepTreeOpen') || !a:options['keepTreeOpen']
+        call s:closeTreeIfQuitOnOpen()
+    endif
+
+    tabnew
+    call s:initNerdTree(self.path.str())
+
+    if has_key(a:options, 'stayInCurrentTab') && a:options['stayInCurrentTab']
+        exec "tabnext " . currentTab
+    endif
+endfunction
 "FUNCTION: TreeDirNode.openRecursively() {{{3
 "Opens this treenode and all of its children whose paths arent 'ignored'
 "because of the file filters.
@@ -1656,7 +1739,7 @@ function! s:TreeDirNode.refresh()
             "filter out the .. and . directories
             "Note: we must match .. AND ../ cos sometimes the globpath returns
             "../ for path with strange chars (eg $)
-            if i !~ '\/\.\.\/\?$' && i !~ '\/\.\/\?$'
+            if i !~# '\/\.\.\/\?$' && i !~# '\/\.\/\?$'
 
                 try
                     "create a new path and see if it exists in this nodes children
@@ -1690,6 +1773,31 @@ function! s:TreeDirNode.refresh()
     endif
 endfunction
 
+"FUNCTION: TreeDirNode.reveal(path) {{{3
+"reveal the given path, i.e. cache and open all treenodes needed to display it
+"in the UI
+function! s:TreeDirNode.reveal(path)
+    if !a:path.isUnder(self.path)
+        throw "NERDTree.InvalidArgumentsError: " . a:path.str() . " should be under " . self.path.str()
+    endif
+
+    call self.open()
+
+    if self.path.equals(a:path.getParent())
+        let n = self.findNode(a:path)
+        call s:renderView()
+        call n.putCursorHere(1,0)
+        return
+    endif
+
+    let p = a:path
+    while !p.getParent().equals(self.path)
+        let p = p.getParent()
+    endwhile
+
+    let n = self.findNode(p)
+    call n.reveal(a:path)
+endfunction
 "FUNCTION: TreeDirNode.removeChild(treenode) {{{3
 "
 "Removes the given treenode from this nodes set of children
@@ -1753,9 +1861,9 @@ let s:Path = {}
 function! s:Path.AbsolutePathFor(str)
     let prependCWD = 0
     if s:running_windows
-        let prependCWD = a:str !~ '^.:\(\\\|\/\)'
+        let prependCWD = a:str !~# '^.:\(\\\|\/\)'
     else
-        let prependCWD = a:str !~ '^/'
+        let prependCWD = a:str !~# '^/'
     endif
 
     let toReturn = a:str
@@ -1872,7 +1980,7 @@ function! s:Path.Create(fullpath)
     try
 
         "if it ends with a slash, assume its a dir create it
-        if a:fullpath =~ '\(\\\|\/\)$'
+        if a:fullpath =~# '\(\\\|\/\)$'
             "whack the trailing slash off the end if it exists
             let fullpath = substitute(a:fullpath, '\(\\\|\/\)$', '', '')
 
@@ -2045,7 +2153,7 @@ endfunction
 function! s:Path.getSortOrderIndex()
     let i = 0
     while i < len(g:NERDTreeSortOrder)
-        if  self.getLastPathComponent(1) =~ g:NERDTreeSortOrder[i]
+        if  self.getLastPathComponent(1) =~# g:NERDTreeSortOrder[i]
             return i
         endif
         let i = i + 1
@@ -2061,14 +2169,14 @@ function! s:Path.ignore()
     "filter out the user specified paths to ignore
     if b:NERDTreeIgnoreEnabled
         for i in g:NERDTreeIgnore
-            if lastPathComponent =~ i
+            if lastPathComponent =~# i
                 return 1
             endif
         endfor
     endif
 
     "dont show hidden files unless instructed to
-    if b:NERDTreeShowHidden ==# 0 && lastPathComponent =~ '^\.'
+    if b:NERDTreeShowHidden ==# 0 && lastPathComponent =~# '^\.'
         return 1
     endif
 
@@ -2077,6 +2185,20 @@ function! s:Path.ignore()
     endif
 
     return 0
+endfunction
+
+"FUNCTION: Path.isUnder(path) {{{3
+"return 1 if this path is somewhere under the given path in the filesystem.
+"
+"a:path should be a dir
+function! s:Path.isUnder(path)
+    if a:path.isDirectory == 0
+        return 0
+    endif
+
+    let this = self.str()
+    let that = a:path.str()
+    return stridx(this, that . s:Path.Slash()) == 0
 endfunction
 
 "FUNCTION: Path.JoinPathStrings(...) {{{3
@@ -2144,7 +2266,7 @@ function! s:Path.readInfoFromDisk(fullpath)
 
     let self.isExecutable = 0
     if !self.isDirectory
-        let self.isExecutable = getfperm(a:fullpath) =~ 'x'
+        let self.isExecutable = getfperm(a:fullpath) =~# 'x'
     endif
 
     "grab the last part of the path (minus the trailing slash)
@@ -2163,7 +2285,7 @@ function! s:Path.readInfoFromDisk(fullpath)
 
             "we always wanna treat MS windows shortcuts as files for
             "simplicity
-            if hardPath !~ '\.lnk$'
+            if hardPath !~# '\.lnk$'
 
                 let self.symLinkDest = self.symLinkDest . '/'
             endif
@@ -2208,16 +2330,18 @@ endfunction
 "The dict may have the following keys:
 "  'format'
 "  'escape'
+"  'truncateTo'
 "
 "The 'format' key may have a value of:
 "  'Cd' - a string to be used with the :cd command
 "  'Edit' - a string to be used with :e :sp :new :tabedit etc
 "  'UI' - a string used in the NERD tree UI
 "
-"If not specified, a generic unix style path string will be returned
-"
 "The 'escape' key, if specified will cause the output to be escaped with
 "shellescape()
+"
+"The 'truncateTo' key causes the resulting string to be truncated to the value
+"'truncateTo' maps to. A '<' char will be prepended.
 function! s:Path.str(...)
     let options = a:0 ? a:1 : {}
     let toReturn = ""
@@ -2235,6 +2359,13 @@ function! s:Path.str(...)
 
     if has_key(options, 'escape') && options['escape']
         let toReturn = shellescape(toReturn)
+    endif
+
+    if has_key(options, 'truncateTo')
+        let limit = options['truncateTo']
+        if len(toReturn) > limit
+            let toReturn = "<" . strpart(toReturn, len(toReturn) - limit + 1)
+        endif
     endif
 
     return toReturn
@@ -2267,6 +2398,8 @@ function! s:Path._strForEdit()
         let p = tolower(self.str())
         let cwd = tolower(getcwd())
     endif
+
+    let p = escape(p, s:escape_chars)
 
     let cwd = cwd . s:Path.Slash()
 
@@ -2384,7 +2517,7 @@ endfunction
 " FUNCTION: s:completeBookmarks(A,L,P) {{{2
 " completion function for the bookmark commands
 function! s:completeBookmarks(A,L,P)
-    return filter(s:Bookmark.BookmarkNames(), 'v:val =~ "^' . a:A . '"')
+    return filter(s:Bookmark.BookmarkNames(), 'v:val =~# "^' . a:A . '"')
 endfunction
 " FUNCTION: s:exec(cmd) {{{2
 " same as :exec cmd  but eventignore=all is set for the duration
@@ -2393,6 +2526,29 @@ function! s:exec(cmd)
     set ei=all
     exec a:cmd
     let &ei = old_ei
+endfunction
+" FUNCTION: s:findAndRevealPath() {{{2
+function! s:findAndRevealPath()
+    try
+        let p = s:Path.New(expand("%:p"))
+    catch /^NERDTree.InvalidArgumentsError/
+        call s:echo("no file for the current buffer")
+        return
+    endtry
+
+    if !s:treeExistsForTab()
+        call s:initNerdTree(p.getParent().str())
+    else
+        if !p.isUnder(s:TreeFileNode.GetRootForTab().path)
+            call s:initNerdTree(p.getParent().str())
+        else
+            if !s:isTreeOpen()
+                call s:toggle("")
+            endif
+        endif
+    endif
+    call s:putCursorInTreeWin()
+    call b:NERDTreeRoot.reveal(p)
 endfunction
 "FUNCTION: s:initNerdTree(name) {{{2
 "Initialise the nerd tree for this tab. The tree will start in either the
@@ -2408,7 +2564,7 @@ function! s:initNerdTree(name)
         let dir = a:name ==# '' ? getcwd() : a:name
 
         "hack to get an absolute path if a relative path is given
-        if dir =~ '^\.'
+        if dir =~# '^\.'
             let dir = getcwd() . s:Path.Slash() . dir
         endif
         let dir = resolve(dir)
@@ -2665,9 +2821,17 @@ function! s:closeTree()
     endif
 
     if winnr("$") != 1
+        if winnr() == s:getTreeWinNum()
+            wincmd p
+            let bufnr = bufnr("")
+            wincmd p
+        else
+            let bufnr = bufnr("")
+        endif
+
         call s:exec(s:getTreeWinNum() . " wincmd w")
         close
-        call s:exec("wincmd p")
+        call s:exec(bufwinnr(bufnr) . " wincmd w")
     else
         close
     endif
@@ -2896,13 +3060,15 @@ endfunction
 function! s:getPath(ln)
     let line = getline(a:ln)
 
+    let rootLine = s:TreeFileNode.GetRootLineNum()
+
     "check to see if we have the root node
-    if line =~ '^\/'
+    if a:ln == rootLine
         return b:NERDTreeRoot.path
     endif
 
     " in case called from outside the tree
-    if line !~ '^ *[|`]' || line =~ '^$'
+    if line !~# '^ *[|`]' || line =~# '^$'
         return {}
     endif
 
@@ -2916,11 +3082,10 @@ function! s:getPath(ln)
     let curFile = s:stripMarkupFromLine(line, 0)
 
     let wasdir = 0
-    if curFile =~ '/$'
+    if curFile =~# '/$'
         let wasdir = 1
         let curFile = substitute(curFile, '/\?$', '/', "")
     endif
-
 
     let dir = ""
     let lnum = a:ln
@@ -2930,11 +3095,11 @@ function! s:getPath(ln)
         let curLineStripped = s:stripMarkupFromLine(curLine, 1)
 
         "have we reached the top of the tree?
-        if curLine =~ '^/'
-            let dir = substitute (curLine, ' *$', "", "") . dir
+        if lnum == rootLine
+            let dir = b:NERDTreeRoot.path.str({'format': 'UI'}) . dir
             break
         endif
-        if curLineStripped =~ '/$'
+        if curLineStripped =~# '/$'
             let lpindent = s:indentLevelFor(curLine)
             if lpindent < indent
                 let indent = indent - 1
@@ -2947,21 +3112,6 @@ function! s:getPath(ln)
     let curFile = b:NERDTreeRoot.path.drive . dir . curFile
     let toReturn = s:Path.New(curFile)
     return toReturn
-endfunction
-
-"FUNCTION: s:getSelectedBookmark() {{{2
-"returns the bookmark the cursor is over in the bookmarks table or {}
-function! s:getSelectedBookmark()
-    let line = getline(".")
-    let name = substitute(line, '^>\(.\{-}\) .\+$', '\1', '')
-    if name != line
-        try
-            return s:Bookmark.BookmarkFor(name)
-        catch /^NERDTree.BookmarkNotFoundError/
-            return {}
-        endtry
-    endif
-    return {}
 endfunction
 
 "FUNCTION: s:getTreeWinNum() {{{2
@@ -3068,7 +3218,7 @@ function! s:putCursorOnBookmarkTable()
     let rootNodeLine = s:TreeFileNode.GetRootLineNum()
 
     let line = 1
-    while getline(line) !~ '^>-\+Bookmarks-\+$'
+    while getline(line) !~# '^>-\+Bookmarks-\+$'
         let line = line + 1
         if line >= rootNodeLine
             throw "NERDTree.BookmarkTableNotFoundError: didnt find the bookmarks table"
@@ -3130,7 +3280,8 @@ function! s:renderView()
     call cursor(line(".")+1, col("."))
 
     "draw the header line
-    call setline(line(".")+1, b:NERDTreeRoot.path.str({'format': 'UI'}))
+    let header = b:NERDTreeRoot.path.str({'format': 'UI', 'truncateTo': winwidth(0)})
+    call setline(line(".")+1, header)
     call cursor(line(".")+1, col("."))
 
     "draw the tree
@@ -3214,91 +3365,91 @@ function! s:setupStatusline()
 endfunction
 "FUNCTION: s:setupSyntaxHighlighting() {{{2
 function! s:setupSyntaxHighlighting()
-    "treeFlags are syntax items that should be invisible, but give clues as to
+    "NERDTreeFlags are syntax items that should be invisible, but give clues as to
     "how things should be highlighted
-    syn match treeFlag #\~#
-    syn match treeFlag #\[RO\]#
+    syn match NERDTreeFlag #\~#
+    syn match NERDTreeFlag #\[RO\]#
 
     "highlighting for the .. (up dir) line at the top of the tree
-    execute "syn match treeUp #". s:tree_up_dir_line ."#"
+    execute "syn match NERDTreeUp #". s:tree_up_dir_line ."#"
 
     "highlighting for the ~/+ symbols for the directory nodes
-    syn match treeClosable #\~\<#
-    syn match treeClosable #\~\.#
-    syn match treeOpenable #+\<#
-    syn match treeOpenable #+\.#he=e-1
+    syn match NERDTreeClosable #\~\<#
+    syn match NERDTreeClosable #\~\.#
+    syn match NERDTreeOpenable #+\<#
+    syn match NERDTreeOpenable #+\.#he=e-1
 
     "highlighting for the tree structural parts
-    syn match treePart #|#
-    syn match treePart #`#
-    syn match treePartFile #[|`]-#hs=s+1 contains=treePart
+    syn match NERDTreePart #|#
+    syn match NERDTreePart #`#
+    syn match NERDTreePartFile #[|`]-#hs=s+1 contains=NERDTreePart
 
     "quickhelp syntax elements
-    syn match treeHelpKey #" \{1,2\}[^ ]*:#hs=s+2,he=e-1
-    syn match treeHelpKey #" \{1,2\}[^ ]*,#hs=s+2,he=e-1
-    syn match treeHelpTitle #" .*\~#hs=s+2,he=e-1 contains=treeFlag
-    syn match treeToggleOn #".*(on)#hs=e-2,he=e-1 contains=treeHelpKey
-    syn match treeToggleOff #".*(off)#hs=e-3,he=e-1 contains=treeHelpKey
-    syn match treeHelpCommand #" :.\{-}\>#hs=s+3
-    syn match treeHelp  #^".*# contains=treeHelpKey,treeHelpTitle,treeFlag,treeToggleOff,treeToggleOn,treeHelpCommand
+    syn match NERDTreeHelpKey #" \{1,2\}[^ ]*:#hs=s+2,he=e-1
+    syn match NERDTreeHelpKey #" \{1,2\}[^ ]*,#hs=s+2,he=e-1
+    syn match NERDTreeHelpTitle #" .*\~#hs=s+2,he=e-1 contains=NERDTreeFlag
+    syn match NERDTreeToggleOn #".*(on)#hs=e-2,he=e-1 contains=NERDTreeHelpKey
+    syn match NERDTreeToggleOff #".*(off)#hs=e-3,he=e-1 contains=NERDTreeHelpKey
+    syn match NERDTreeHelpCommand #" :.\{-}\>#hs=s+3
+    syn match NERDTreeHelp  #^".*# contains=NERDTreeHelpKey,NERDTreeHelpTitle,NERDTreeFlag,NERDTreeToggleOff,NERDTreeToggleOn,NERDTreeHelpCommand
 
     "highlighting for readonly files
-    syn match treeRO #.*\[RO\]#hs=s+2 contains=treeFlag,treeBookmark,treePart,treePartFile
+    syn match NERDTreeRO #.*\[RO\]#hs=s+2 contains=NERDTreeFlag,NERDTreeBookmark,NERDTreePart,NERDTreePartFile
 
     "highlighting for sym links
-    syn match treeLink #[^-| `].* -> # contains=treeBookmark,treeOpenable,treeClosable,treeDirSlash
+    syn match NERDTreeLink #[^-| `].* -> # contains=NERDTreeBookmark,NERDTreeOpenable,NERDTreeClosable,NERDTreeDirSlash
 
     "highlighing for directory nodes and file nodes
-    syn match treeDirSlash #/#
-    syn match treeDir #[^-| `].*/# contains=treeLink,treeDirSlash,treeOpenable,treeClosable
-    syn match treeExecFile  #[|`]-.*\*\($\| \)# contains=treeLink,treePart,treeRO,treePartFile,treeBookmark
-    syn match treeFile  #|-.*# contains=treeLink,treePart,treeRO,treePartFile,treeBookmark,treeExecFile
-    syn match treeFile  #`-.*# contains=treeLink,treePart,treeRO,treePartFile,treeBookmark,treeExecFile
-    syn match treeCWD #^/.*$#
+    syn match NERDTreeDirSlash #/#
+    syn match NERDTreeDir #[^-| `].*/# contains=NERDTreeLink,NERDTreeDirSlash,NERDTreeOpenable,NERDTreeClosable
+    syn match NERDTreeExecFile  #[|`]-.*\*\($\| \)# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark
+    syn match NERDTreeFile  #|-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile
+    syn match NERDTreeFile  #`-.*# contains=NERDTreeLink,NERDTreePart,NERDTreeRO,NERDTreePartFile,NERDTreeBookmark,NERDTreeExecFile
+    syn match NERDTreeCWD #^/.*$#
 
     "highlighting for bookmarks
-    syn match treeBookmark # {.*}#hs=s+1
+    syn match NERDTreeBookmark # {.*}#hs=s+1
 
     "highlighting for the bookmarks table
-    syn match treeBookmarksLeader #^>#
-    syn match treeBookmarksHeader #^>-\+Bookmarks-\+$# contains=treeBookmarksLeader
-    syn match treeBookmarkName #^>.\{-} #he=e-1 contains=treeBookmarksLeader
-    syn match treeBookmark #^>.*$# contains=treeBookmarksLeader,treeBookmarkName,treeBookmarksHeader
+    syn match NERDTreeBookmarksLeader #^>#
+    syn match NERDTreeBookmarksHeader #^>-\+Bookmarks-\+$# contains=NERDTreeBookmarksLeader
+    syn match NERDTreeBookmarkName #^>.\{-} #he=e-1 contains=NERDTreeBookmarksLeader
+    syn match NERDTreeBookmark #^>.*$# contains=NERDTreeBookmarksLeader,NERDTreeBookmarkName,NERDTreeBookmarksHeader
 
     if g:NERDChristmasTree
-        hi def link treePart Special
-        hi def link treePartFile Type
-        hi def link treeFile Normal
-        hi def link treeExecFile Title
-        hi def link treeDirSlash Identifier
-        hi def link treeClosable Type
+        hi def link NERDTreePart Special
+        hi def link NERDTreePartFile Type
+        hi def link NERDTreeFile Normal
+        hi def link NERDTreeExecFile Title
+        hi def link NERDTreeDirSlash Identifier
+        hi def link NERDTreeClosable Type
     else
-        hi def link treePart Normal
-        hi def link treePartFile Normal
-        hi def link treeFile Normal
-        hi def link treeClosable Title
+        hi def link NERDTreePart Normal
+        hi def link NERDTreePartFile Normal
+        hi def link NERDTreeFile Normal
+        hi def link NERDTreeClosable Title
     endif
 
-    hi def link treeBookmarksHeader statement
-    hi def link treeBookmarksLeader ignore
-    hi def link treeBookmarkName Identifier
-    hi def link treeBookmark normal
+    hi def link NERDTreeBookmarksHeader statement
+    hi def link NERDTreeBookmarksLeader ignore
+    hi def link NERDTreeBookmarkName Identifier
+    hi def link NERDTreeBookmark normal
 
-    hi def link treeHelp String
-    hi def link treeHelpKey Identifier
-    hi def link treeHelpCommand Identifier
-    hi def link treeHelpTitle Macro
-    hi def link treeToggleOn Question
-    hi def link treeToggleOff WarningMsg
+    hi def link NERDTreeHelp String
+    hi def link NERDTreeHelpKey Identifier
+    hi def link NERDTreeHelpCommand Identifier
+    hi def link NERDTreeHelpTitle Macro
+    hi def link NERDTreeToggleOn Question
+    hi def link NERDTreeToggleOff WarningMsg
 
-    hi def link treeDir Directory
-    hi def link treeUp Directory
-    hi def link treeCWD Statement
-    hi def link treeLink Macro
-    hi def link treeOpenable Title
-    hi def link treeFlag ignore
-    hi def link treeRO WarningMsg
-    hi def link treeBookmark Statement
+    hi def link NERDTreeDir Directory
+    hi def link NERDTreeUp Directory
+    hi def link NERDTreeCWD Statement
+    hi def link NERDTreeLink Macro
+    hi def link NERDTreeOpenable Title
+    hi def link NERDTreeFlag ignore
+    hi def link NERDTreeRO WarningMsg
+    hi def link NERDTreeBookmark Statement
 
     hi def link NERDTreeCurrentNode Search
 endfunction
@@ -3325,7 +3476,7 @@ function! s:stripMarkupFromLine(line, removeLeadingSpaces)
     let line = substitute (line, '*\ze\($\| \)', "","")
 
     let wasdir = 0
-    if line =~ '/$'
+    if line =~# '/$'
         let wasdir = 1
     endif
     let line = substitute (line,' -> .*',"","") " remove link to
@@ -3351,10 +3502,10 @@ function! s:toggle(dir)
     if s:treeExistsForTab()
         if !s:isTreeOpen()
             call s:createTreeWin()
-            call s:restoreScreenState()
             if !&hidden
                 call s:renderView()
             endif
+            call s:restoreScreenState()
         else
             call s:closeTree()
         endif
@@ -3379,7 +3530,7 @@ function! s:activateNode(forceKeepWindowOpen)
     if treenode != {}
         call treenode.activate(a:forceKeepWindowOpen)
     else
-        let bookmark = s:getSelectedBookmark()
+        let bookmark = s:Bookmark.GetSelected()
         if !empty(bookmark)
             call bookmark.activate()
         endif
@@ -3483,14 +3634,14 @@ function! s:checkForActivate()
         "if they clicked a dir, check if they clicked on the + or ~ sign
         "beside it
         if currentNode.path.isDirectory
-            if startToCur =~ s:tree_markup_reg . '$' && char =~ '[+~]'
+            if startToCur =~# s:tree_markup_reg . '$' && char =~# '[+~]'
                 call s:activateNode(0)
                 return
             endif
         endif
 
         if (g:NERDTreeMouseMode ==# 2 && currentNode.path.isDirectory) || g:NERDTreeMouseMode ==# 3
-            if char !~ s:tree_markup_reg && startToCur !~ '\/$'
+            if char !~# s:tree_markup_reg && startToCur !~# '\/$'
                 call s:activateNode(0)
                 return
             endif
@@ -3589,7 +3740,7 @@ endfunction
 " FUNCTION: s:deleteBookmark() {{{2
 " if the cursor is on a bookmark, prompt to delete
 function! s:deleteBookmark()
-    let bookmark = s:getSelectedBookmark()
+    let bookmark = s:Bookmark.GetSelected()
     if bookmark ==# {}
         call s:echo("Put the cursor on a bookmark")
         return
@@ -3746,29 +3897,13 @@ endfunction
 " stayCurrentTab: if 1 then vim will stay in the current tab, if 0 then vim
 " will go to the tab where the new file is opened
 function! s:openInNewTab(stayCurrentTab)
-    let currentTab = tabpagenr()
-
-    let treenode = s:TreeFileNode.GetSelected()
-    if treenode != {}
-        if treenode.path.isDirectory
-            tabnew
-            call s:initNerdTree(treenode.path.str())
-        else
-            exec "tabedit " . treenode.path.str({'format': 'Edit'})
-        endif
-    else
-        let bookmark = s:getSelectedBookmark()
-        if bookmark != {}
-            if bookmark.path.isDirectory
-                tabnew
-                call s:initNerdTree(bookmark.name)
-            else
-                exec "tabedit " . bookmark.path.str({'format': 'Edit'})
-            endif
-        endif
+    let target = s:TreeFileNode.GetSelected()
+    if target == {}
+        let target = s:Bookmark.GetSelected()
     endif
-    if a:stayCurrentTab
-        exec "tabnext " . currentTab
+
+    if target != {}
+        call target.openInNewTab({'stayInCurrentTab': a:stayCurrentTab})
     endif
 endfunction
 
@@ -3906,7 +4041,7 @@ endfunction
 "re-rendered
 function! s:upDir(keepState)
     let cwd = b:NERDTreeRoot.path.str({'format': 'UI'})
-    if cwd ==# "/" || cwd =~ '^[^/]..$'
+    if cwd ==# "/" || cwd =~# '^[^/]..$'
         call s:echo("already at top dir")
     else
         if !a:keepState
