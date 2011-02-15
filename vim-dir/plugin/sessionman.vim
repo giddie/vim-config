@@ -9,6 +9,9 @@
 "  Requires:    Vim 6
 "  License:     GPL
 "
+"  Mods: Andy Wokula <[hidden email]>
+"  2009 Dec 09 less problems with MiniBufExplorer (Vimscript #159)
+"
 "  Description:
 "
 "  Vim provides a ':mksession' command to save the current editing session.
@@ -109,7 +112,8 @@ function! s:OpenSession(name)
 		call s:RestoreDefaults()
 		execute 'silent! 1,' . bufnr('$') . 'bwipeout!'
 		let n = bufnr('%')
-		execute 'silent! so ' . s:sessions_path . '/' . a:name
+		" execute 'silent! so ' . s:sessions_path . '/' . a:name
+		call s:SourceWithMbe('silent! so ' . s:sessions_path . '/' . a:name)
 		execute 'silent! bwipeout! ' . n
 		if has('cscope')
 			silent! cscope kill -1
@@ -117,6 +121,18 @@ function! s:OpenSession(name)
 		endif
 		let g:LAST_SESSION = a:name
 	endif
+endfunction
+
+" source a session file, be aware of MiniBufExplorer; 2009 Dec 09
+function! s:SourceWithMbe(so_cmd)
+        if exists(":UMiniBufExplorer") && g:miniBufExplorerAutoUpdate
+                let g:miniBufExplorerAutoUpdate = 0
+                execute a:so_cmd
+                let g:miniBufExplorerAutoUpdate = 1
+                UMiniBufExplorer
+        else
+                execute a:so_cmd
+        endif
 endfunction
 
 "============================================================================"
