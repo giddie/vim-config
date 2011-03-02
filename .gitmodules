@@ -1,0 +1,27 @@
+[submodule "vim-dir/bundle/nerdtree"]
+	path = vim-dir/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "vim-dir/bundle/rails"]
+	path = vim-dir/bundle/rails
+	url = git://github.com/tpope/vim-rails.git
+[submodule "vim-dir/bundle/sessionman"]
+	path = vim-dir/bundle/sessionman
+	url = git://github.com/vim-scripts/sessionman.vim.git
+[submodule "vim-dir/bundle/minibufexpl"]
+	path = vim-dir/bundle/minibufexpl
+	url = git://github.com/fholgado/minibufexpl.vim.git
+[submodule "vim-dir/bundle/endwise"]
+	path = vim-dir/bundle/endwise
+	url = git://github.com/tpope/vim-endwise.git
+[submodule "vim-dir/bundle/cucumber"]
+	path = vim-dir/bundle/cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "vim-dir/bundle/align"]
+	path = vim-dir/bundle/align
+	url = git://github.com/pix/vim-align.git
+[submodule "vim-dir/bundle/surround"]
+	path = vim-dir/bundle/surround
+	url = git://github.com/tpope/vim-surround.git
+[submodule "vim-dir/bundle/nerdcommenter"]
+	path = vim-dir/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git

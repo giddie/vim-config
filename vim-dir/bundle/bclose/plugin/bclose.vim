@@ -33,7 +33,7 @@ function! s:Bclose(bang, buffer)
     return
   endif
   if empty(a:bang) && getbufvar(btarget, '&modified')
-    call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
+    call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!).')
     return
   endif
   " Numbers of windows that view target buffer which we will delete.

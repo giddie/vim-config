@@ -1,3 +1,7 @@
+filetype off   " Some distros need this
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 syntax on
 colorscheme desert
 filetype on
@@ -38,8 +42,7 @@ nnoremap Q @q
 " Easy buffer management
 noremap <C-left> :bprev<CR>
 noremap <C-right> :bnext<CR>
-let g:qb_hotkey = "<S-TAB>"
-command -bang Bc Bclose<bang>
+nnoremap <Leader>bc :Bclose<CR>
 
 " Scratch buffers
 function ScratchBuffer(name)
