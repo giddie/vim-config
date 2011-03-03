@@ -90,8 +90,10 @@ autocmd BufReadPost *
   \ endif
 
 " Formatting, indentation, etc...
-autocmd FileType * set formatoptions-=o
-autocmd FileType asciidoc set wrap formatoptions+=a spell
-autocmd FileType c,cpp set cindent
-autocmd FileType javascript set smartindent
+autocmd BufRead *.qml set filetype=javascript
+autocmd FileType * setlocal formatoptions-=o
+autocmd FileType asciidoc setlocal wrap formatoptions+=a spell
+autocmd FileType help setlocal nospell
+autocmd FileType c,cpp setlocal cindent
+autocmd FileType javascript setlocal smartindent
 let g:xml_syntax_folding=1
