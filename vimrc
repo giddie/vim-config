@@ -10,7 +10,7 @@ filetype plugin on
 set viminfo='100,f1
 set nocompatible
 set encoding=utf-8      " Set encoding
-set wrap                " Wrap by default
+set nowrap              " Don't wrap by default
 set linebreak           " Wrap at word boundaries
 set sidescroll=1        " Scroll 1 char at a time
 set incsearch           " Incremental search
@@ -28,6 +28,8 @@ set softtabstop=2       " 2 spaces for backspace
 set expandtab           " Spaces instead of tabs
 set winminheight=0      " Helps when handling multiple files
 set hidden              " Allow modified buffers to be hidden
+set textwidth=80        " A good standard console width
+set formatprg=par\ -w80 " Clever paragraph formatting with par
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
@@ -87,12 +89,9 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-" set wrapping options for code files
-autocmd FileType c,cpp,javascript set nowrap textwidth=80 formatoptions=cq
-" set C-style indentation for appropriate files
+" Formatting, indentation, etc...
+autocmd FileType * set formatoptions-=o
+autocmd FileType asciidoc set wrap formatoptions+=a spell
 autocmd FileType c,cpp set cindent
-" set smartindent for other code files
 autocmd FileType javascript set smartindent
-" XML Folding
 let g:xml_syntax_folding=1
-"au FileType xml setlocal foldmethod=syntax
