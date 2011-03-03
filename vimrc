@@ -81,6 +81,12 @@ noremap <Leader>ct :CukeTable<CR>
 " XML Formatting
 command PrettyXML %!xmllint --format -
 
+" Place the cursor where it was when the file was last edited
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
 " set wrapping options for code files
 autocmd FileType c,cpp,javascript set nowrap textwidth=80 formatoptions=cq
 " set C-style indentation for appropriate files
