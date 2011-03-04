@@ -31,3 +31,6 @@
 [submodule "vim-dir/bundle/matchit"]
 	path = vim-dir/bundle/matchit
 	url = git://github.com/vim-scripts/matchit.zip.git
+[submodule "vim-dir/bundle/autotag"]
+	path = vim-dir/bundle/autotag
+	url = git://github.com/vim-scripts/AutoTag.git
