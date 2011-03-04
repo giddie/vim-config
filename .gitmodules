@@ -34,3 +34,6 @@
 [submodule "vim-dir/bundle/autotag"]
 	path = vim-dir/bundle/autotag
 	url = git://github.com/vim-scripts/AutoTag.git
+[submodule "vim-dir/bundle/taglist"]
+	path = vim-dir/bundle/taglist
+	url = git://github.com/vim-scripts/taglist.vim.git

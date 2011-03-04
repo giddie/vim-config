@@ -58,8 +58,9 @@ function ScratchBuffer(name)
 endfun
 command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
-" NERDTree
+" Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
+nnoremap <Leader>tl :TlistToggle<CR>
 
 " Highlight characters at column 81
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
