@@ -90,7 +90,7 @@ autocmd BufReadPost *
   \ endif
 
 " Formatting, indentation, etc...
-autocmd BufRead *.qml set filetype=javascript
+autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap formatoptions+=a spell
 autocmd FileType help setlocal nospell
