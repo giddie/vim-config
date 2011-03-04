@@ -13,9 +13,6 @@
 [submodule "vim-dir/bundle/endwise"]
 	path = vim-dir/bundle/endwise
 	url = git://github.com/tpope/vim-endwise.git
-[submodule "vim-dir/bundle/cucumber"]
-	path = vim-dir/bundle/cucumber
-	url = git://github.com/tpope/vim-cucumber.git
 [submodule "vim-dir/bundle/align"]
 	path = vim-dir/bundle/align
 	url = git://github.com/pix/vim-align.git
