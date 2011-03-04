@@ -2,13 +2,15 @@ filetype off   " Some distros need this
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
+set nocompatible
+
 syntax on
-colorscheme desert
 filetype on
+filetype indent on
 filetype plugin on
+colorscheme desert
 
 set viminfo='100,f1
-set nocompatible
 set encoding=utf-8      " Set encoding
 set nowrap              " Don't wrap by default
 set linebreak           " Wrap at word boundaries
