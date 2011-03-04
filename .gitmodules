@@ -25,3 +25,9 @@
 [submodule "vim-dir/bundle/nerdcommenter"]
 	path = vim-dir/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "vim-dir/bundle/indent-object"]
+	path = vim-dir/bundle/indent-object
+	url = git://github.com/michaeljsmith/vim-indent-object.git
+[submodule "vim-dir/bundle/matchit"]
+	path = vim-dir/bundle/matchit
+	url = git://github.com/vim-scripts/matchit.zip.git
