@@ -97,6 +97,4 @@ autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap formatoptions+=a spell
 autocmd FileType help setlocal nospell
-autocmd FileType c,cpp setlocal cindent
-autocmd FileType javascript setlocal smartindent
 let g:xml_syntax_folding=1
