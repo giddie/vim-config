@@ -43,6 +43,9 @@ noremap <C-j> 1<C-D>
 noremap <C-k> 1<C-U>
 " map Q to replay the 'q' macro
 nnoremap Q @q
+" I often accidentally hit F1 instead of ESC
+map <F1> <ESC>
+map! <F1> <ESC>
 
 " Easy buffer management
 noremap <C-left> :bprev<CR>
