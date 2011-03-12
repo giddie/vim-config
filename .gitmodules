@@ -34,3 +34,6 @@
 [submodule "vim-dir/bundle/taglist"]
 	path = vim-dir/bundle/taglist
 	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "vim-dir/bundle/textile"]
+	path = vim-dir/bundle/textile
+	url = git://github.com/timcharper/textile.vim.git
