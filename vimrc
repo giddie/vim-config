@@ -64,6 +64,8 @@ command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 " Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>tl :TlistToggle<CR>
+nnoremap <Leader>gu :GundoToggle<CR>
+let g:gundo_width = 25
 
 " Highlight characters at column 81
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
