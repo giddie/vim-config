@@ -13,9 +13,6 @@
 [submodule "vim-dir/bundle/endwise"]
 	path = vim-dir/bundle/endwise
 	url = git://github.com/tpope/vim-endwise.git
-[submodule "vim-dir/bundle/align"]
-	path = vim-dir/bundle/align
-	url = git://github.com/pix/vim-align.git
 [submodule "vim-dir/bundle/surround"]
 	path = vim-dir/bundle/surround
 	url = git://github.com/tpope/vim-surround.git
@@ -37,3 +34,6 @@
 [submodule "vim-dir/bundle/textile"]
 	path = vim-dir/bundle/textile
 	url = git://github.com/timcharper/textile.vim.git
+[submodule "vim-dir/bundle/tabular"]
+	path = vim-dir/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git

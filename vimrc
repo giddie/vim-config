@@ -73,19 +73,6 @@ RightMargin
 " Sudo-Write for writing to file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
 
-" Formatting of pipe-delimited tables in Cucumber
-fun! CukeTable() range
-  execute ":" . a:firstline . "," . a:lastline . "Align |"
-  for linenum in range(a:firstline, a:lastline)
-    let curline = getline(linenum)
-    let replacement = substitute(curline, ' |', '|', '')
-    let replacement = substitute(replacement, '| $', '|', '')
-    call setline(linenum, replacement)
-  endfor
-endfun
-command! -range CukeTable :<line1>,<line2>call CukeTable()
-noremap <Leader>ct :CukeTable<CR>
-
 " XML Formatting
 command PrettyXML %!xmllint --format -
 
