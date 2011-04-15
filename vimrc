@@ -38,6 +38,8 @@ noremap j gj
 noremap <Down> gj
 noremap k gk
 noremap <Up> gk
+" Visually select the text that was last edited / pasted
+nmap gV '[V']
 " set C-J and C-K to scroll the buffer with the cursor static on screen
 noremap <C-j> 1<C-D>
 noremap <C-k> 1<C-U>
