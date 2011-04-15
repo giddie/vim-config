@@ -47,6 +47,18 @@ nnoremap Q @q
 map <F1> <ESC>
 map! <F1> <ESC>
 
+" Shortcuts
+nnoremap <Leader>nt :NERDTreeToggle<CR>
+nnoremap <Leader>tl :TlistToggle<CR>
+nnoremap <Leader>gu :GundoToggle<CR>
+let g:gundo_width = 25
+
+" Bubble text up and down
+nmap <C-Up> [e
+nmap <C-Down> ]e
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
+
 " Easy buffer management
 noremap <C-left> :bprev<CR>
 noremap <C-right> :bnext<CR>
@@ -61,17 +73,6 @@ function ScratchBuffer(name)
 endfun
 command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
-" Shortcuts
-nnoremap <Leader>nt :NERDTreeToggle<CR>
-nnoremap <Leader>tl :TlistToggle<CR>
-nnoremap <Leader>gu :GundoToggle<CR>
-let g:gundo_width = 25
-
-" Highlight characters at column 81
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-command RightMargin match OverLength /\%81v/
-RightMargin
-
 " Sudo-Write for writing to file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
 
@@ -83,6 +84,11 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
+
+" Highlight characters at column 81
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+command RightMargin match OverLength /\%81v/
+RightMargin
 
 " Formatting, indentation, etc...
 autocmd BufRead *.qml set filetype=qml smartindent

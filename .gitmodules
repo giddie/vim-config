@@ -46,3 +46,6 @@
 [submodule "vim-dir/bundle/snipmate"]
 	path = vim-dir/bundle/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vim-dir/bundle/unimpaired"]
+	path = vim-dir/bundle/unimpaired
+	url = git://github.com/tpope/vim-unimpaired.git
