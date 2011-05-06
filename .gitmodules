@@ -49,3 +49,6 @@
 [submodule "vim-dir/bundle/unimpaired"]
 	path = vim-dir/bundle/unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
+[submodule "vim-dir/bundle/fugitive"]
+	path = vim-dir/bundle/fugitive
+	url = git://github.com/tpope/vim-fugitive.git
