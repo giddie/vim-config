@@ -87,6 +87,9 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
+" Auto-close Fugitive buffers after we're done with them
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
 " Highlight characters at column 81
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 command RightMargin match OverLength /\%81v/
