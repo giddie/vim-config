@@ -6,7 +6,7 @@
 	url = git://github.com/tpope/vim-rails.git
 [submodule "vim-dir/bundle/sessionman"]
 	path = vim-dir/bundle/sessionman
-	url = git://github.com/giddie/sessionman.vim.git
+	url = git://github.com/vim-scripts/sessionman.vim.git
 [submodule "vim-dir/bundle/minibufexpl"]
 	path = vim-dir/bundle/minibufexpl
 	url = git://github.com/fholgado/minibufexpl.vim.git
