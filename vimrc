@@ -84,6 +84,10 @@ let g:clang_auto_select = 1
 let g:clang_complete_copen = 1
 let g:clang_snippets = 1
 
+" A window pops up when using omni-complete, showing function signatures. This
+" closes that window when leaving insert mode.
+autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+
 " Sudo-Write for writing to file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
 
