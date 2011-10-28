@@ -78,8 +78,11 @@ command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 " Default completion type for SuperTab
 let g:SuperTabDefaultCompletionType = "context"
 
-" Open QuickFix window when Clang can't auto-complete
+" Clang-complete configuration
+let g:clang_use_library = 1
+let g:clang_auto_select = 1
 let g:clang_complete_copen = 1
+let g:clang_snippets = 1
 
 " Sudo-Write for writing to file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
