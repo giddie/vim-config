@@ -55,3 +55,6 @@
 [submodule "vim-dir/bundle/clang-complete"]
 	path = vim-dir/bundle/clang-complete
 	url = git://github.com/Rip-Rip/clang_complete.git
+[submodule "vim-dir/bundle/supertab"]
+	path = vim-dir/bundle/supertab
+	url = git://github.com/ervandew/supertab.git

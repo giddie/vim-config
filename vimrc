@@ -75,6 +75,9 @@ function ScratchBuffer(name)
 endfun
 command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
+" Default completion type for SuperTab
+let g:SuperTabDefaultCompletionType = "context"
+
 " Open QuickFix window when Clang can't auto-complete
 let g:clang_complete_copen = 1
 
