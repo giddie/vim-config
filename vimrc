@@ -75,6 +75,9 @@ function ScratchBuffer(name)
 endfun
 command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
+" Open QuickFix window when Clang can't auto-complete
+let g:clang_complete_copen = 1
+
 " Sudo-Write for writing to file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
 
