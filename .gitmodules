@@ -58,3 +58,6 @@
 [submodule "vim-dir/bundle/supertab"]
 	path = vim-dir/bundle/supertab
 	url = git://github.com/ervandew/supertab.git
+[submodule "vim-dir/bundle/command-t"]
+	path = vim-dir/bundle/command-t
+	url = git://git.wincent.com/command-t.git
