@@ -55,6 +55,10 @@ nnoremap <Leader>tl :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 let g:gundo_width = 25
 
+" Hidden characters
+nmap <Leader>l :set list!<CR>
+set listchars=tab:▸\ ,eol:¬
+
 " Bubble text up and down
 nmap <C-Up> [e
 nmap <C-Down> ]e
@@ -113,4 +117,5 @@ autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
+autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 let g:xml_syntax_folding=1
