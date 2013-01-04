@@ -61,3 +61,6 @@
 [submodule "vim-dir/bundle/command-t"]
 	path = vim-dir/bundle/command-t
 	url = git://git.wincent.com/command-t.git
+[submodule "vim-dir/bundle/bufexplorer"]
+	path = vim-dir/bundle/bufexplorer
+	url = git://github.com/corntrace/bufexplorer.git

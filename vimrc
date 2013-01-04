@@ -54,6 +54,7 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>tl :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 let g:gundo_width = 25
+nnoremap <Leader>. :edit .<CR>
 
 " Hidden characters
 nmap <Leader>l :set list!<CR>
@@ -92,7 +93,7 @@ let g:clang_snippets = 1
 " closes that window when leaving insert mode.
 autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
-" Sudo-Write for writing to file I don't have permissions for
+" Sudo-Write for writing to a file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
 
 " XML Formatting
