@@ -32,6 +32,7 @@ set winminheight=0      " Helps when handling multiple files
 set hidden              " Allow modified buffers to be hidden
 set textwidth=80        " A good standard console width
 set formatprg=par\ -w80 " Clever paragraph formatting with par
+set spelllang=en_gb     " Set the spelling language
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
@@ -54,6 +55,7 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>tl :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 let g:gundo_width = 25
+nnoremap <Leader>s :set spell!<CR>
 nnoremap <Leader>. :edit .<CR>
 
 " Hidden characters
