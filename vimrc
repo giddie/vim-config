@@ -33,6 +33,7 @@ set hidden              " Allow modified buffers to be hidden
 set textwidth=80        " A good standard console width
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
+set hlsearch            " Highlight all search results
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj

@@ -64,3 +64,6 @@
 [submodule "vim-dir/bundle/bufexplorer"]
 	path = vim-dir/bundle/bufexplorer
 	url = git://github.com/corntrace/bufexplorer.git
+[submodule "vim-dir/bundle/visual-star-search"]
+	path = vim-dir/bundle/visual-star-search
+	url = git://github.com/nelstrom/vim-visual-star-search.git
