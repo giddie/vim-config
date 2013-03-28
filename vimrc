@@ -58,6 +58,7 @@ nnoremap <Leader>gu :GundoToggle<CR>
 let g:gundo_width = 25
 nnoremap <Leader>s :set spell!<CR>
 nnoremap <Leader>. :edit .<CR>
+nnoremap <Leader>h :nohl<CR>
 
 " Hidden characters
 nmap <Leader>l :set list!<CR>
