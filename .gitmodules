@@ -67,3 +67,9 @@
 [submodule "vim-dir/bundle/visual-star-search"]
 	path = vim-dir/bundle/visual-star-search
 	url = git://github.com/nelstrom/vim-visual-star-search.git
+[submodule "vim-dir/bundle/vim-repeat"]
+	path = vim-dir/bundle/vim-repeat
+	url = git://github.com/tpope/vim-repeat.git
+[submodule "vim-dir/bundle/vim-abolish"]
+	path = vim-dir/bundle/vim-abolish
+	url = git://github.com/tpope/vim-abolish.git
