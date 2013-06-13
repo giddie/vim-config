@@ -123,4 +123,5 @@ autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
 autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd FileType mail setlocal tw=75 formatprg=par\ -w75
 let g:xml_syntax_folding=1
