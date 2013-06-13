@@ -34,6 +34,10 @@ set textwidth=80        " A good standard console width
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set hlsearch            " Highlight all search results
+set colorcolumn=81      " Highlight the 81st column
+
+" Gentler colour for the colorcolumn
+highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
@@ -112,16 +116,11 @@ autocmd BufReadPost *
 " Auto-close Fugitive buffers after we're done with them
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
-" Highlight characters at column 81
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-command RightMargin match OverLength /\%81v/
-RightMargin
-
 " Formatting, indentation, etc...
 autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
 autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
-autocmd FileType mail setlocal tw=75 formatprg=par\ -w75
+autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76
 let g:xml_syntax_folding=1
