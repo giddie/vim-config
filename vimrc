@@ -46,9 +46,11 @@ noremap k gk
 noremap <Up> gk
 " Visually select the text that was last edited / pasted
 nmap gV '[V']
-" set C-J and C-K to scroll the buffer with the cursor static on screen
-noremap <C-j> 1<C-D>
-noremap <C-k> 1<C-U>
+" Bindings for easy viewport scrolling
+noremap <C-j> <C-e>
+noremap <C-k> <C-y>
+noremap <C-h> zh
+noremap <C-l> zl
 " map Q to replay the 'q' macro
 nnoremap Q @q
 " I often accidentally hit F1 instead of ESC
@@ -118,9 +120,11 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " Formatting, indentation, etc...
 autocmd BufRead *.qml set filetype=qml smartindent
+autocmd BufRead *.md set filetype=markdown
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
-autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76
+autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
+autocmd FileType markdown setlocal spell
 let g:xml_syntax_folding=1
