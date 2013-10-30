@@ -35,6 +35,8 @@ set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set hlsearch            " Highlight all search results
 set colorcolumn=81      " Highlight the 81st column
+set mouse=a             " Turn on mouse support
+set ttymouse=xterm2     " This fixes window split dragging
 
 " Gentler colour for the colorcolumn
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
