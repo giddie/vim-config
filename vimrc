@@ -59,6 +59,16 @@ nnoremap Q @q
 map <F1> <ESC>
 map! <F1> <ESC>
 
+" Translation for vim on the Linux console
+map [A <C-Up>
+map! [A <C-Up>
+map [B <C-Down>
+map! [B <C-Down>
+map [C <C-Right>
+map! [C <C-Right>
+map [D <C-Left>
+map! [D <C-Left>
+
 " Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>tl :TlistToggle<CR>
