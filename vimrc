@@ -35,8 +35,31 @@ set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set hlsearch            " Highlight all search results
 set colorcolumn=81      " Highlight the 81st column
+
+" Terminal interaction
 set mouse=a             " Turn on mouse support
 set ttymouse=xterm2     " This fixes window split dragging
+set ttimeoutlen=100     " Short timeout for keycodes, or <Esc> is slow to react
+
+" Tmux sends these codes for C-Arrow combinations. As those combinations don't
+" have keycode names we can map to directly, we map the keycode to unused
+" F-keys, and map that key to our actual target. These codes start with an
+" escape, which is why we don't want to map them directly: it would cause an
+" annoying delay when trying to escape from insert mode.
+if &term == 'screen'
+  set <F25>=[A
+  map <F25> <C-Up>
+  map! <F25> <C-Up>
+  set <F26>=[B
+  map <F26> <C-Down>
+  map! <F26> <C-Down>
+  set <F27>=[C
+  map <F27> <C-Right>
+  map! <F27> <C-Right>
+  set <F28>=[D
+  map <F28> <C-Left>
+  map! <F28> <C-Left>
+endif
 
 " Gentler colour for the colorcolumn
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
@@ -58,16 +81,6 @@ nnoremap Q @q
 " I often accidentally hit F1 instead of ESC
 map <F1> <ESC>
 map! <F1> <ESC>
-
-" Translation for vim on the Linux console
-map [A <C-Up>
-map! [A <C-Up>
-map [B <C-Down>
-map! [B <C-Down>
-map [C <C-Right>
-map! [C <C-Right>
-map [D <C-Left>
-map! [D <C-Left>
 
 " Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
