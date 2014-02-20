@@ -73,3 +73,6 @@
 [submodule "vim-dir/bundle/vim-abolish"]
 	path = vim-dir/bundle/vim-abolish
 	url = git://github.com/tpope/vim-abolish.git
+[submodule "vim-dir/bundle/splitjoin"]
+	path = vim-dir/bundle/splitjoin
+	url = https://github.com/AndrewRadev/splitjoin.vim
