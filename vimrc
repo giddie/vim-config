@@ -86,13 +86,11 @@ map! <F1> <ESC>
 nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>tl :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
+nnoremap <Leader>mb :MBEToggle<CR>
 let g:gundo_width = 25
-nnoremap <Leader>s :set spell!<CR>
 nnoremap <Leader>. :edit .<CR>
-nnoremap <Leader>h :nohl<CR>
 
 " Hidden characters
-nmap <Leader>l :set list!<CR>
 set listchars=tab:▸\ ,eol:¬
 
 " Bubble text up and down
