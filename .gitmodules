@@ -43,21 +43,12 @@
 [submodule "vim-dir/bundle/delimitMate"]
 	path = vim-dir/bundle/delimitMate
 	url = git://github.com/Raimondi/delimitMate.git
-[submodule "vim-dir/bundle/snipmate"]
-	path = vim-dir/bundle/snipmate
-	url = git://github.com/ervandew/snipmate.vim.git
 [submodule "vim-dir/bundle/unimpaired"]
 	path = vim-dir/bundle/unimpaired
 	url = git://github.com/tpope/vim-unimpaired.git
 [submodule "vim-dir/bundle/fugitive"]
 	path = vim-dir/bundle/fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "vim-dir/bundle/clang-complete"]
-	path = vim-dir/bundle/clang-complete
-	url = git://github.com/Rip-Rip/clang_complete.git
-[submodule "vim-dir/bundle/supertab"]
-	path = vim-dir/bundle/supertab
-	url = git://github.com/ervandew/supertab.git
 [submodule "vim-dir/bundle/command-t"]
 	path = vim-dir/bundle/command-t
 	url = git://git.wincent.com/command-t.git
