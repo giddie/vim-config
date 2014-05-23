@@ -33,7 +33,6 @@ set hidden              " Allow modified buffers to be hidden
 set textwidth=80        " A good standard console width
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
-set hlsearch            " Highlight all search results
 set colorcolumn=81      " Highlight the 81st column
 
 " Terminal interaction
