@@ -76,3 +76,6 @@
 [submodule "vim-dir/bundle/easymotion"]
 	path = vim-dir/bundle/easymotion
 	url = git://github.com/Lokaltog/vim-easymotion
+[submodule "vim-dir/bundle/YouCompleteMe"]
+	path = vim-dir/bundle/YouCompleteMe
+	url = git://github.com/Valloric/YouCompleteMe

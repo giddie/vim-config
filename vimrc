@@ -112,18 +112,10 @@ function ScratchBuffer(name)
 endfun
 command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
-" Default completion type for SuperTab
-let g:SuperTabDefaultCompletionType = "context"
-
-" Clang-complete configuration
-let g:clang_use_library = 1
-let g:clang_auto_select = 1
-let g:clang_complete_copen = 1
-let g:clang_snippets = 1
-
-" A window pops up when using omni-complete, showing function signatures. This
-" closes that window when leaving insert mode.
-autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+" Ensure that UltiSnips works with YouCompleteMe
+let g:UltiSnipsExpandTrigger = "<C-J>"
+let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 
 " Sudo-Write for writing to a file I don't have permissions for
 command SudoW w !sudo tee % > /dev/null
