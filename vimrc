@@ -34,6 +34,7 @@ set textwidth=80        " A good standard console width
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
+set shm+=c              " Don't display text-completion messages (for YouCompleteMe plugin)
 
 " Terminal interaction
 set mouse=a             " Turn on mouse support
@@ -91,6 +92,27 @@ nnoremap <Leader>. :edit .<CR>
 
 " Hidden characters
 set listchars=tab:▸\ ,eol:¬
+
+" End-of-line whitespace highlighting
+" http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
+autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
+autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
+highlight EOLWS ctermbg=red guibg=red
+
+" Remove all end-of-line whitespace
+" http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
+function! <SID>StripTrailingWhitespace()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+nmap <silent> <Leader><space> :call <SID>StripTrailingWhitespace()<CR>
 
 " Bubble text up and down
 nmap <C-Up> [e
