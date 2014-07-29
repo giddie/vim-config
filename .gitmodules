@@ -85,3 +85,9 @@
 [submodule "vim-dir/bundle/syntastic"]
 	path = vim-dir/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic
+[submodule "vim-dir/bundle/vim-textobj-rubyblock"]
+	path = vim-dir/bundle/vim-textobj-rubyblock
+	url = git://github.com/nelstrom/vim-textobj-rubyblock
+[submodule "vim-dir/bundle/vim-textobj-user"]
+	path = vim-dir/bundle/vim-textobj-user
+	url = git://github.com/kana/vim-textobj-user
