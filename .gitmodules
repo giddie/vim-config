@@ -16,9 +16,6 @@
 [submodule "vim-dir/bundle/surround"]
 	path = vim-dir/bundle/surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "vim-dir/bundle/nerdcommenter"]
-	path = vim-dir/bundle/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
 [submodule "vim-dir/bundle/indent-object"]
 	path = vim-dir/bundle/indent-object
 	url = git://github.com/michaeljsmith/vim-indent-object.git
@@ -91,3 +88,6 @@
 [submodule "vim-dir/bundle/vim-textobj-user"]
 	path = vim-dir/bundle/vim-textobj-user
 	url = git://github.com/kana/vim-textobj-user
+[submodule "vim-dir/bundle/tcomment"]
+	path = vim-dir/bundle/tcomment
+	url = git://github.com/tomtom/tcomment_vim
