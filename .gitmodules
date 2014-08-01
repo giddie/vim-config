@@ -91,3 +91,6 @@
 [submodule "vim-dir/bundle/tcomment"]
 	path = vim-dir/bundle/tcomment
 	url = git://github.com/tomtom/tcomment_vim
+[submodule "vim-dir/bundle/vim-textobj-comment"]
+	path = vim-dir/bundle/vim-textobj-comment
+	url = git://github.com/glts/vim-textobj-comment
