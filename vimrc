@@ -61,6 +61,15 @@ if &term == 'screen'
   map! <F28> <C-Left>
 endif
 
+" Status Line
+set laststatus=2
+let &stl=""
+let &stl.="%<%F "                 " File path
+let &stl.="%(| %R%M | %)"         " Flags
+let &stl.="%= "                   " Right-align
+let &stl.="%(| %{&filetype} %)"   " File type
+let &stl.="| %l-%c/%L "           " Line/column number
+
 " Gentler colour for the colorcolumn
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
 
