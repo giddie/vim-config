@@ -93,7 +93,7 @@ map! <F1> <ESC>
 
 " Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
-nnoremap <Leader>tl :TlistToggle<CR>
+nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>mb :MBEToggle<CR>
 let g:gundo_width = 25
