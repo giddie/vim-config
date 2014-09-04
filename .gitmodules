@@ -31,9 +31,6 @@
 [submodule "vim-dir/bundle/textile"]
 	path = vim-dir/bundle/textile
 	url = git://github.com/timcharper/textile.vim.git
-[submodule "vim-dir/bundle/tabular"]
-	path = vim-dir/bundle/tabular
-	url = https://github.com/godlygeek/tabular.git
 [submodule "vim-dir/bundle/gundo"]
 	path = vim-dir/bundle/gundo
 	url = git://github.com/sjl/gundo.vim.git
@@ -94,3 +91,6 @@
 [submodule "vim-dir/bundle/vim-textobj-comment"]
 	path = vim-dir/bundle/vim-textobj-comment
 	url = git://github.com/glts/vim-textobj-comment
+[submodule "vim-dir/bundle/vim-easy-align"]
+	path = vim-dir/bundle/vim-easy-align
+	url = git://github.com/junegunn/vim-easy-align

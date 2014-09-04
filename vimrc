@@ -96,6 +96,8 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>mb :MBEToggle<CR>
+vmap <Enter> <Plug>(LiveEasyAlign)
+nmap <Leader>a <Plug>(LiveEasyAlign)
 let g:gundo_width = 25
 nnoremap <Leader>. :edit .<CR>
 
