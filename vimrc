@@ -36,6 +36,11 @@ set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
 set shm+=c              " Don't display text-completion messages (for YouCompleteMe plugin)
 
+" Automatic window size adjustment
+set winheight=30
+set winminheight=5
+set winwidth=80
+
 " Terminal interaction
 set mouse=a             " Turn on mouse support
 set ttymouse=xterm2     " This fixes window split dragging
@@ -67,6 +72,7 @@ let &stl=""
 let &stl.="%<%F "                 " File path
 let &stl.="%(| %R%M | %)"         " Flags
 let &stl.="%= "                   " Right-align
+let &stl.="%(| %{fugitive#statusline()} %)"
 let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
@@ -100,6 +106,9 @@ vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 let g:gundo_width = 25
 nnoremap <Leader>. :edit .<CR>
+
+" Command-T
+let g:CommandTMaxHeight=25
 
 " Hidden characters
 set listchars=tab:▸\ ,eol:¬
