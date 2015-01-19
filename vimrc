@@ -37,8 +37,9 @@ set colorcolumn=81      " Highlight the 81st column
 set shm+=c              " Don't display text-completion messages (for YouCompleteMe plugin)
 
 " Automatic window size adjustment
-set winheight=30
+set winheight=5
 set winminheight=5
+set winheight=30
 set winwidth=80
 
 " Terminal interaction
