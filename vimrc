@@ -175,8 +175,9 @@ autocmd BufReadPost *
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 " Formatting, indentation, etc...
-autocmd BufRead *.qml set filetype=qml smartindent
+autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
 autocmd BufRead *.md set filetype=markdown
+autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
