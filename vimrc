@@ -31,6 +31,7 @@ set expandtab           " Spaces instead of tabs
 set winminheight=0      " Helps when handling multiple files
 set hidden              " Allow modified buffers to be hidden
 set textwidth=80        " A good standard console width
+set autoread            " Re-read unchanged buffers if they change on-disk
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
