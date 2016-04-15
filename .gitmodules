@@ -94,3 +94,6 @@
 [submodule "vim-dir/bundle/vim-tmux-focus-events"]
 	path = vim-dir/bundle/vim-tmux-focus-events
 	url = git://github.com/tmux-plugins/vim-tmux-focus-events
+[submodule "vim-dir/bundle/vim-windowswap"]
+	path = vim-dir/bundle/vim-windowswap
+	url = git://github.com/wesQ3/vim-windowswap
