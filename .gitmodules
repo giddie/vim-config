@@ -97,3 +97,6 @@
 [submodule "vim-dir/bundle/vim-windowswap"]
 	path = vim-dir/bundle/vim-windowswap
 	url = git://github.com/wesQ3/vim-windowswap
+[submodule "vim-dir/bundle/nerdtree-git-plugin"]
+	path = vim-dir/bundle/nerdtree-git-plugin
+	url = git://github.com/Xuyuanp/nerdtree-git-plugin
