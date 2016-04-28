@@ -101,6 +101,7 @@ map! <F1> <ESC>
 
 " Shortcuts
 nnoremap <Leader>nt :NERDTreeToggle<CR>
+nnoremap <Leader>nf :NERDTreeFind<CR>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
