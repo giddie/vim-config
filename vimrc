@@ -78,6 +78,9 @@ let &stl.="%(| %{fugitive#statusline()} %)"
 let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
+" NERDTree options
+let NERDTreeQuitOnOpen = 1
+
 " Gentler colour for the colorcolumn
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
 
