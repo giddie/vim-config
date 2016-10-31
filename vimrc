@@ -37,6 +37,17 @@ set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
 set shm+=c              " Don't display text-completion messages (for YouCompleteMe plugin)
 
+" Highlight definitions
+:highlight CursorLine   cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
+:highlight CursorColumn cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
+:highlight Search       cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
+
+" Cursor position highlighting
+:nnoremap <silent> <Leader>ml :execute 'match Search /\%'.line('.').'l/'<CR>
+:nnoremap <silent> <Leader>mc :execute '2match Search /\%'.virtcol('.').'v/'<CR>
+:nmap <Leader>mx <Leader>ml <Leader>mc
+:nnoremap <silent> <Leader>mn :match<CR>:2match<CR>
+
 " Automatic window size adjustment
 set winheight=5
 set winminheight=5
