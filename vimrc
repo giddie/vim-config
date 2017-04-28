@@ -65,16 +65,16 @@ set ttimeoutlen=100     " Short timeout for keycodes, or <Esc> is slow to react
 " escape, which is why we don't want to map them directly: it would cause an
 " annoying delay when trying to escape from insert mode.
 if &term == 'screen'
-  set <F26>=[A
+  set <F26>=[1;5A
   map <F26> <C-Up>
   map! <F26> <C-Up>
-  set <F27>=[B
+  set <F27>=[1;5B
   map <F27> <C-Down>
   map! <F27> <C-Down>
-  set <F28>=[C
+  set <F28>=[1;5C
   map <F28> <C-Right>
   map! <F28> <C-Right>
-  set <F29>=[D
+  set <F29>=[1;5D
   map <F29> <C-Left>
   map! <F29> <C-Left>
 endif
