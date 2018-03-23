@@ -17,12 +17,13 @@ Plug 'KeitaNakamura/neodark.vim'
 
 " Navigation
 Plug 'easymotion/vim-easymotion'
-Plug 'scrooloose/nerdtree'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/taglist.vim'
 Plug 'wincent/Command-T'
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'dhruvasagar/vim-vinegar'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
@@ -177,6 +178,9 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 " NERDTree options
 let NERDTreeQuitOnOpen = 1
 
+" Netrw
+let g:netrw_liststyle = 3   " Tree view
+
 " DelimitMate options
 noremap <Leader>dm :DelimitMateSwitch<CR>
 imap <C-L> <Plug>delimitMateS-Tab
@@ -213,8 +217,8 @@ map <F1> <ESC>
 map! <F1> <ESC>
 
 " Shortcuts
-nnoremap <Leader>nt :NERDTreeToggle<CR>
-nnoremap <Leader>nf :NERDTreeFind<CR>
+" nnoremap <Leader>nt :NERDTreeToggle<CR>
+" nnoremap <Leader>nf :NERDTreeFind<CR>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>ale :ALEToggle<CR>
