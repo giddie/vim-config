@@ -1,17 +1,95 @@
-filetype off   " Some distros need this
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
-set nocompatible
-
 syntax on
-filetype on
-filetype indent on
-filetype plugin on
-colorscheme desert
+filetype plugin indent on
 
-set viminfo='100,f1
-set encoding=utf-8      " Set encoding
+" Install vim-plug if it isn't already
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/vim-plug')
+
+" Colorschemes
+Plug 'KeitaNakamura/neodark.vim'
+" Plug 'morhetz/gruvbox'
+" Plug 'ajh17/Spacegray.vim'
+
+" Navigation
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-scripts/taglist.vim'
+Plug 'wincent/Command-T'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Buffers
+Plug 'jlanzarotta/bufexplorer'
+Plug 'moll/vim-bbye'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'wesQ3/vim-windowswap'
+
+" Editing
+Plug 'adelarsq/vim-matchit'
+Plug 'ap/vim-css-color'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'bronson/vim-visual-star-search'
+Plug 'kana/vim-textobj-user'
+Plug 'glts/vim-textobj-comment'
+Plug 'junegunn/vim-easy-align'
+Plug 'machakann/vim-highlightedyank'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'Raimondi/delimitMate'
+Plug 'sirver/UltiSnips'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/tComment'
+
+" Other
+Plug 'craigemery/vim-autotag'
+Plug 'w0rp/ale'
+Plug 'sheerun/vim-polyglot'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'uplus/deoplete-solargraph'
+
+call plug#end()
+
+if has('termguicolors')
+  if !has('neovim')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+  set termguicolors
+endif
+
+set background=dark
+let g:neodark#solid_vertsplit = 1
+let g:neodark#background = '#303030'
+" let g:gruvbox_italic = 1
+" let g:gruvbox_contrast_dark = 'soft'
+" let g:spacegray_low_contrast = 1
+colorscheme neodark
+
+" Default ALE warning highlights look bad in my theme
+highlight ALEWarning guibg=#404040
+highlight ALEError guibg=#904040
+
+" Gentler colour for the colorcolumn
+highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
+
 set nowrap              " Don't wrap by default
 set linebreak           " Wrap at word boundaries
 set sidescroll=1        " Scroll 1 char at a time
@@ -20,10 +98,8 @@ set ignorecase          " Ignore case when searching
 set smartcase           " ...but only when lower-case
 set scrolloff=2         " Show 2-line context when scrolling
 set autoindent          " Automatic indentation
-set ruler               " Display cursor position in lower right corner
 set showcmd             " Show incomplete commands
 set number              " Line Number
-set backspace=indent,eol,start   " Allow backspace over these chars
 set shiftwidth=2        " 2 spaces for indenting
 set tabstop=2           " 2 spaces for tab
 set softtabstop=2       " 2 spaces for backspace
@@ -35,12 +111,9 @@ set autoread            " Re-read unchanged buffers if they change on-disk
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
-set shm+=c              " Don't display text-completion messages (for YouCompleteMe plugin)
-
-" Highlight definitions
-:highlight CursorLine   cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
-:highlight CursorColumn cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
-:highlight Search       cterm=NONE ctermbg=brown ctermfg=black guibg=brown guifg=black
+if has('nvim')
+  set inccommand=split
+endif
 
 " Cursor position highlighting
 :nnoremap <silent> <Leader>ml :execute 'match Search /\%'.line('.').'l/'<CR>
@@ -56,15 +129,17 @@ set winwidth=80
 
 " Terminal interaction
 set mouse=a             " Turn on mouse support
-set ttymouse=xterm2     " This fixes window split dragging
-set ttimeoutlen=100     " Short timeout for keycodes, or <Esc> is slow to react
+if !has('nvim')
+  set ttymouse=xterm2   " This fixes window split dragging
+endif
+set ttimeoutlen=10      " Short timeout for keycodes, or <Esc> is slow to react
 
 " Tmux sends these codes for C-Arrow combinations. As those combinations don't
 " have keycode names we can map to directly, we map the keycode to unused
 " F-keys, and map that key to our actual target. These codes start with an
 " escape, which is why we don't want to map them directly: it would cause an
 " annoying delay when trying to escape from insert mode.
-if &term == 'screen'
+if !('nvim') && &term == 'screen-256color'
   set <F26>=[1;5A
   map <F26> <C-Up>
   map! <F26> <C-Up>
@@ -89,6 +164,16 @@ let &stl.="%(| %{fugitive#statusline()} %)"
 let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
+"ALE Options
+let g:ale_linters = {
+\  'ruby': ['ruby']
+\}
+
+" Deoplete options
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
 " NERDTree options
 let NERDTreeQuitOnOpen = 1
 
@@ -100,8 +185,14 @@ let delimitMate_expand_cr = 1
 let delimitMate_balance_matchpairs = 1
 let delimitMate_jump_expansion = 1
 
-" Gentler colour for the colorcolumn
-highlight ColorColumn ctermbg=red ctermfg=white guibg=#574433
+" Command-T options
+let g:CommandTMaxHeight=25
+
+" UltiSnips options
+let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsExpandTrigger = "<C-J>"
+let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
@@ -126,16 +217,11 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 nnoremap <Leader>nf :NERDTreeFind<CR>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
+nnoremap <Leader>ale :ALEToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 let g:gundo_width = 25
 nnoremap <Leader>. :edit .<CR>
-
-" Command-T
-let g:CommandTMaxHeight=25
-
-" Hidden characters
-set listchars=tab:▸\ ,eol:¬
 
 " End-of-line whitespace highlighting
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
@@ -167,27 +253,22 @@ vmap <C-Down> ]egv
 " Easy buffer management
 noremap <C-left> :bprev<CR>
 noremap <C-right> :bnext<CR>
-nnoremap <Leader>bc :Bclose<CR>
+nnoremap <Leader>bc :Bdelete<CR>
 
 " Scratch buffers
-function ScratchBuffer(name)
-  execute "open " . a:name
+function! ScratchBuffer(name)
+  execute "visual " . a:name
   setlocal buftype=nofile
   setlocal bufhidden=hide
   setlocal noswapfile
 endfun
-command -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
-
-" Ensure that UltiSnips works with YouCompleteMe
-let g:UltiSnipsExpandTrigger = "<C-J>"
-let g:UltiSnipsJumpForwardTrigger = "<C-J>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
+command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
 " Sudo-Write for writing to a file I don't have permissions for
-command SudoW w !sudo tee % > /dev/null
+command! SudoW w !sudo tee % > /dev/null
 
 " XML Formatting
-command PrettyXML %!xmllint --format -
+command! PrettyXML %!xmllint --format -
 
 " Place the cursor where it was when the file was last edited
 autocmd BufReadPost *
