@@ -165,6 +165,7 @@ let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
 "ALE Options
+let g:ale_sign_column_always = 1
 let g:ale_linters = {
 \  'ruby': ['ruby']
 \}
@@ -230,7 +231,7 @@ nnoremap <Leader>. :edit .<CR>
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
-highlight EOLWS ctermbg=red guibg=red
+highlight EOLWS ctermbg=red guibg=#904040
 
 " Remove all end-of-line whitespace
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
