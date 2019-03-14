@@ -50,6 +50,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
+Plug 'mattn/emmet-vim'
 
 " Other
 Plug 'craigemery/vim-autotag'
