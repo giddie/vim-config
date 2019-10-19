@@ -51,6 +51,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
 Plug 'mattn/emmet-vim'
+Plug 'christianrondeau/vim-base64'
 
 " Other
 Plug 'craigemery/vim-autotag'
@@ -64,7 +65,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'uplus/deoplete-solargraph'
+"Plug 'uplus/deoplete-solargraph'
 
 call plug#end()
 
