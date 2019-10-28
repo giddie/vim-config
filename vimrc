@@ -19,7 +19,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/taglist.vim'
-Plug 'wincent/Command-T'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'dhruvasagar/vim-vinegar'
@@ -191,8 +191,12 @@ let delimitMate_expand_cr = 1
 let delimitMate_balance_matchpairs = 1
 let delimitMate_jump_expansion = 1
 
-" Command-T options
-let g:CommandTMaxHeight=25
+" CtrlP
+noremap <Leader>t :CtrlP<CR>
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
