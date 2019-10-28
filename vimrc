@@ -195,7 +195,7 @@ let delimitMate_jump_expansion = 1
 noremap <Leader>t :CtrlP<CR>
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 endif
 
 " UltiSnips options
