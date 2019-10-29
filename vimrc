@@ -19,7 +19,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/taglist.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mileszs/ack.vim'
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'dhruvasagar/vim-vinegar'
@@ -191,12 +192,15 @@ let delimitMate_expand_cr = 1
 let delimitMate_balance_matchpairs = 1
 let delimitMate_jump_expansion = 1
 
-" CtrlP
-noremap <Leader>t :CtrlP<CR>
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-endif
+" FZF (Fuzzy Find)
+noremap <Leader>tf :Files<CR>
+noremap <Leader>tb :Buffers<CR>
+noremap <Leader>tt :Tags<CR>
+
+" Ack (Searching)
+noremap <Leader>f :Ack!<Space>
+noremap <Leader>x :cclose<CR>
+let g:ackprg = 'ag --vimgrep'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
