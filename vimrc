@@ -193,14 +193,35 @@ let delimitMate_balance_matchpairs = 1
 let delimitMate_jump_expansion = 1
 
 " FZF (Fuzzy Find)
-noremap <Leader>tf :Files<CR>
-noremap <Leader>tb :Buffers<CR>
-noremap <Leader>tt :Tags<CR>
+noremap <Leader>oc :BTags<CR>
+noremap <Leader>ob :Buffers<CR>
+noremap <Leader>of :Files<CR>
+noremap <Leader>oh :Helptags<CR>
+noremap <Leader>ol :BLines<CR>
+noremap <Leader>ot :Tags<CR>
+noremap <Leader>oz :Rg<Space>
+imap <C-X><C-w> <plug>(fzf-complete-word)
+imap <C-X><C-f> <plug>(fzf-complete-path)
+let g:fzf_colors =
+\ { "fg":      ["fg", "Normal"],
+  \ "bg":      ["bg", "Normal"],
+  \ "hl":      ["fg", "Conditional"],
+  \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
+  \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
+  \ "hl+":     ["fg", "Conditional"],
+  \ "info":    ["fg", "Conditional"],
+  \ "border":  ["fg", "Ignore"],
+  \ "prompt":  ["fg", "Comment"],
+  \ "pointer": ["fg", "Conditional"],
+  \ "marker":  ["fg", "Conditional"],
+  \ "spinner": ["fg", "Conditional"],
+  \ "header":  ["fg", "WildMenu"] }
 
 " Ack (Searching)
-noremap <Leader>f :Ack!<Space>
+command -nargs=* Find :Ack! <args>
+noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>
-let g:ackprg = 'ag --vimgrep'
+let g:ackprg = 'rg --vimgrep'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
