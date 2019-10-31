@@ -247,7 +247,6 @@ nnoremap <Leader>ale :ALEToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 let g:gundo_width = 25
-nnoremap <Leader>. :edit .<CR>
 
 " End-of-line whitespace highlighting
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
