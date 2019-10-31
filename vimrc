@@ -216,6 +216,7 @@ let g:fzf_colors =
   \ "marker":  ["fg", "Conditional"],
   \ "spinner": ["fg", "Conditional"],
   \ "header":  ["fg", "WildMenu"] }
+autocmd! User FzfStatusLine setlocal statusline=[fzf]
 
 " Ack (Searching)
 command -nargs=* Find :Ack! <args>
