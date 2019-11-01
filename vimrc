@@ -21,7 +21,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/taglist.vim'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-vinegar'
+Plug 'justinmk/vim-dirvish'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
