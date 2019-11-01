@@ -52,6 +52,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Other
 Plug 'craigemery/vim-autotag'
@@ -210,6 +211,9 @@ let g:fzf_colors =
   \ "spinner": ["fg", "Conditional"],
   \ "header":  ["fg", "WildMenu"] }
 autocmd! User FzfStatusLine setlocal statusline=[fzf]
+
+" Indent Guides
+let g:indent_guides_guide_size = 1
 
 " Ack (Searching)
 command -nargs=* Find :Ack! <args>
