@@ -167,6 +167,10 @@ let &stl.="%(| %{fugitive#statusline()} %)"
 let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
+" Dirvish
+" Sort directories at the top
+let g:dirvish_mode = ':sort _^.*[\/]_'
+
 "ALE Options
 let g:ale_sign_column_always = 1
 let g:ale_linters = {
