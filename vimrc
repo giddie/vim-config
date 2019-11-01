@@ -22,6 +22,7 @@ Plug 'vim-scripts/taglist.vim'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
+Plug 'tpope/vim-eunuch'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
@@ -290,7 +291,8 @@ endfun
 command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
 " Sudo-Write for writing to a file I don't have permissions for
-command! SudoW w !sudo tee % > /dev/null
+" NOTE: Use SudoWrite from vim-eunuch for this now
+"command! SudoW w !sudo tee % > /dev/null
 
 " XML Formatting
 command! PrettyXML %!xmllint --format -
