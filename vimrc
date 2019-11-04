@@ -29,6 +29,7 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'moll/vim-bbye'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'wesQ3/vim-windowswap'
+Plug 'tpope/vim-obsession'
 
 " Editing
 Plug 'adelarsq/vim-matchit'
@@ -41,7 +42,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'machakann/vim-highlightedyank'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'sirver/UltiSnips'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
@@ -181,14 +182,6 @@ let g:ale_linters = {
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-" DelimitMate options
-noremap <Leader>dm :DelimitMateSwitch<CR>
-imap <C-L> <Plug>delimitMateS-Tab
-let delimitMate_expand_space = 1
-let delimitMate_expand_cr = 1
-let delimitMate_balance_matchpairs = 1
-let delimitMate_jump_expansion = 1
 
 " FZF (Fuzzy Find)
 noremap <Leader>oc :BTags<CR>
