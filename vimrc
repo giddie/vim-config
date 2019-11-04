@@ -213,7 +213,7 @@ autocmd! User FzfStatusLine setlocal statusline=[fzf]
 let g:indent_guides_guide_size = 1
 
 " Ack (Searching)
-command -nargs=* Find :Ack! <args>
+command -nargs=* Find :Ack! "<args>"
 noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>
 let g:ackprg = 'rg --vimgrep'
