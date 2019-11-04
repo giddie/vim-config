@@ -61,6 +61,7 @@ Plug 'craigemery/vim-autotag'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 
+" Completion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 else
@@ -68,7 +69,10 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-"Plug 'uplus/deoplete-solargraph'
+" Ruby
+" Plug 'uplus/deoplete-solargraph'
+" Elixir
+Plug 'slashmili/alchemist.vim'
 
 call plug#end()
 
