@@ -215,7 +215,11 @@ let g:fzf_colors =
 autocmd! User FzfStatusLine setlocal statusline=[fzf]
 
 " Indent Guides
+" let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#343434 ctermbg=darkgrey
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgrey
 
 " Ack (Searching)
 command -nargs=* Find :Ack! "<args>"
