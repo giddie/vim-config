@@ -52,6 +52,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
+Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -232,6 +233,9 @@ let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsExpandTrigger = "<C-J>"
 let g:UltiSnipsJumpForwardTrigger = "<C-J>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
+
+" closetag
+let g:closetag_filetypes = 'html,xhtml,eruby'
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
