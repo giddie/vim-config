@@ -122,6 +122,7 @@ set autoread            " Re-read unchanged buffers if they change on-disk
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
+set updatetime=100      " Default is 4000; lower since most plugins use async
 if has('nvim')
   set inccommand=split
 endif
