@@ -239,6 +239,9 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 " closetag
 let g:closetag_filetypes = 'html,xhtml,eruby'
 
+" gitgutter
+let g:gitgutter_preview_win_floating = 0
+
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
 noremap <Down> gj
