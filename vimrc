@@ -56,7 +56,7 @@ Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'mhinz/vim-signify'
+Plug 'airblade/vim-gitgutter'
 
 " Other
 Plug 'craigemery/vim-autotag'
