@@ -237,7 +237,7 @@ let g:UltiSnipsJumpForwardTrigger = "<C-J>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 
 " closetag
-let g:closetag_filetypes = 'html,xhtml,eruby'
+let g:closetag_filetypes = 'html,xhtml,eruby,vue'
 
 " gitgutter
 let g:gitgutter_preview_win_floating = 0
