@@ -59,6 +59,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
 
 " Other
+Plug 'vimwiki/vimwiki'
 Plug 'craigemery/vim-autotag'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
@@ -228,7 +229,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgr
 command -nargs=* Find :Ack! "<args>"
 noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>
-let g:ackprg = 'rg --vimgrep'
+let g:ackprg = 'rg --vimgrep --ignore-case'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
@@ -241,6 +242,15 @@ let g:closetag_filetypes = 'html,xhtml,eruby,vue'
 
 " gitgutter
 let g:gitgutter_preview_win_floating = 0
+
+" windowswap
+let g:windowswap_map_keys = 0
+nnoremap <silent> <leader>wx :call WindowSwap#EasyWindowSwap()<CR>
+
+" vimwiki
+let g:vimwiki_list = [{'path': '~/Nextcloud/Documents/VimWiki/src',
+                     \ 'path_html': '~/Nextcloud/Documents/VimWiki/html',
+                     \ 'auto_export': 1}]
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
