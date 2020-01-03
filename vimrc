@@ -250,6 +250,9 @@ nnoremap <silent> <leader>wx :call WindowSwap#EasyWindowSwap()<CR>
 " vimwiki
 let g:vimwiki_list = [{'path': '~/Nextcloud/Documents/VimWiki/src',
                      \ 'path_html': '~/Nextcloud/Documents/VimWiki/html',
+                     \ 'auto_export': 1},
+                    \ {'path': '~/Work/VimWiki/src',
+                     \ 'path_html': '~/Work/VimWiki/html',
                      \ 'auto_export': 1}]
 
 " remap j and k so that they move through display lines, rather than physical lines
