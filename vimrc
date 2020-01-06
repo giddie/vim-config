@@ -248,12 +248,15 @@ let g:windowswap_map_keys = 0
 nnoremap <silent> <leader>wx :call WindowSwap#EasyWindowSwap()<CR>
 
 " vimwiki
-let g:vimwiki_list = [{'path': '~/Nextcloud/Documents/VimWiki/src',
-                     \ 'path_html': '~/Nextcloud/Documents/VimWiki/html',
-                     \ 'auto_export': 1},
-                    \ {'path': '~/Work/VimWiki/src',
-                     \ 'path_html': '~/Work/VimWiki/html',
-                     \ 'auto_export': 1}]
+let g:vimwiki_list = [{
+\ 'path': '~/Nextcloud/Documents/Wiki/src',
+\ 'syntax': 'markdown',
+\ 'ext': '.md',
+\ 'auto_export': 1,
+\ 'path_html': '~/Nextcloud/Documents/Wiki/html',
+\ 'custom_wiki2html': '~/.vim-config/vimwiki/wiki2html.sh',
+\ 'template_path': '~/.vim-config/vimwiki/templates'
+\ }]
 
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
