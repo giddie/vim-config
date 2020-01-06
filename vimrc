@@ -60,6 +60,7 @@ Plug 'airblade/vim-gitgutter'
 
 " Other
 Plug 'vimwiki/vimwiki'
+Plug 'simeji/winresizer'
 Plug 'craigemery/vim-autotag'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
@@ -265,11 +266,16 @@ noremap k gk
 noremap <Up> gk
 " Visually select the text that was last edited / pasted
 nmap gV '[V']
-" Bindings for easy viewport scrolling
-noremap <C-j> <C-e>
-noremap <C-k> <C-y>
-noremap <C-h> zh
-noremap <C-l> zl
+" Easy window switching
+noremap <C-j> <C-w><C-j>
+noremap <C-k> <C-w><C-k>
+noremap <C-h> <C-w><C-h>
+noremap <C-l> <C-w><C-l>
+" Easy viewport scrolling
+noremap <A-j> <C-e>
+noremap <A-k> <C-y>
+noremap <A-h> zh
+noremap <A-l> zl
 " map Q to replay the 'q' macro
 nnoremap Q @q
 " I often accidentally hit F1 instead of ESC
