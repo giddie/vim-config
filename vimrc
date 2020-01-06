@@ -31,6 +31,8 @@ Plug 'moll/vim-bbye'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'wesQ3/vim-windowswap'
 Plug 'tpope/vim-obsession'
+Plug 'simeji/winresizer'
+Plug 'yssl/QFEnter'
 
 " Editing
 Plug 'adelarsq/vim-matchit'
@@ -60,7 +62,6 @@ Plug 'airblade/vim-gitgutter'
 
 " Other
 Plug 'vimwiki/vimwiki'
-Plug 'simeji/winresizer'
 Plug 'craigemery/vim-autotag'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
