@@ -51,6 +51,7 @@ MATHJAX="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HT
 pandoc_template="pandoc \
     --mathjax=$MATHJAX \
     --template=$TEMPLATE_PATH$TEMPLATE_DEFAULT$TEMPLATE_EXT \
+    --toc \
     -f $SYNTAX \
     -t html \
     -c $CSSFILENAME \

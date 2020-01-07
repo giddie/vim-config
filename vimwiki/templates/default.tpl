@@ -150,7 +150,7 @@ $if(toc)$
 <hr>
 <nav id="$idprefix$TOC">
 <h1 class="toc-title">$if(toc-title)$$toc-title$$else$Contents$endif$</h1>
-$toc$
+$table-of-contents$
 </nav>
 <hr>
 $endif$
