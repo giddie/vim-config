@@ -62,6 +62,7 @@ Plug 'airblade/vim-gitgutter'
 
 " Other
 Plug 'vimwiki/vimwiki'
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
 Plug 'craigemery/vim-autotag'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
