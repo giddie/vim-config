@@ -332,6 +332,18 @@ nmap <Leader>s <Plug>(easymotion-sn)
 xmap <Leader>s <Plug>(easymotion-sn)
 omap <Leader>z <Plug>(easymotion-sn)
 
+" Auto-Pairs
+let g:AutoPairsFlyMode = 1
+autocmd BufEnter *
+  \ let b:AutoPairs = AutoPairsDefine({
+    \ '<' : '>',
+    \ '<<' : '',
+    \ '<!--' : '-->',
+    \ '<%' : '%>',
+    \ '<%-' : '%>',
+    \ '<%=' : '%>'
+  \ })
+
 " Scratch buffers
 function! ScratchBuffer(name)
   execute "visual " . a:name
