@@ -343,6 +343,10 @@ autocmd FileType *
 autocmd FileType html,xhtml,eruby,vue
   \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
 
+" Emmet
+let g:user_emmet_leader_key=','
+let g:user_emmet_mode='nv'
+
 " Scratch buffers
 function! ScratchBuffer(name)
   execute "visual " . a:name
