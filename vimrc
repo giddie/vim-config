@@ -54,7 +54,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/tComment'
-Plug 'alvan/vim-closetag'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -240,9 +239,6 @@ let g:UltiSnipsExpandTrigger = "<C-J>"
 let g:UltiSnipsJumpForwardTrigger = "<C-J>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 
-" closetag
-let g:closetag_filetypes = 'html,xhtml,eruby,vue'
-
 " gitgutter
 let g:gitgutter_preview_win_floating = 0
 
@@ -334,7 +330,7 @@ omap <Leader>z <Plug>(easymotion-sn)
 
 " Auto-Pairs
 let g:AutoPairsFlyMode = 1
-autocmd BufEnter *
+autocmd FileType *
   \ let b:AutoPairs = AutoPairsDefine({
     \ '<' : '>',
     \ '<<' : '',
@@ -343,6 +339,9 @@ autocmd BufEnter *
     \ '<%-' : '%>',
     \ '<%=' : '%>'
   \ })
+" Angle bracket pairing breaks auto-indentation of tags
+autocmd FileType html,xhtml,eruby,vue
+  \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
 
 " Scratch buffers
 function! ScratchBuffer(name)
