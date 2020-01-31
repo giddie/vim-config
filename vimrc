@@ -24,6 +24,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
+Plug 'jeetsukumaran/vim-indentwise'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
@@ -226,6 +227,18 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#343434 ctermbg=darkgrey
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgrey
+
+" IndentWise
+map <k <Plug>(IndentWisePreviousLesserIndent)
+map <j <Plug>(IndentWiseNextLesserIndent)
+map >k <Plug>(IndentWisePreviousGreaterIndent)
+map >j <Plug>(IndentWiseNextGreaterIndent)
+map =k <Plug>(IndentWiseBlockScopeBoundaryBegin)
+map =j <Plug>(IndentWiseBlockScopeBoundaryEnd)
+map =K <Plug>(IndentWisePreviousEqualIndent)
+map =J <Plug>(IndentWiseNextEqualIndent)
+" map <_ <Plug>(IndentWisePreviousAbsoluteIndent)
+" map <_ <Plug>(IndentWiseNextAbsoluteIndent)
 
 " Ack (Searching)
 command -nargs=* Find :Ack! "<args>"
