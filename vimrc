@@ -229,16 +229,16 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#343434 ctermbg=darkgre
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgrey
 
 " IndentWise
-map <k <Plug>(IndentWisePreviousLesserIndent)
-map <j <Plug>(IndentWiseNextLesserIndent)
-map >k <Plug>(IndentWisePreviousGreaterIndent)
-map >j <Plug>(IndentWiseNextGreaterIndent)
-map =k <Plug>(IndentWiseBlockScopeBoundaryBegin)
-map =j <Plug>(IndentWiseBlockScopeBoundaryEnd)
-map =K <Plug>(IndentWisePreviousEqualIndent)
-map =J <Plug>(IndentWiseNextEqualIndent)
-" map <_ <Plug>(IndentWisePreviousAbsoluteIndent)
-" map <_ <Plug>(IndentWiseNextAbsoluteIndent)
+map [< <Plug>(IndentWisePreviousLesserIndent)
+map [> <Plug>(IndentWisePreviousGreaterIndent)
+map [= <Plug>(IndentWiseBlockScopeBoundaryBegin)
+map ]< <Plug>(IndentWiseNextLesserIndent)
+map ]> <Plug>(IndentWiseNextGreaterIndent)
+map ]= <Plug>(IndentWiseBlockScopeBoundaryEnd)
+map [+ <Plug>(IndentWisePreviousEqualIndent)
+map ]+ <Plug>(IndentWiseNextEqualIndent)
+" map [_ <Plug>(IndentWisePreviousAbsoluteIndent)
+" map ]_ <Plug>(IndentWiseNextAbsoluteIndent)
 
 " Ack (Searching)
 command -nargs=* Find :Ack! "<args>"
