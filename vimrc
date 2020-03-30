@@ -342,7 +342,6 @@ xmap <Leader>s <Plug>(easymotion-sn)
 omap <Leader>z <Plug>(easymotion-sn)
 
 " Auto-Pairs
-let g:AutoPairsFlyMode = 1
 autocmd FileType *
   \ let b:AutoPairs = AutoPairsDefine({
     \ '<' : '>',
