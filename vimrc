@@ -343,18 +343,18 @@ omap <Leader>z <Plug>(easymotion-sn)
 
 " Auto-Pairs
 let g:AutoPairsCenterLine = 0
-autocmd FileType *
-  \ let b:AutoPairs = AutoPairsDefine({
-    \ '<' : '>',
-    \ '<<' : '',
-    \ '<!--' : '-->',
-    \ '<%' : '%>',
-    \ '<%-' : '%>',
-    \ '<%=' : '%>'
-  \ })
-" Angle bracket pairing breaks auto-indentation of tags
-autocmd FileType html,xhtml,eruby,vue
-  \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
+" autocmd FileType *
+"   \ let b:AutoPairs = AutoPairsDefine({
+"     \ '<' : '>',
+"     \ '<<' : '',
+"     \ '<!--' : '-->',
+"     \ '<%' : '%>',
+"     \ '<%-' : '%>',
+"     \ '<%=' : '%>'
+"   \ })
+" " Angle bracket pairing breaks auto-indentation of tags
+" autocmd FileType html,xhtml,eruby,vue
+"   \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
 
 " Emmet
 let g:user_emmet_leader_key=','
