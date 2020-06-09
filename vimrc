@@ -128,6 +128,7 @@ set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
 set updatetime=100      " Default is 4000; lower since most plugins use async
+set exrc                " Run project-specific .vimrc / .nvimrc files
 if has('nvim')
   set inccommand=split
 endif
@@ -400,3 +401,5 @@ autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 autocmd FileType markdown setlocal spell
 autocmd FileType vue setlocal formatoptions-=t
 let g:xml_syntax_folding=1
+
+set secure   " Because exrc is set
