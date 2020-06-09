@@ -249,6 +249,7 @@ let g:ackprg = 'rg --vimgrep --ignore-case'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
+let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
 let g:UltiSnipsExpandTrigger = "<C-L>"
 let g:UltiSnipsJumpForwardTrigger = "<C-L>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-H>"
