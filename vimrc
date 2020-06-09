@@ -248,9 +248,9 @@ let g:ackprg = 'rg --vimgrep --ignore-case'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
-let g:UltiSnipsExpandTrigger = "<C-J>"
-let g:UltiSnipsJumpForwardTrigger = "<C-J>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
+let g:UltiSnipsExpandTrigger = "<C-L>"
+let g:UltiSnipsJumpForwardTrigger = "<C-L>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-H>"
 
 " gitgutter
 let g:gitgutter_preview_win_floating = 0
