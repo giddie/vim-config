@@ -300,6 +300,7 @@ map! <F1> <ESC>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>ale :ALEToggle<CR>
+nnoremap <Leader>qs :QuickScopeToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 let g:gundo_width = 25
