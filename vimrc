@@ -25,6 +25,7 @@ Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 Plug 'jeetsukumaran/vim-indentwise'
+Plug 'unblevable/quick-scope'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
