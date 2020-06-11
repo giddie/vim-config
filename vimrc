@@ -273,6 +273,12 @@ let g:vimwiki_list = [{
 \ 'template_path': '~/.vim-config/vimwiki/templates'
 \ }]
 
+" Gundo
+let g:gundo_width = 25
+
+" Quick-Scope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 " remap j and k so that they move through display lines, rather than physical lines
 noremap j gj
 noremap <Down> gj
@@ -300,10 +306,8 @@ map! <F1> <ESC>
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>ale :ALEToggle<CR>
-nnoremap <Leader>qs :QuickScopeToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
-let g:gundo_width = 25
 
 " End-of-line whitespace highlighting
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
