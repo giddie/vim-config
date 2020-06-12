@@ -128,6 +128,8 @@ set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
 set colorcolumn=81      " Highlight the 81st column
 set updatetime=100      " Default is 4000; lower since most plugins use async
+set splitbelow          " When splitting, place cursor in bottom window
+set splitright          " When splitting, place cursor in right-hand window
 set exrc                " Run project-specific .vimrc / .nvimrc files
 if has('nvim')
   set inccommand=split
