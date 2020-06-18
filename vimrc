@@ -60,6 +60,7 @@ Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
+Plug 'TiuSh/vim-toggline'
 
 " Other
 Plug 'vimwiki/vimwiki'
@@ -369,6 +370,11 @@ let g:AutoPairsCenterLine = 0
 " Emmet
 let g:user_emmet_leader_key=','
 let g:user_emmet_mode='nv'
+
+" Toggline
+nmap <silent> <Leader>a, :call toggline#End(',')<CR>
+nmap <silent> <Leader>a. :call toggline#With('[.]$', '', '[^.]$', '\0.')<CR>
+nmap <silent> <Leader>a; :call toggline#End(';')<CR>
 
 " Scratch buffers
 function! ScratchBuffer(name)
