@@ -409,7 +409,8 @@ autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
 autocmd FileType help setlocal nospell
-autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76
+autocmd FileType text setlocal formatprg=par\ -w80 fo=ant
+autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76 fo=ant
 autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 autocmd FileType markdown setlocal spell
 autocmd FileType vue setlocal formatoptions-=t
