@@ -1,0 +1,37 @@
+snippet template "Template Tag" b
+<template${1: lang="${2:pug}"}>
+$3
+</template>
+endsnippet
+
+snippet script "Script Tag" b
+<script>
+export default {
+	$1
+}
+</script>
+endsnippet
+
+snippet style "Style Tag" b
+<style${1: lang="scss"}${2: scoped}>
+$3
+</style>
+endsnippet
+
+snippet b "Block" i
+${1:block}: {
+	$3
+}${2:,}
+endsnippet
+
+snippet data "Vue data()" b
+${1:data}() {
+	return {
+		$2
+	}
+}
+endsnippet
+
+snippet ir "Import Relative" b
+import $1 from ".${2:/}$1.vue"
+endsnippet
