@@ -77,10 +77,9 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-" Ruby
-" Plug 'uplus/deoplete-solargraph'
-" Elixir
-Plug 'slashmili/alchemist.vim'
+" Plug 'uplus/deoplete-solargraph' " Ruby
+Plug 'slashmili/alchemist.vim'   " Elixir
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Typescript
 
 call plug#end()
 
@@ -192,8 +191,12 @@ let g:dirvish_mode = ':sort _^.*[\/]_'
 "ALE Options
 let g:ale_sign_column_always = 1
 let g:ale_linters = {
-\  'ruby': ['ruby']
+\  'ruby': ['ruby'],
+\  'typescript': ['tsserver']
 \}
+noremap <silent> <Leader>ah :ALEHover<CR>
+noremap <silent> <Leader>ad :ALEGoToDefinition<CR>
+noremap <silent> <Leader>ar :ALEFindReferences<CR>
 
 " Deoplete options
 let g:deoplete#enable_at_startup = 1

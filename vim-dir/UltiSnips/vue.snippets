@@ -5,10 +5,12 @@ $3
 endsnippet
 
 snippet script "Script Tag" b
-<script>
-export default {
-	$1
-}
+<script${1: lang="ts"}>
+import Vue from 'vue'
+
+export default Vue.extend({
+	$2
+})
 </script>
 endsnippet
 
@@ -27,9 +29,9 @@ endsnippet
 snippet data "Vue data()" b
 ${1:data}() {
 	return {
-		$2
+		$3
 	}
-}
+}${2:,}
 endsnippet
 
 snippet ir "Import Relative" b
