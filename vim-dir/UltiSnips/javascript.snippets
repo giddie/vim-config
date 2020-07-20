@@ -1,3 +1,15 @@
 snippet l "Lambda" i
 ($1) => {$2}
 endsnippet
+
+snippet it "Jest it()" b
+${1:it}("$2", () => {
+	$3
+})
+endsnippet
+
+snippet be "Jest beforeEach()" b
+beforeEach(() => {
+	$1
+})
+endsnippet
