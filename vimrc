@@ -406,7 +406,7 @@ autocmd BufReadPost *
 " Auto-close Fugitive buffers after we're done with them
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
-" Formatting, indentation, etc...
+" Language-specific
 autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
 autocmd BufRead *.md set filetype=markdown
 autocmd BufRead *.qml set filetype=qml smartindent
@@ -419,5 +419,8 @@ autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 autocmd FileType markdown setlocal spell
 autocmd FileType vue setlocal formatoptions-=t
 let g:xml_syntax_folding=1
+
+" Rust
+let g:rustfmt_autosave = 1
 
 set secure   " Because exrc is set
