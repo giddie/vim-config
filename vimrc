@@ -133,6 +133,7 @@ set updatetime=100      " Default is 4000; lower since most plugins use async
 set splitbelow          " When splitting, place cursor in bottom window
 set splitright          " When splitting, place cursor in right-hand window
 set exrc                " Run project-specific .vimrc / .nvimrc files
+set completeopt=menu    " Only show menu on completions. Default: menu,preview.
 if has('nvim')
   set inccommand=split
 endif
