@@ -1,0 +1,15 @@
+snippet tests "Tests Module" b
+#[cfg(test)]
+mod tests {
+	use ${1:super::*};
+
+	${2:// tests}
+}
+endsnippet
+
+snippet test "Test Function" b
+#[test]
+fn ${1:test}() {
+	${2:// test}
+}
+endsnippet

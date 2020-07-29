@@ -81,6 +81,7 @@ endif
 " Plug 'uplus/deoplete-solargraph' " Ruby
 Plug 'slashmili/alchemist.vim'   " Elixir
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Typescript
+Plug 'sebastianmarkow/deoplete-rust' " Rust
 
 call plug#end()
 
@@ -422,5 +423,7 @@ let g:xml_syntax_folding=1
 
 " Rust
 let g:rustfmt_autosave = 1
+let g:deoplete#sources#rust#racer_binary = $HOME . '/.asdf/shims/racer'
+let g:deoplete#sources#rust#rust_source_path = $HOME . '/.asdf/installs/rust/stable/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 set secure   " Because exrc is set
