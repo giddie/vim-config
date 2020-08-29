@@ -81,6 +81,7 @@ else
 endif
 " Plug 'uplus/deoplete-solargraph' " Ruby
 Plug 'slashmili/alchemist.vim'   " Elixir
+Plug 'mhinz/vim-mix-format'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Typescript
 Plug 'sebastianmarkow/deoplete-rust' " Rust
 
@@ -422,6 +423,9 @@ autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 autocmd FileType markdown setlocal spell
 autocmd FileType vue setlocal formatoptions-=t
 let g:xml_syntax_folding=1
+
+" Elixir
+let g:mix_format_on_save = 1
 
 " Rust
 let g:rustfmt_autosave = 1
