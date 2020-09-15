@@ -196,9 +196,14 @@ let g:dirvish_mode = ':sort _^.*[\/]_'
 "ALE Options
 let g:ale_sign_column_always = 1
 let g:ale_linters = {
-\  'ruby': ['ruby'],
+\  'ruby': ['rubocop', 'ruby'],
 \  'typescript': ['tsserver']
 \}
+let g:ale_fixers = {
+\  'ruby': ['rufo'],
+\  'javascript': ['prettier', 'eslint']
+\}
+" let g:ale_fix_on_save = 1
 noremap <silent> <Leader>ah :ALEHover<CR>
 noremap <silent> <Leader>ad :ALEGoToDefinition<CR>
 noremap <silent> <Leader>ar :ALEFindReferences<CR>
