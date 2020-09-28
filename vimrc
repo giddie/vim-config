@@ -206,6 +206,7 @@ let g:ale_fixers = {
 \  'javascript': ['prettier', 'eslint']
 \}
 " let g:ale_fix_on_save = 1
+noremap <silent> <Leader>af :ALEFix<CR>
 noremap <silent> <Leader>ah :ALEHover<CR>
 noremap <silent> <Leader>ad :ALEGoToDefinition<CR>
 noremap <silent> <Leader>ar :ALEFindReferences<CR>
