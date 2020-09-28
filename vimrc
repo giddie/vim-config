@@ -200,7 +200,9 @@ let g:ale_linters = {
 \  'typescript': ['tsserver']
 \}
 let g:ale_fixers = {
+\  'elixir': ['mix_format'],
 \  'ruby': ['rufo'],
+\  'rust': ['rustfmt'],
 \  'javascript': ['prettier', 'eslint']
 \}
 " let g:ale_fix_on_save = 1
@@ -429,11 +431,7 @@ autocmd FileType markdown setlocal spell
 autocmd FileType vue setlocal formatoptions-=t
 let g:xml_syntax_folding=1
 
-" Elixir
-let g:mix_format_on_save = 1
-
 " Rust
-let g:rustfmt_autosave = 1
 let g:deoplete#sources#rust#racer_binary = $HOME . '/.asdf/shims/racer'
 let g:deoplete#sources#rust#rust_source_path = $HOME . '/.asdf/installs/rust/stable/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
