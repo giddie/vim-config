@@ -226,6 +226,7 @@ noremap <Leader>ot :Tags<CR>
 noremap <Leader>oz :Rg<Space>
 imap <C-X><C-w> <plug>(fzf-complete-word)
 imap <C-X><C-f> <plug>(fzf-complete-path)
+let g:fzf_layout = { 'window': 'enew' }
 let g:fzf_colors =
 \ { "fg":      ["fg", "Normal"],
   \ "bg":      ["bg", "Normal"],
