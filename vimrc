@@ -27,7 +27,6 @@ Plug 'lambdalisue/suda.vim'
 Plug 'jeetsukumaran/vim-indentwise'
 Plug 'unblevable/quick-scope'
 Plug 'bronson/vim-visual-star-search'
-Plug 'hoelzro/vim-split-navigate'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
