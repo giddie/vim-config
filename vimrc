@@ -67,7 +67,7 @@ Plug 'TiuSh/vim-toggline'
 Plug 'vimwiki/vimwiki'
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
 Plug 'craigemery/vim-autotag'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
 
 " Completion
@@ -79,8 +79,7 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 " Plug 'uplus/deoplete-solargraph' " Ruby
-Plug 'slashmili/alchemist.vim'   " Elixir
-Plug 'mhinz/vim-mix-format'
+" Plug 'slashmili/alchemist.vim'   " Elixir
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Typescript
 Plug 'sebastianmarkow/deoplete-rust' " Rust
 
