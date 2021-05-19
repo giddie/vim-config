@@ -1,0 +1,169 @@
+snippet mod "Module with @moduledoc" b
+defmodule $1 do
+	@moduledoc """
+	$2
+	"""$3
+end
+endsnippet
+
+snippet struct "defstruct with typespec" bm
+alias __MODULE__, as: Self
+
+@enforce_keys [$1]
+defstruct @enforce_keys
+
+@type t :: %Self{$2}$3
+endsnippet
+
+snippet schema "Ecto schema" bm
+alias __MODULE__, as: Self
+alias Ecto.Changeset
+
+use Ecto.Schema
+import Ecto.Changeset
+
+@primary_key false
+embedded_schema do
+	$1
+end
+
+@type t :: %Self{$2}$4
+
+@spec new(map() | list()) :: {:ok, Self.t()} | {:error, any()}
+def new(params \\\\ %{}), do: changeset_for_new(params) |> apply_action(:new)
+
+@spec new!(map() | list()) :: Self.t()
+def new!(params \\\\ %{}), do: changeset_for_new(params) |> apply_action!(:new)
+
+@spec changeset_for_new(map() | list()) :: Changeset.t()
+defp changeset_for_new(params) do
+	changeset(%Self{id: params[:id]}, Enum.into(params, %{}))
+end
+
+@spec changeset(Self.t(), Self.t() | map()) :: Changeset.t()
+def changeset(self, params \\\\ %{})
+
+def changeset(%Self{} = self, %Self{} = params) do
+	changeset(self, Map.from_struct(params))
+end
+
+def changeset(%Self{} = self, params) do
+	self
+	|> cast(params, [${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}
+	])
+	|> validate_required([${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}$3
+	])
+end
+endsnippet
+
+snippet querymod "Ecto query module" bm
+defmodule $1.Query do
+	@moduledoc """
+	Queries for ${1/.*\.(.*)$/$1/}
+	"""
+
+	import Ecto.Query
+
+	alias $1
+
+	@type query :: ${1/.*\.(.*)$/$1/} | Ecto.Query.t()
+
+	@spec base(query()) :: Ecto.Query.t()
+	def base(query) do
+		from x in query, order_by: [asc: :id]
+	end
+end
+endsnippet
+
+snippet query "Ecto query function" b
+@spec $1(query()$2) :: Ecto.Query.t()
+def $1(query$3) do
+	from x in query, where:$4
+end
+endsnippet
+
+snippet genserver "GenServer" bm
+use GenServer
+
+alias __MODULE__, as: Self
+
+# Client
+
+@spec start_link(map()) :: {:ok, pid()}
+def start_link(${1:%{} = state}) do
+	GenServer.start_link(Self, ${2:state})
+end
+
+@spec get_state(pid()) :: map()
+def get_state(pid) do
+	GenServer.call(pid, :get_state)
+end
+
+@spec store(pid(), atom(), any()) :: :ok | {:error, any()}
+def store(pid, key, value) do
+	GenServer.cast(pid, {:store, key, value})
+end
+
+# Server
+
+@impl GenServer
+def init(${3:%{} = state}) do
+	{:ok, ${4:state}}
+end
+
+@impl GenServer
+def handle_call(:get_state, _from, %{} = state) do
+	reply = state
+	{:reply, reply, state}
+end
+
+@impl GenServer
+def handle_cast({:store, key, value}, %{} = state) do
+	state = Map.put(state, key, value)
+	{:noreply, state}
+end
+endsnippet
+
+snippet testmod "Simple test module" b
+defmodule $1 do
+	@moduledoc false
+
+	use ExUnit.Case, async: true$2
+end
+endsnippet
+
+snippet test "Test function" b
+test "$1" do
+	${2:assert true}
+end
+endsnippet
+
+snippet doc "@doc tag" b
+@doc """
+$1
+"""
+endsnippet
+
+snippet def "Function with @spec" b
+@spec $1($3)
+def $1($2) do$4
+end
+endsnippet
+
+snippet defp "Private function with @spec" b
+@spec $1($3)
+defp $1($2) do$4
+end
+endsnippet
+
+snippet err "{:error, reason} -> {:error, reason}" b
+{:${1:error}, ${2:reason}} -> {:$1, $2}
+endsnippet
+
+snippet nn "name: name" i
+${1:name}: $1
+endsnippet
+
+snippet nns "''name'' => name" i
+"${1:name}" => $1
+endsnippet

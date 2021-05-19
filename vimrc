@@ -204,10 +204,12 @@ let g:ale_fixers = {
 \  'javascript': ['prettier', 'eslint']
 \}
 " let g:ale_fix_on_save = 1
+noremap <silent> <Leader>ad :ALEDetail<CR>
 noremap <silent> <Leader>af :ALEFix<CR>
+noremap <silent> <Leader>ag :ALEGoToDefinition<CR>
 noremap <silent> <Leader>ah :ALEHover<CR>
-noremap <silent> <Leader>ad :ALEGoToDefinition<CR>
 noremap <silent> <Leader>ar :ALEFindReferences<CR>
+noremap <silent> <Leader>as :ALERepeatSelection<CR>
 
 " Deoplete options
 let g:deoplete#enable_at_startup = 1
@@ -423,6 +425,7 @@ autocmd BufRead *.md set filetype=markdown
 autocmd BufRead *.qml set filetype=qml smartindent
 autocmd FileType * setlocal formatoptions-=o
 autocmd FileType asciidoc setlocal wrap spell
+autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatprg=par\ -w98
 autocmd FileType help setlocal nospell
 autocmd FileType text setlocal formatprg=par\ -w80 fo=ant
 autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76 fo=ant
