@@ -1,8 +1,14 @@
 snippet mod "Module with @moduledoc" b
 defmodule $1 do
-	@moduledoc """
-	$2
-	"""$3
+	@moduledoc ${2:false}
+end
+endsnippet
+
+snippet privmod "Module without @moduledoc" b
+defmodule $1 do
+	# $2
+
+	@moduledoc false$3
 end
 endsnippet
 
@@ -58,13 +64,11 @@ endsnippet
 
 snippet querymod "Ecto query module" bm
 defmodule $1.Query do
-	@moduledoc """
-	Queries for ${1/.*\.(.*)$/$1/}
-	"""
-
-	import Ecto.Query
+	@moduledoc false
 
 	alias $1
+
+	import Ecto.Query
 
 	@type query :: ${1/.*\.(.*)$/$1/} | Ecto.Query.t()
 
