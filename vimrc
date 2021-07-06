@@ -128,12 +128,11 @@ set textwidth=80        " A good standard console width
 set autoread            " Re-read unchanged buffers if they change on-disk
 set formatprg=par\ -w80 " Clever paragraph formatting with par
 set spelllang=en_gb     " Set the spelling language
-set colorcolumn=81      " Highlight the 81st column
+set colorcolumn=+1      " Highlight the column after textwidth
 set updatetime=100      " Default is 4000; lower since most plugins use async
 set splitbelow          " When splitting, place cursor in bottom window
 set splitright          " When splitting, place cursor in right-hand window
 set exrc                " Run project-specific .vimrc / .nvimrc files
-set completeopt=menu    " Only show menu on completions. Default: menu,preview.
 if has('nvim')
   set inccommand=split
 endif
@@ -265,7 +264,7 @@ map ]+ <Plug>(IndentWiseNextEqualIndent)
 " Ack (Searching)
 command -nargs=* Find :Ack! "<args>"
 noremap <Leader>f :Find<Space>
-noremap <Leader>x :cclose<CR>
+noremap <Leader>x :cclose<CR>:pclose<CR>
 let g:ackprg = 'rg --vimgrep --ignore-case'
 
 " UltiSnips options
@@ -402,7 +401,7 @@ function! ScratchBuffer(name)
 endfun
 command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
-" Work around for eunich plugin
+" Work around for eunuch plugin
 " See: https://github.com/tpope/vim-eunuch/issues/56
 " NOTE: Get rid of suda when it's not needed any more
 command! SudoWrite :w suda://%
@@ -418,6 +417,9 @@ autocmd BufReadPost *
 
 " Auto-close Fugitive buffers after we're done with them
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" Auto-close preview window after completion
+autocmd InsertLeave * silent! pclose!
 
 " Language-specific
 autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
