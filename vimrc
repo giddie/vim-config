@@ -36,6 +36,8 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'tpope/vim-obsession'
 Plug 'simeji/winresizer'
 Plug 'yssl/QFEnter'
+Plug 'ncm2/float-preview'
+Plug 'Shougo/echodoc'
 
 " Editing
 Plug 'adelarsq/vim-matchit'
@@ -108,32 +110,33 @@ highlight ALEError guibg=#904040
 " Gentler colour for the colorcolumn
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
 
-set nowrap              " Don't wrap by default
-set linebreak           " Wrap at word boundaries
-set sidescroll=1        " Scroll 1 char at a time
-set incsearch           " Incremental search
-set ignorecase          " Ignore case when searching
-set smartcase           " ...but only when lower-case
-set scrolloff=2         " Show 2-line context when scrolling
-set autoindent          " Automatic indentation
-set showcmd             " Show incomplete commands
-set number              " Line Number
-set shiftwidth=2        " 2 spaces for indenting
-set tabstop=2           " 2 spaces for tab
-set softtabstop=2       " 2 spaces for backspace
-set expandtab           " Spaces instead of tabs
-set winminheight=0      " Helps when handling multiple files
-set hidden              " Allow modified buffers to be hidden
-set textwidth=80        " A good standard console width
-set autoread            " Re-read unchanged buffers if they change on-disk
-set formatprg=par\ -w80 " Clever paragraph formatting with par
-set spelllang=en_gb     " Set the spelling language
-set colorcolumn=+1      " Highlight the column after textwidth
-set updatetime=100      " Default is 4000; lower since most plugins use async
-set splitbelow          " When splitting, place cursor in bottom window
-set splitright          " When splitting, place cursor in right-hand window
-set noequalalways       " Don't resize all windows when closing one
-set exrc                " Run project-specific .vimrc / .nvimrc files
+set nowrap               " Don't wrap by default
+set linebreak            " Wrap at word boundaries
+set sidescroll=1         " Scroll 1 char at a time
+set incsearch            " Incremental search
+set ignorecase           " Ignore case when searching
+set smartcase            " ...but only when lower-case
+set scrolloff=5          " Show 5-line context when scrolling
+set autoindent           " Automatic indentation
+set showcmd              " Show incomplete commands
+set number               " Line Number
+set shiftwidth=2         " 2 spaces for indenting
+set tabstop=2            " 2 spaces for tab
+set softtabstop=2        " 2 spaces for backspace
+set expandtab            " Spaces instead of tabs
+set winminheight=0       " Helps when handling multiple files
+set hidden               " Allow modified buffers to be hidden
+set textwidth=80         " A good standard console width
+set autoread             " Re-read unchanged buffers if they change on-disk
+set formatprg=par\ -w80  " Clever paragraph formatting with par
+set spelllang=en_gb      " Set the spelling language
+set colorcolumn=+1       " Highlight the column after textwidth
+set updatetime=100       " Default is 4000; lower since most plugins use async
+set splitbelow           " When splitting, place cursor in bottom window
+set splitright           " When splitting, place cursor in right-hand window
+set noequalalways        " Don't resize all windows when closing one
+set exrc                 " Run project-specific .vimrc / .nvimrc files
+set completeopt-=preview " The float-preview plugin handles completion popups
 if has('nvim')
   set inccommand=split
 endif
@@ -193,6 +196,7 @@ let g:dirvish_mode = ':sort _^.*[\/]_'
 
 "ALE Options
 let g:ale_sign_column_always = 1
+let g:ale_floating_preview = 1
 let g:ale_linters = {
 \  'ruby': ['rubocop', 'ruby'],
 \  'typescript': ['tsserver']
@@ -215,6 +219,10 @@ noremap <silent> <Leader>as :ALERepeatSelection<CR>
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" echodoc
+let g:echodoc_enable_at_startup = 1
+let g:echodoc#type = 'floating'
 
 " FZF (Fuzzy Find)
 noremap <Leader>oc :BTags<CR>
