@@ -71,6 +71,8 @@ Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
 Plug 'craigemery/vim-autotag'
 Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
+Plug 'vim-test/vim-test'
+Plug 'tpope/vim-dispatch'
 
 " Completion
 if has('nvim')
@@ -219,6 +221,15 @@ noremap <silent> <Leader>as :ALERepeatSelection<CR>
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" VimTest
+let test#strategy = "neovim"
+let test#neovim#term_position = "25"
+nmap <silent> <Leader>tn :TestNearest<CR>
+nmap <silent> <Leader>tf :TestFile<CR>
+nmap <silent> <Leader>ta :TestSuite<CR>
+nmap <silent> <Leader>tt :TestLast<CR>
+nmap <silent> <Leader>tg :TestVisit<CR>
 
 " echodoc
 let g:echodoc_enable_at_startup = 1
