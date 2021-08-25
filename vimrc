@@ -224,7 +224,7 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " VimTest
 let test#strategy = "neovim"
-let test#neovim#term_position = "25"
+let test#neovim#term_position = ""
 nmap <silent> <Leader>tn :TestNearest<CR>
 nmap <silent> <Leader>tf :TestFile<CR>
 nmap <silent> <Leader>ta :TestSuite<CR>
@@ -347,6 +347,13 @@ nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>ale :ALEToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
+nnoremap <Leader>st :split +terminal<CR>i
+nnoremap <Leader>vt :vsplit +terminal<CR>i
+
+" Easier switch to Normal mode in terminal
+if has('nvim')
+  tmap <C-o> <C-\><C-n>
+endif
 
 " End-of-line whitespace highlighting
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
