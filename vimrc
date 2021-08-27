@@ -130,7 +130,6 @@ set winminheight=0       " Helps when handling multiple files
 set hidden               " Allow modified buffers to be hidden
 set textwidth=80         " A good standard console width
 set autoread             " Re-read unchanged buffers if they change on-disk
-set formatprg=par\ -w80  " Clever paragraph formatting with par
 set spelllang=en_gb      " Set the spelling language
 set colorcolumn=+1       " Highlight the column after textwidth
 set updatetime=100       " Default is 4000; lower since most plugins use async
@@ -260,14 +259,20 @@ let g:fzf_colors =
   \ "marker":  ["fg", "Conditional"],
   \ "spinner": ["fg", "Conditional"],
   \ "header":  ["fg", "WildMenu"] }
-autocmd! User FzfStatusLine setlocal statusline=[fzf]
+augroup FZF
+  autocmd!
+  autocmd! User FzfStatusLine setlocal statusline=[fzf]
+augroup END
 
 " Indent Guides
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#343434 ctermbg=darkgrey
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgrey
+augroup IndentGuides
+  autocmd!
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#343434 ctermbg=darkgrey
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#343434 ctermbg=darkgrey
+augroup END
 
 " IndentWise
 map [< <Plug>(IndentWisePreviousLesserIndent)
@@ -357,8 +362,11 @@ endif
 
 " End-of-line whitespace highlighting
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
-autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
-autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
+augroup EndOfLineWhitespace
+  autocmd!
+  autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
+  autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
+augroup END
 highlight EOLWS ctermbg=red guibg=#904040
 
 " Remove all end-of-line whitespace
@@ -397,18 +405,21 @@ omap <Leader>z <Plug>(easymotion-sn)
 
 " Auto-Pairs
 let g:AutoPairsCenterLine = 0
-" autocmd FileType *
-"   \ let b:AutoPairs = AutoPairsDefine({
-"     \ '<' : '>',
-"     \ '<<' : '',
-"     \ '<!--' : '-->',
-"     \ '<%' : '%>',
-"     \ '<%-' : '%>',
-"     \ '<%=' : '%>'
-"   \ })
-" " Angle bracket pairing breaks auto-indentation of tags
-" autocmd FileType html,xhtml,eruby,vue
-"   \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
+" augroup AutoPairs
+"   autocmd!
+"   autocmd FileType *
+"     \ let b:AutoPairs = AutoPairsDefine({
+"       \ '<' : '>',
+"       \ '<<' : '',
+"       \ '<!--' : '-->',
+"       \ '<%' : '%>',
+"       \ '<%-' : '%>',
+"       \ '<%=' : '%>'
+"     \ })
+"   " Angle bracket pairing breaks auto-indentation of tags
+"   autocmd FileType html,xhtml,eruby,vue
+"     \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
+" augroup END
 
 " Emmet
 let g:user_emmet_leader_key=','
@@ -436,32 +447,38 @@ command! SudoWrite :w suda://%
 " XML Formatting
 command! PrettyXML %!xmllint --format -
 
-" Place the cursor where it was when the file was last edited
-autocmd BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+augroup vimrc
+  autocmd!
 
-" Auto-close Fugitive buffers after we're done with them
-autocmd BufReadPost fugitive://* set bufhidden=delete
+  " Place the cursor where it was when the file was last edited
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
 
-" Auto-close preview window after completion
-autocmd InsertLeave * silent! pclose!
+  " Auto-close Fugitive buffers after we're done with them
+  autocmd BufReadPost fugitive://* set bufhidden=delete
 
-" Language-specific
-autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
-autocmd BufRead *.md set filetype=markdown
-autocmd BufRead *.qml set filetype=qml smartindent
-autocmd FileType * setlocal formatoptions-=o
-autocmd FileType asciidoc setlocal wrap spell
-autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatprg=par\ -w98
-autocmd FileType help setlocal nospell
-autocmd FileType text setlocal formatprg=par\ -w80 fo=ant
-autocmd FileType mail setlocal tw=75 formatprg=par\ -w75 cc=76 fo=ant
-autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
-autocmd FileType markdown setlocal spell
-autocmd FileType typescript syntax sync fromstart
-autocmd FileType vue setlocal formatoptions-=t
+  " Auto-close preview window after completion
+  autocmd InsertLeave * silent! pclose!
+
+  " Language-specific
+  autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
+  autocmd BufRead *.md set filetype=markdown
+  autocmd BufRead *.qml set filetype=qml smartindent
+  autocmd FileType asciidoc setlocal wrap spell
+  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=ca
+  autocmd FileType help setlocal nospell
+  autocmd FileType text setlocal formatoptions=ant
+  autocmd FileType mail setlocal textwidth=75 colorcolumn=76 formatoptions=ant
+  autocmd FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType markdown setlocal spell
+  autocmd FileType typescript syntax sync fromstart
+  autocmd FileType vue setlocal formatoptions-=t
+
+  autocmd FileType * let &l:formatprg = "par -w" . &l:textwidth
+augroup END
+
 let g:xml_syntax_folding=1
 
 " Rust
