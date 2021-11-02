@@ -31,22 +31,30 @@ import Ecto.Changeset
 @primary_key false
 embedded_schema do
 	$1
+	timestamps()
 end
 
 @type t :: %Self{$2}$4
 
-@spec new(map() | list()) :: {:ok, Self.t()} | {:error, any()}
+@spec new(map() | list()) :: {:ok, Self.t()} | {:error, Changeset.t()}
 def new(params \\\\ %{}), do: changeset_for_new(params) |> apply_action(:new)
 
 @spec new!(map() | list()) :: Self.t()
 def new!(params \\\\ %{}), do: changeset_for_new(params) |> apply_action!(:new)
 
+@doc """
+Use this instead of \`new/1\` to get Dialyzer to check field types on the input struct.
+"""
+@spec from_struct(Self.t()) :: {:ok, Self.t()} | {:error, Changeset.t()}
+def from_struct(%Self{} = self), do: self |> Map.from_struct() |> new()
+
 @spec changeset_for_new(map() | list()) :: Changeset.t()
 defp changeset_for_new(params) do
-	changeset(%Self{id: params[:id]}, Enum.into(params, %{}))
+	change(%Self{id: params[:id]})
+	|> changeset(Enum.into(params, %{}))
 end
 
-@spec changeset(Self.t(), Self.t() | map()) :: Changeset.t()
+@spec changeset(Self.t() | Changeset.t(), Self.t() | map()) :: Changeset.t()
 def changeset(self, params \\\\ %{})
 
 def changeset(%Self{} = self, %Self{} = params) do
@@ -54,7 +62,11 @@ def changeset(%Self{} = self, %Self{} = params) do
 end
 
 def changeset(%Self{} = self, params) do
-	self
+	change(self) |> changeset(params)
+end
+
+def changeset(%Changeset{} = changeset, params) do
+	changeset
 	|> cast(params, [${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}
 	])
 	|> validate_required([${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}$3
@@ -63,14 +75,14 @@ end
 endsnippet
 
 snippet querymod "Ecto query module" bm
-defmodule $1.Query do
+defmodule $1.Private.Queries.$2 do
 	@moduledoc false
 
-	alias $1
+	alias $1.$2
 
 	import Ecto.Query
 
-	@type query :: ${1/.*\.(.*)$/$1/} | Ecto.Query.t()
+	@type query :: ${2/.*\.(.*)$/$1/} | Ecto.Query.t()
 
 	@spec base(query()) :: Ecto.Query.t()
 	def base(query) do
@@ -80,8 +92,8 @@ end
 endsnippet
 
 snippet query "Ecto query function" b
-@spec $1(query()$2) :: Ecto.Query.t()
-def $1(query$3) do
+@spec $1(query()$3) :: Ecto.Query.t()
+def $1(query$2) do
 	from x in query, where:$4
 end
 endsnippet

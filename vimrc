@@ -197,7 +197,7 @@ let g:dirvish_mode = ':sort _^.*[\/]_'
 
 "ALE Options
 let g:ale_sign_column_always = 1
-let g:ale_floating_preview = 1
+"let g:ale_floating_preview = 1
 let g:ale_linters = {
 \  'ruby': ['rubocop', 'ruby'],
 \  'typescript': ['tsserver']
@@ -206,7 +206,9 @@ let g:ale_fixers = {
 \  'elixir': ['mix_format'],
 \  'ruby': ['rufo'],
 \  'rust': ['rustfmt'],
-\  'javascript': ['prettier', 'eslint']
+\  'javascript': ['prettier', 'eslint'],
+\  'typescript': ['prettier', 'eslint'],
+\  'vue': ['prettier']
 \}
 " let g:ale_fix_on_save = 1
 noremap <silent> <Leader>ad :ALEDetail<CR>
@@ -352,8 +354,8 @@ nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>ale :ALEToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
-nnoremap <Leader>st :split +terminal<CR>i
-nnoremap <Leader>vt :vsplit +terminal<CR>i
+nnoremap <Leader>ts :split +terminal<CR>i
+nnoremap <Leader>tv :vsplit +terminal<CR>i
 
 " Easier switch to Normal mode in terminal
 if has('nvim')
@@ -467,7 +469,7 @@ augroup vimrc
   autocmd BufRead *.md set filetype=markdown
   autocmd BufRead *.qml set filetype=qml smartindent
   autocmd FileType asciidoc setlocal wrap spell
-  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=ca
+  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=c
   autocmd FileType help setlocal nospell
   autocmd FileType text setlocal formatoptions=ant
   autocmd FileType mail setlocal textwidth=75 colorcolumn=76 formatoptions=ant
