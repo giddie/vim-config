@@ -229,7 +229,6 @@ nvim_lsp['elixirls'].setup({
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
 null_ls.setup({
-  debug = true,
   sources = {
     null_ls.builtins.diagnostics.eslint.with({
       prefer_local = "node_modules/.bin"
