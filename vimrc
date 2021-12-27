@@ -9,6 +9,9 @@ autocmd VimEnter *
 
 call plug#begin('~/.vim/vim-plug')
 
+" Plugin Utils
+Plug 'nvim-lua/plenary.nvim'
+
 " Colorschemes
 Plug 'KeitaNakamura/neodark.vim'
 " Plug 'morhetz/gruvbox'
@@ -62,8 +65,8 @@ Plug 'suy/vim-context-commentstring'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'airblade/vim-gitgutter'
 Plug 'TiuSh/vim-toggline'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Other
 Plug 'vimwiki/vimwiki'
@@ -74,17 +77,11 @@ Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
 
 " LSP & Completion
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-  Plug 'deoplete-plugins/deoplete-lsp'
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'neovim/nvim-lspconfig'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+Plug 'deoplete-plugins/deoplete-lsp'
+
 Plug 'sebastianmarkow/deoplete-rust' " Rust
 
 call plug#end()
@@ -191,6 +188,9 @@ let &stl.="| %l-%c/%L "           " Line/column number
 " Dirvish
 " Sort directories at the top
 let g:dirvish_mode = ':sort _^.*[\/]_'
+
+" Gitsigns
+lua require("gitsigns").setup()
 
 " LSP - Language Server Protocol
 lua << EOF
@@ -333,9 +333,6 @@ let g:UltiSnipsSnippetDirectories=['~/.vim/UltiSnips', 'UltiSnips']
 let g:UltiSnipsExpandTrigger = "<C-L>"
 let g:UltiSnipsJumpForwardTrigger = "<C-L>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-H>"
-
-" gitgutter
-let g:gitgutter_preview_win_floating = 0
 
 " windowswap
 let g:windowswap_map_keys = 0
