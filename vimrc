@@ -69,22 +69,22 @@ Plug 'TiuSh/vim-toggline'
 Plug 'vimwiki/vimwiki'
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
 Plug 'craigemery/vim-autotag'
-Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
 
-" Completion
+" LSP & Completion
 if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+  Plug 'deoplete-plugins/deoplete-lsp'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-" Plug 'uplus/deoplete-solargraph' " Ruby
-" Plug 'slashmili/alchemist.vim'   " Elixir
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " Typescript
 Plug 'sebastianmarkow/deoplete-rust' " Rust
 
 call plug#end()
@@ -105,12 +105,9 @@ let g:neodark#background = '#303030'
 " let g:spacegray_low_contrast = 1
 colorscheme neodark
 
-" Default ALE warning highlights look bad in my theme
-highlight ALEWarning guibg=#404040
-highlight ALEError guibg=#904040
-
-" Gentler colour for the colorcolumn
+" Colourscheme Tweaks
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
+highlight DiagnosticError guifg=#bababa guibg=#904040
 
 set nowrap               " Don't wrap by default
 set linebreak            " Wrap at word boundaries
@@ -195,28 +192,64 @@ let &stl.="| %l-%c/%L "           " Line/column number
 " Sort directories at the top
 let g:dirvish_mode = ':sort _^.*[\/]_'
 
-"ALE Options
-let g:ale_sign_column_always = 1
-"let g:ale_floating_preview = 1
-let g:ale_linters = {
-\  'ruby': ['rubocop', 'ruby'],
-\  'typescript': ['tsserver']
-\}
-let g:ale_fixers = {
-\  'elixir': ['mix_format'],
-\  'ruby': ['rufo'],
-\  'rust': ['rustfmt'],
-\  'javascript': ['prettier', 'eslint'],
-\  'typescript': ['prettier', 'eslint'],
-\  'vue': ['prettier']
-\}
-" let g:ale_fix_on_save = 1
-noremap <silent> <Leader>ad :ALEDetail<CR>
-noremap <silent> <Leader>af :ALEFix<CR>
-noremap <silent> <Leader>ag :ALEGoToDefinition<CR>
-noremap <silent> <Leader>ah :ALEHover<CR>
-noremap <silent> <Leader>ar :ALEFindReferences<CR>
-noremap <silent> <Leader>as :ALERepeatSelection<CR>
+" LSP - Language Server Protocol
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+local debounce = 150
+
+-- Typescript
+nvim_lsp['tsserver'].setup({
+  on_attach = function(client, bufnr)
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end,
+  flags = {
+    debounce_text_changes = debounce
+  }
+})
+
+-- VueJS
+nvim_lsp['vuels'].setup({
+  flags = {
+    debounce_text_changes = debounce
+  }
+})
+
+-- Elixir
+nvim_lsp['elixirls'].setup({
+  cmd = { ".vim-config/elixir-ls/rel/language_server.sh" },
+  flags = {
+    debounce_text_changes = debounce
+  }
+})
+
+-- Diagnostics and Formatting
+local null_ls = require("null-ls")
+null_ls.setup({
+  debug = true,
+  sources = {
+    null_ls.builtins.diagnostics.eslint.with({
+      prefer_local = "node_modules/.bin"
+    }),
+    null_ls.builtins.diagnostics.credo,
+    null_ls.builtins.formatting.prettier.with({
+      prefer_local = "node_modules/.bin"
+    })
+  },
+  flags = {
+    debounce_text_changes = debounce
+  }
+})
+EOF
+
+" LSP bindings
+" See `:help vim.lsp.*` for documentation on any of the below functions
+nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
+nnoremap <silent> <Leader>aF :lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
 
 " Deoplete options
 let g:deoplete#enable_at_startup = 1
@@ -351,7 +384,6 @@ map! <F1> <ESC>
 " Shortcuts
 nnoremap <Leader>lt :TlistToggle<CR>
 nnoremap <Leader>gu :GundoToggle<CR>
-nnoremap <Leader>ale :ALEToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 nnoremap <Leader>ts :split +terminal<CR>i
@@ -463,6 +495,9 @@ augroup vimrc
 
   " Auto-close preview window after completion
   autocmd InsertLeave * silent! pclose!
+
+  " Auto-format on save
+  autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
 
   " Language-specific
   autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
