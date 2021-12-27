@@ -31,7 +31,7 @@ import Ecto.Changeset
 @primary_key false
 embedded_schema do
 	$1
-	timestamps()
+	timestamps(type: :utc_datetime_usec)
 end
 
 @type t :: %Self{$2}$4
@@ -99,9 +99,9 @@ end
 endsnippet
 
 snippet genserver "GenServer" bm
-use GenServer
-
 alias __MODULE__, as: Self
+
+use GenServer
 
 # Client
 
