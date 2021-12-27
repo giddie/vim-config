@@ -292,7 +292,7 @@ map ]+ <Plug>(IndentWiseNextEqualIndent)
 command -nargs=* Find :Ack! "<args>"
 noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>:pclose<CR>
-let g:ackprg = 'rg --vimgrep --ignore-case'
+let g:ackprg = 'rg --vimgrep --smart-case'
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
