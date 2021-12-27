@@ -127,6 +127,7 @@ set textwidth=80         " A good standard console width
 set autoread             " Re-read unchanged buffers if they change on-disk
 set spelllang=en_gb      " Set the spelling language
 set colorcolumn=+1       " Highlight the column after textwidth
+set signcolumn=yes       " Always show the sign column (no auto-hide)
 set updatetime=100       " Default is 4000; lower since most plugins use async
 set splitbelow           " When splitting, place cursor in bottom window
 set splitright           " When splitting, place cursor in right-hand window
@@ -251,6 +252,7 @@ nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <Leader>aF :lua vim.lsp.buf.formatting()<CR>
 nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 
 " Deoplete options
 let g:deoplete#enable_at_startup = 1
