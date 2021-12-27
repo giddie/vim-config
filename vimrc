@@ -104,7 +104,8 @@ colorscheme neodark
 
 " Colourscheme Tweaks
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
-highlight DiagnosticError guifg=#bababa guibg=#904040
+highlight DiagnosticError guifg=#DC657D guibg=#3a3a3a
+highlight DiagnosticWarn guifg=#D4B261 guibg=#3a3a3a
 
 set nowrap               " Don't wrap by default
 set linebreak            " Wrap at word boundaries
