@@ -264,9 +264,13 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 let test#strategy = "neovim"
 let test#neovim#term_position = ""
 nmap <silent> <Leader>tn :TestNearest<CR>
+nmap <silent> <Leader>tN :TestNearest<CR><C-o><C-w>_i
 nmap <silent> <Leader>tf :TestFile<CR>
+nmap <silent> <Leader>tF :TestFile<CR><C-o><C-w>_i
 nmap <silent> <Leader>ta :TestSuite<CR>
+nmap <silent> <Leader>tA :TestSuite<CR><C-o><C-w>_i
 nmap <silent> <Leader>tt :TestLast<CR>
+nmap <silent> <Leader>tT :TestLast<CR><C-o><C-w>_i
 nmap <silent> <Leader>tg :TestVisit<CR>
 
 " echodoc
