@@ -249,6 +249,7 @@ EOF
 " LSP bindings
 " See `:help vim.lsp.*` for documentation on any of the below functions
 nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <Leader>aF :lua vim.lsp.buf.formatting()<CR>
