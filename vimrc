@@ -185,7 +185,7 @@ let &stl=""
 let &stl.="%<%F "                 " File path
 let &stl.="%(| %R%M | %)"         " Flags
 let &stl.="%= "                   " Right-align
-let &stl.="%(| %{fugitive#statusline()} %)"
+" let &stl.="%(| %{fugitive#statusline()} %)"
 let &stl.="%(| %{&filetype} %)"   " File type
 let &stl.="| %l-%c/%L "           " Line/column number
 
