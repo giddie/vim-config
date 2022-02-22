@@ -98,6 +98,18 @@ def $1(query$2) do
 end
 endsnippet
 
+snippet schemaless_changeset "Ecto Schemaless Changeset" bm
+data = %{}
+
+types = %{
+	field_name: :string
+}
+
+{data, types}
+|> Ecto.Changeset.cast(params, Map.keys(types))
+|> Ecto.Changeset.apply_action(:modify)
+endsnippet
+
 snippet genserver "GenServer" bm
 alias __MODULE__, as: Self
 
