@@ -360,6 +360,7 @@ let g:vimwiki_list = [{
 
 " Gundo
 let g:gundo_width = 25
+let g:gundo_prefer_python3 = 1
 
 " Quick-Scope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
