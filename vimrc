@@ -308,6 +308,11 @@ augroup FZF
   autocmd! User FzfStatusLine setlocal statusline=[fzf]
 augroup END
 
+" Folding
+noremap <Leader>zz :setlocal foldmethod=syntax<CR>
+noremap <Leader>zi :setlocal foldmethod=indent<CR>
+noremap <Leader>zm :setlocal foldmethod=manual<CR>
+
 " Indent Guides
 " let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
@@ -511,7 +516,7 @@ augroup vimrc
   autocmd BufRead *.md set filetype=markdown
   autocmd BufRead *.qml set filetype=qml smartindent
   autocmd FileType asciidoc setlocal wrap spell
-  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=c
+  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=c foldlevel=1
   autocmd FileType help setlocal nospell
   autocmd FileType text setlocal formatoptions=ant
   autocmd FileType mail setlocal textwidth=75 colorcolumn=76 formatoptions=ant
