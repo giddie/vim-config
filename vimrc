@@ -136,6 +136,7 @@ set splitright           " When splitting, place cursor in right-hand window
 set noequalalways        " Don't resize all windows when closing one
 set exrc                 " Run project-specific .vimrc / .nvimrc files
 set completeopt-=preview " The float-preview plugin handles completion popups
+set listchars+=precedes:<,extends:> " Mark invisible portion of lines
 if has('nvim')
   set inccommand=split
 endif
@@ -521,7 +522,7 @@ augroup vimrc
   autocmd FileType text setlocal formatoptions=ant
   autocmd FileType mail setlocal textwidth=75 colorcolumn=76 formatoptions=ant
   autocmd FileType make setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown setlocal wrap spell
   autocmd FileType typescript syntax sync fromstart
   autocmd FileType vue setlocal formatoptions-=t
 
