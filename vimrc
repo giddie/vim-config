@@ -401,6 +401,8 @@ vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 nnoremap <Leader>ts :split +terminal<CR>i
 nnoremap <Leader>tv :vsplit +terminal<CR>i
+nnoremap <C-w>S :botright split<CR>
+nnoremap <C-w>V :botright vsplit<CR>
 
 " Easier switch to Normal mode in terminal
 if has('nvim')
