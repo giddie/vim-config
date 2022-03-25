@@ -34,7 +34,11 @@ embedded_schema do
 	timestamps(type: :utc_datetime_usec)
 end
 
-@type t :: %Self{$2}$4
+@type t :: %Self{
+	$2
+	inserted_at: DateTime.t(),
+	updated_at: DateTime.t()
+}$4
 
 @spec new(map() | list()) :: {:ok, Self.t()} | {:error, Changeset.t()}
 def new(params \\\\ %{}), do: changeset_for_new(params) |> apply_action(:new)
@@ -66,11 +70,11 @@ def changeset(%Self{} = self, params) do
 end
 
 def changeset(%Changeset{} = changeset, params) do
+	required = [${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}
+	]
 	changeset
-	|> cast(params, [${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}
-	])
-	|> validate_required([${1/.*?(:.*?),.*?(?:\n|$)/\n			$1,/g}$3
-	])
+	|> cast(params, required)
+	|> validate_required(required)
 end
 endsnippet
 
@@ -80,7 +84,7 @@ defmodule $1.Private.Queries.$2 do
 
 	alias $1.$2
 
-	import Ecto.Query
+	import Ecto.Query$3
 
 	@type query :: ${2/.*\.(.*)$/$1/} | Ecto.Query.t()
 
@@ -94,7 +98,7 @@ endsnippet
 snippet query "Ecto query function" b
 @spec $1(query()$3) :: Ecto.Query.t()
 def $1(query$2) do
-	from x in query, where:$4
+	from x in query, where: $4
 end
 endsnippet
 
@@ -108,6 +112,38 @@ types = %{
 {data, types}
 |> Ecto.Changeset.cast(params, Map.keys(types))
 |> Ecto.Changeset.apply_action(:modify)
+endsnippet
+
+snippet crud "CRUD for context module" bm
+@spec create_$1(${4:map()}) :: Result.ok_or($2.t(), any())
+def create_$1(${3:%{} = params}) do
+	$2.changeset_for_new(${5:params})
+	|> Repo.insert()
+end
+
+@spec list_$1s() :: Result.ok_or([$2.t()], any())
+def list_$1s() do
+	$2
+	|> Private.Queries.$2.base()
+	|> Repo.all()
+	|> Result.from()
+end
+
+@spec get_$1(non_neg_integer() | String.t()) :: Result.maybe($2.t(), any())
+def get_$1(id) when is_integer(id) or is_binary(id) do
+	$2
+	|> Private.Queries.$2.base()
+	|> Private.Queries.$2.with_id(id)
+	|> Repo.one()
+	|> Result.from()
+end
+
+@spec delete_$1($2.t()) :: Result.ok_or($2.t(), any())
+def delete_$1(%$2{} = $1) do
+	Repo.delete($1)
+rescue
+	Ecto.StaleEntryError -> {:error, :stale_entry}
+end
 endsnippet
 
 snippet genserver "GenServer" bm
