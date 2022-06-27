@@ -123,7 +123,6 @@ set shiftwidth=2         " 2 spaces for indenting
 set tabstop=2            " 2 spaces for tab
 set softtabstop=2        " 2 spaces for backspace
 set expandtab            " Spaces instead of tabs
-set winminheight=0       " Helps when handling multiple files
 set hidden               " Allow modified buffers to be hidden
 set textwidth=80         " A good standard console width
 set autoread             " Re-read unchanged buffers if they change on-disk
