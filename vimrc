@@ -274,6 +274,9 @@ nmap <silent> <Leader>tt :TestLast<CR>
 nmap <silent> <Leader>tT :TestLast<CR><C-o><C-w>_i
 nmap <silent> <Leader>tg :TestVisit<CR>
 
+" GitSigns
+nnoremap <silent> <Leader>hp :Gitsigns preview_hunk<CR>
+
 " echodoc
 let g:echodoc_enable_at_startup = 1
 let g:echodoc#type = 'floating'
