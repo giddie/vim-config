@@ -260,6 +260,7 @@ nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+call deoplete#custom#source('lsp', 'max_menu_width', 0)
 
 " VimTest
 let test#strategy = "neovim"
