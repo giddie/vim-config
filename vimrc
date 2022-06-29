@@ -103,6 +103,7 @@ let g:neodark#background = '#303030'
 colorscheme neodark
 
 " Colourscheme Tweaks
+highlight Error ctermbg=none guibg=none
 highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
 highlight DiagnosticError guifg=#DC657D
 highlight DiagnosticWarn guifg=#D4B261
@@ -406,6 +407,9 @@ nnoremap <Leader>ts :split +terminal<CR>i
 nnoremap <Leader>tv :vsplit +terminal<CR>i
 nnoremap <C-w>S :botright split<CR>
 nnoremap <C-w>V :botright vsplit<CR>
+
+" Echo highlight group name under cursor
+nnoremap <F8> :echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
 
 " Easier switch to Normal mode in terminal
 if has('nvim')
