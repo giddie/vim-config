@@ -496,6 +496,16 @@ function! ScratchBuffer(name)
 endfun
 command! -nargs=1 ScratchBuffer :call ScratchBuffer('<args>')
 
+" Shortcuts for entering scratch buffer
+:nnoremap <silent> <Leader>cs :split<CR>:ScratchBuffer scratch<CR>
+:nnoremap <silent> <Leader>cv :vsplit<CR>:ScratchBuffer scratch<CR>
+:nnoremap <silent> <Leader>cS :botright :split<CR>:ScratchBuffer scratch<CR>
+:nnoremap <silent> <Leader>cV :botright :vsplit<CR>:ScratchBuffer scratch<CR>
+:vnoremap <silent> <Leader>cs y:split<CR>:ScratchBuffer scratch<CR>ggVGp
+:vnoremap <silent> <Leader>cv y:vsplit<CR>:ScratchBuffer scratch<CR>ggVGp
+:vnoremap <silent> <Leader>cS y:botright :split<CR>:ScratchBuffer scratch<CR>ggVGp
+:vnoremap <silent> <Leader>cV y:botright :vsplit<CR>:ScratchBuffer scratch<CR>ggVGp
+
 " Work around for eunuch plugin
 " See: https://github.com/tpope/vim-eunuch/issues/56
 " NOTE: Get rid of suda when it's not needed any more
