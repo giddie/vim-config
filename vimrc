@@ -203,6 +203,17 @@ local nvim_lsp = require('lspconfig')
 
 local debounce = 150
 
+-- Elixir
+nvim_lsp['elixirls'].setup({
+  cmd = { ".vim-config/elixir-ls/rel/language_server.sh" },
+  flags = {
+    debounce_text_changes = debounce
+  }
+})
+
+-- Rust
+nvim_lsp['rust_analyzer'].setup({})
+
 -- Typescript
 nvim_lsp['tsserver'].setup({
   on_attach = function(client, bufnr)
@@ -216,14 +227,6 @@ nvim_lsp['tsserver'].setup({
 
 -- VueJS
 nvim_lsp['vuels'].setup({
-  flags = {
-    debounce_text_changes = debounce
-  }
-})
-
--- Elixir
-nvim_lsp['elixirls'].setup({
-  cmd = { ".vim-config/elixir-ls/rel/language_server.sh" },
   flags = {
     debounce_text_changes = debounce
   }
