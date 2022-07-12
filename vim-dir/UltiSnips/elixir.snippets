@@ -53,7 +53,7 @@ Use this instead of \`new/1\` to get Dialyzer to check field types on the input 
 def from_struct(%Self{} = self), do: self |> Map.from_struct() |> new()
 
 @spec changeset_for_new(map() | list()) :: Changeset.t()
-defp changeset_for_new(params) do
+def changeset_for_new(params) do
 	change(%Self{id: params[:id]})
 	|> changeset(Enum.into(params, %{}))
 end
