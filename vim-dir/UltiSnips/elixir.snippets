@@ -138,6 +138,13 @@ def get_$1(id) when is_integer(id) or is_binary(id) do
 	|> Result.from()
 end
 
+@spec update_$1($2.t(), map()) :: Result.ok_or($2.t(), any())
+def update_$1(%$2{} = $1, %{} = params) do
+	$1
+	|> $2.changeset(params)
+	|> Repo.update()
+end
+
 @spec delete_$1($2.t()) :: Result.ok_or($2.t(), any())
 def delete_$1(%$2{} = $1) do
 	Repo.delete($1)
