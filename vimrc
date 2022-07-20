@@ -242,7 +242,8 @@ null_ls.setup({
     null_ls.builtins.diagnostics.credo,
     null_ls.builtins.formatting.prettier.with({
       prefer_local = "node_modules/.bin"
-    })
+    }),
+    null_ls.builtins.code_actions.gitsigns
   },
   flags = {
     debounce_text_changes = debounce
@@ -252,6 +253,7 @@ EOF
 
 " LSP bindings
 " See `:help vim.lsp.*` for documentation on any of the below functions
+nnoremap <silent> <Leader>aa :lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
