@@ -211,6 +211,9 @@ nvim_lsp['elixirls'].setup({
   }
 })
 
+-- C/C++
+nvim_lsp['clangd'].setup({})
+
 -- Rust
 nvim_lsp['rust_analyzer'].setup({})
 
