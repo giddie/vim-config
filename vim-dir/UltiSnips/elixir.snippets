@@ -18,7 +18,19 @@ alias __MODULE__, as: Self
 @enforce_keys [$1]
 defstruct @enforce_keys
 
-@type t :: %Self{$2}$3
+@type t :: %Self{$2}
+
+@spec validate(Self.t()) :: Result.ok_or(Self.t(), Ecto.Changeset.t())
+def validate(%Self{} = self) do
+	data = %Self{}
+	params = Map.from_struct(self)
+
+	types = %{$3}
+
+	{data, types}
+	|> Ecto.Changeset.cast(params, Map.keys(types))
+	|> Ecto.Changeset.apply_action(:validate)
+end
 endsnippet
 
 snippet schema "Ecto schema" bm
@@ -40,7 +52,7 @@ end
 	updated_at: DateTime.t()
 }$4
 
-@spec new(map() | list()) :: {:ok, Self.t()} | {:error, Changeset.t()}
+@spec new(map() | list()) :: Result.ok_or(Self.t(), Changeset.t())
 def new(params \\\\ %{}), do: changeset_for_new(params) |> apply_action(:new)
 
 @spec new!(map() | list()) :: Self.t()
@@ -49,7 +61,7 @@ def new!(params \\\\ %{}), do: changeset_for_new(params) |> apply_action!(:new)
 @doc """
 Use this instead of \`new/1\` to get Dialyzer to check field types on the input struct.
 """
-@spec from_struct(Self.t()) :: {:ok, Self.t()} | {:error, Changeset.t()}
+@spec from_struct(Self.t()) :: Result.ok_or(Self.t(), Changeset.t())
 def from_struct(%Self{} = self), do: self |> Map.from_struct() |> new()
 
 @spec changeset_for_new(map() | list()) :: Changeset.t()
