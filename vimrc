@@ -75,6 +75,7 @@ Plug 'craigemery/vim-autotag'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
+Plug 'MunifTanjim/exrc.nvim'
 
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
@@ -134,7 +135,6 @@ set updatetime=100       " Default is 4000; lower since most plugins use async
 set splitbelow           " When splitting, place cursor in bottom window
 set splitright           " When splitting, place cursor in right-hand window
 set noequalalways        " Don't resize all windows when closing one
-set exrc                 " Run project-specific .vimrc / .nvimrc files
 set completeopt-=preview " The float-preview plugin handles completion popups
 set listchars+=precedes:<,extends:> " Mark invisible portion of lines
 if has('nvim')
@@ -196,6 +196,15 @@ let g:dirvish_mode = ':sort _^.*[\/]_'
 
 " Gitsigns
 lua require("gitsigns").setup()
+
+" Exrc (Project-Specific Config)
+lua << EOF
+require("exrc").setup({
+  files = {
+    ".nvimrc"
+  },
+})
+EOF
 
 " LSP - Language Server Protocol
 lua << EOF
@@ -562,5 +571,3 @@ let g:xml_syntax_folding=1
 " Rust
 let g:deoplete#sources#rust#racer_binary = $HOME . '/.asdf/shims/racer'
 let g:deoplete#sources#rust#rust_source_path = $HOME . '/.asdf/installs/rust/stable/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-
-set secure   " Because exrc is set
