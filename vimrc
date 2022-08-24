@@ -83,8 +83,6 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'deoplete-plugins/deoplete-lsp'
 
-Plug 'sebastianmarkow/deoplete-rust' " Rust
-
 call plug#end()
 
 if has('termguicolors')
@@ -224,7 +222,15 @@ nvim_lsp['elixirls'].setup({
 nvim_lsp['clangd'].setup({})
 
 -- Rust
-nvim_lsp['rust_analyzer'].setup({})
+nvim_lsp['rust_analyzer'].setup({
+  settings = {
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy"
+      }
+    }
+  }
+})
 
 -- Typescript
 nvim_lsp['tsserver'].setup({
@@ -567,7 +573,3 @@ augroup vimrc
 augroup END
 
 let g:xml_syntax_folding=1
-
-" Rust
-let g:deoplete#sources#rust#racer_binary = $HOME . '/.asdf/shims/racer'
-let g:deoplete#sources#rust#rust_source_path = $HOME . '/.asdf/installs/rust/stable/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
