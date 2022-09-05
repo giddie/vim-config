@@ -69,7 +69,6 @@ Plug 'TiuSh/vim-toggline'
 Plug 'lewis6991/gitsigns.nvim'
 
 " Other
-Plug 'vimwiki/vimwiki'
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
 Plug 'craigemery/vim-autotag'
 Plug 'sheerun/vim-polyglot'
@@ -380,17 +379,6 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-H>"
 " windowswap
 let g:windowswap_map_keys = 0
 nnoremap <silent> <leader>wx :call WindowSwap#EasyWindowSwap()<CR>
-
-" vimwiki
-let g:vimwiki_list = [{
-\ 'path': '~/Nextcloud/Documents/Wiki/src',
-\ 'syntax': 'markdown',
-\ 'ext': '.md',
-\ 'auto_export': 1,
-\ 'path_html': '~/Nextcloud/Documents/Wiki/html',
-\ 'custom_wiki2html': '~/.vim-config/vimwiki/wiki2html.sh',
-\ 'template_path': '~/.vim-config/vimwiki/templates'
-\ }]
 
 " Gundo
 let g:gundo_width = 25
