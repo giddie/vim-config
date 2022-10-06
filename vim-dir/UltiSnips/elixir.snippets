@@ -1,3 +1,9 @@
+snippet do "do...end" b
+$1 do
+	${2:nil}
+end
+endsnippet
+
 snippet mod "Module with @moduledoc" b
 defmodule $1 do
 	@moduledoc ${2:false}
@@ -177,14 +183,14 @@ def start_link(${1:%{} = state}) do
 	GenServer.start_link(Self, ${2:state})
 end
 
-@spec get_state(pid()) :: map()
-def get_state(pid) do
-	GenServer.call(pid, :get_state)
+@spec get_state(GenServer.server()) :: map()
+def get_state(server) do
+	GenServer.call(server, :get_state)
 end
 
-@spec store(pid(), atom(), any()) :: :ok | {:error, any()}
-def store(pid, key, value) do
-	GenServer.cast(pid, {:store, key, value})
+@spec store(GenServer.server(), atom(), any()) :: :ok | {:error, any()}
+def store(server, key, value) do
+	GenServer.cast(server, {:store, key, value})
 end
 
 # Server
@@ -216,8 +222,8 @@ end
 endsnippet
 
 snippet test "Test function" b
-test "$1" do
-	${2:assert true}
+test "$1"${2:, %\{\} = context} do
+	${3:assert true}
 end
 endsnippet
 
