@@ -207,14 +207,9 @@ EOF
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
-local debounce = 150
-
 -- Elixir
 nvim_lsp['elixirls'].setup({
   cmd = { ".vim-config/elixir-ls/rel/language_server.sh" },
-  flags = {
-    debounce_text_changes = debounce
-  }
 })
 
 -- C/C++
@@ -232,22 +227,10 @@ nvim_lsp['rust_analyzer'].setup({
 })
 
 -- Typescript
-nvim_lsp['tsserver'].setup({
-  on_attach = function(client, bufnr)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end,
-  flags = {
-    debounce_text_changes = debounce
-  }
-})
+nvim_lsp['tsserver'].setup({})
 
 -- VueJS
-nvim_lsp['vuels'].setup({
-  flags = {
-    debounce_text_changes = debounce
-  }
-})
+nvim_lsp['vuels'].setup({})
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
@@ -261,9 +244,6 @@ null_ls.setup({
       prefer_local = "node_modules/.bin"
     }),
     null_ls.builtins.code_actions.gitsigns
-  },
-  flags = {
-    debounce_text_changes = debounce
   }
 })
 EOF
@@ -275,7 +255,7 @@ nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
-nnoremap <silent> <Leader>aF :lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <Leader>aF :lua vim.lsp.buf.format({ async = true })<CR>
 nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 
