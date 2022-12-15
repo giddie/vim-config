@@ -246,6 +246,23 @@ null_ls.setup({
     null_ls.builtins.code_actions.gitsigns
   }
 })
+
+lsp_autoformat = function(opts)
+  if opts == nil then
+    opts = {}
+  end
+  local async = opts["async"]
+  if async == nil then
+    async = true
+  end
+  vim.lsp.buf.format({
+    async = async,
+    filter =
+      function(client)
+        return client.name ~= "tsserver"
+      end
+  })
+end
 EOF
 
 " LSP bindings
@@ -255,7 +272,7 @@ nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
-nnoremap <silent> <Leader>aF :lua vim.lsp.buf.format({ async = true })<CR>
+nnoremap <silent> <Leader>aF :lua lsp_autoformat()<CR>
 nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 
@@ -521,7 +538,7 @@ augroup vimrc
   autocmd InsertLeave * silent! pclose!
 
   " Auto-format on save
-  autocmd BufWritePre * lua vim.lsp.buf.format()
+  autocmd BufWritePre * lua lsp_autoformat({ async = false })
 
   " Language-specific
   autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
