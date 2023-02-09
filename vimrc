@@ -401,6 +401,8 @@ noremap <A-j> <C-e>
 noremap <A-k> <C-y>
 noremap <A-h> zh
 noremap <A-l> zl
+noremap <Space> 3<C-e>
+noremap <C-Space> 3<C-y>
 " map Q to replay the 'q' macro
 nnoremap Q @q
 " I often accidentally hit F1 instead of ESC
