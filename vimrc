@@ -314,8 +314,8 @@ noremap <Leader>oz :Rg<Space>
 imap <C-X><C-w> <plug>(fzf-complete-word)
 imap <C-X><C-f> <plug>(fzf-complete-path)
 let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_colors =
-\ { "fg":      ["fg", "Normal"],
+let g:fzf_colors = {
+  \ "fg":      ["fg", "Normal"],
   \ "bg":      ["bg", "Normal"],
   \ "hl":      ["fg", "Conditional"],
   \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
@@ -327,11 +327,26 @@ let g:fzf_colors =
   \ "pointer": ["fg", "Conditional"],
   \ "marker":  ["fg", "Conditional"],
   \ "spinner": ["fg", "Conditional"],
-  \ "header":  ["fg", "WildMenu"] }
+  \ "header":  ["fg", "WildMenu"]
+  \ }
 augroup FZF
   autocmd!
   autocmd! User FzfStatusLine setlocal statusline=[fzf]
 augroup END
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+function! s:build_location_list(lines)
+  call setloclist(0, map(copy(a:lines), '{ "filename": v:val }'))
+  lopen
+  ll
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-l': function('s:build_location_list')
+  \ }
 
 " Folding
 noremap <Leader>zz :setlocal foldmethod=syntax<CR>
