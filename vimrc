@@ -427,13 +427,24 @@ map! <F1> <ESC>
 
 " Shortcuts
 nnoremap <Leader>lt :TlistToggle<CR>
-nnoremap <Leader>gu :GundoToggle<CR>
 vmap <Enter> <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 nnoremap <Leader>ts :split +terminal<CR>i
 nnoremap <Leader>tv :vsplit +terminal<CR>i
 nnoremap <C-w>S :botright split<CR>
 nnoremap <C-w>V :botright vsplit<CR>
+
+" Git / Fugitive
+nnoremap <Leader>gu :GundoToggle<CR>
+nnoremap <Leader>gg :G<CR>
+nnoremap <Leader>gca :G commit --amend<CR>
+nnoremap <Leader>gcc :G commit<CR>
+nnoremap <Leader>gco :G checkout<Space>
+nnoremap <Leader>gcs :G show<Space>
+nnoremap <Leader>gia :G add<Space>
+nnoremap <Leader>gid :G diff --cached<CR>
+nnoremap <Leader>gs :G stash<Space>
+nnoremap <Leader>gwd :G diff<Space>
 
 " Echo highlight group name under cursor
 nnoremap <F8> :echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
