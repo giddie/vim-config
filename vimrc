@@ -406,13 +406,16 @@ noremap j gj
 noremap <Down> gj
 noremap k gk
 noremap <Up> gk
+
 " Visually select the text that was last edited / pasted
 nmap gV '[V']
+
 " Easy window switching
 noremap <C-j> <C-w><C-j>
 noremap <C-k> <C-w><C-k>
 noremap <C-h> <C-w><C-h>
 noremap <C-l> <C-w><C-l>
+
 " Easy viewport scrolling
 noremap <A-j> <C-e>
 noremap <A-k> <C-y>
@@ -420,8 +423,10 @@ noremap <A-h> zh
 noremap <A-l> zl
 noremap <Space> 3<C-e>
 noremap <C-Space> 3<C-y>
+
 " map Q to replay the 'q' macro
 nnoremap Q @q
+
 " I often accidentally hit F1 instead of ESC
 map <F1> <ESC>
 map! <F1> <ESC>
@@ -485,10 +490,9 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
-" Easy buffer management
-noremap <C-left> :bprev<CR>
-noremap <C-right> :bnext<CR>
+" Easy window / buffer management
 nnoremap <Leader>bc :Bdelete<CR>
+nnoremap <Leader>qq :quit<CR>
 
 " EasyMotion
 nmap s         <Plug>(easymotion-s2)
