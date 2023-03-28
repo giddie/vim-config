@@ -299,6 +299,9 @@ nmap <silent> <Leader>tt :TestLast<CR>
 nmap <silent> <Leader>tT :TestLast<CR><C-o><C-w>_i
 nmap <silent> <Leader>tg :TestVisit<CR>
 
+" BufExplorer
+let g:bufExplorerShowRelativePath=1
+
 " GitSigns
 nnoremap <silent> <Leader>hp :Gitsigns preview_hunk<CR>
 
