@@ -444,6 +444,18 @@ nnoremap <Leader>tv :vsplit +terminal<CR>i
 nnoremap <C-w>S :botright split<CR>
 nnoremap <C-w>V :botright vsplit<CR>
 
+" Toggle paragraph auto-formatting
+function! s:toggle_autoformat()
+  if &formatoptions =~ 'a'
+    echo "Auto-format OFF"
+    set formatoptions-=a
+  else
+    echo "Auto-format ON"
+    set formatoptions+=a
+  endif
+endfunction
+nnoremap <silent> yfa :call <SID>toggle_autoformat()<CR>
+
 " Git / Fugitive
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>gg :G<CR>
