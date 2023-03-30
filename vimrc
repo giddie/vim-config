@@ -44,6 +44,7 @@ Plug 'simeji/winresizer'
 Plug 'yssl/QFEnter'
 Plug 'ncm2/float-preview'
 Plug 'Shougo/echodoc'
+Plug 'tommcdo/vim-lister'
 
 " Editing
 Plug 'adelarsq/vim-matchit'
