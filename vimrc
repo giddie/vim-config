@@ -305,6 +305,12 @@ let g:bufExplorerShowRelativePath=1
 
 " GitSigns
 nnoremap <silent> <Leader>hp :Gitsigns preview_hunk<CR>
+nnoremap <silent> [h :Gitsigns prev_hunk<CR>
+nnoremap <silent> ]h :Gitsigns next_hunk<CR>
+xnoremap ah :<C-U>Gitsigns select_hunk<CR>
+onoremap ah :<C-U>Gitsigns select_hunk<CR>
+xnoremap ih :<C-U>Gitsigns select_hunk<CR>
+onoremap ih :<C-U>Gitsigns select_hunk<CR>
 
 " echodoc
 let g:echodoc_enable_at_startup = 1
