@@ -21,17 +21,24 @@ endsnippet
 snippet struct "defstruct with typespec" bm
 alias __MODULE__, as: Self
 
+@derive {Inspect, except: [:__private__]}
 @enforce_keys [$1]
-defstruct @enforce_keys
+defstruct [
+	__private__: %{},${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}$2
+]
 
-@type t :: %Self{$2}
+@type t :: %Self{
+	__private__: map(),${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}${2/(.*?):.*?(,|$)/$1: nil,/g}
+}
 
 @spec validate(Self.t()) :: Result.ok_or(Self.t(), Ecto.Changeset.t())
 def validate(%Self{} = self) do
 	data = %Self{}
 	params = Map.from_struct(self)
 
-	types = %{$3}
+	types = %{
+		__private__: :map,${1/.*?:(.*?)(,|$)/\n			$1: :string,/g}${2/(.*?):.*?(,|$)/$1: :string,/g}
+	}
 
 	{data, types}
 	|> Ecto.Changeset.cast(params, Map.keys(types))
