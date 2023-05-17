@@ -595,7 +595,7 @@ augroup vimrc
   autocmd InsertLeave * silent! pclose!
 
   " Auto-format on save
-  autocmd BufWritePre * lua lsp_autoformat({ async = false })
+  " autocmd BufWritePre * lua lsp_autoformat({ async = false })
 
   " Language-specific
   autocmd BufReadCmd *.epub call zip#Browse(expand("<amatch>"))
