@@ -1,0 +1,7 @@
+nmap <silent><buffer> <Leader>nf <Plug>(dovish_create_file)
+nmap <silent><buffer> <Leader>nd <Plug>(dovish_create_directory)
+nmap <silent><buffer> <Leader>dd <Plug>(dovish_delete)
+nmap <silent><buffer> <Leader>r <Plug>(dovish_rename)
+nmap <silent><buffer> <Leader>yy <Plug>(dovish_yank)
+nmap <silent><buffer> <Leader>c <Plug>(dovish_copy)
+nmap <silent><buffer> <Leader>m <Plug>(dovish_move)
