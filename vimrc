@@ -216,7 +216,7 @@ local nvim_lsp = require('lspconfig')
 
 -- Elixir
 nvim_lsp['elixirls'].setup({
-  cmd = { ".vim-config/elixir-ls/rel/language_server.sh" },
+  cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
 })
 
 -- C/C++

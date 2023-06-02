@@ -1,3 +1,4 @@
 *.swp
 /vim-dir/vim-plug
 /vim-dir/autoload/plug.vim.old
+/vim-dir/elixir-ls
