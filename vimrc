@@ -29,6 +29,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'justinmk/vim-dirvish'
 Plug 'roginfarrer/vim-dirvish-dovish'
+Plug 'francoiscabrol/ranger.vim'
 Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 Plug 'jeetsukumaran/vim-indentwise'
@@ -197,6 +198,9 @@ let &stl .= "| %l-%c/%L "           " Line/column number
 let g:dirvish_mode = ':sort _^.*[\/]_'
 let g:dirvish_dovish_map_keys = 0
 " See ftplugin/dirvish.vim
+
+" Ranger
+let g:ranger_map_keys = 0
 
 " Gitsigns
 lua require("gitsigns").setup()
