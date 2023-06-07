@@ -80,7 +80,6 @@ Plug 'craigemery/vim-autotag'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
-Plug 'MunifTanjim/exrc.nvim'
 
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
@@ -140,9 +139,8 @@ set splitright           " When splitting, place cursor in right-hand window
 set noequalalways        " Don't resize all windows when closing one
 set completeopt-=preview " The float-preview plugin handles completion popups
 set listchars+=precedes:<,extends:> " Mark invisible portion of lines
-if has('nvim')
-  set inccommand=split
-endif
+set inccommand=split
+set exrc
 
 " Cursor position highlighting
 :nnoremap <silent> <Leader>ml :execute 'match Search /\%'.line('.').'l/'<CR>
@@ -204,15 +202,6 @@ let g:ranger_map_keys = 0
 
 " Gitsigns
 lua require("gitsigns").setup()
-
-" Exrc (Project-Specific Config)
-lua << EOF
-require("exrc").setup({
-  files = {
-    ".nvimrc"
-  },
-})
-EOF
 
 " LSP - Language Server Protocol
 lua << EOF
