@@ -46,6 +46,17 @@ def validate(%Self{} = self) do
 end
 endsnippet
 
+snippet exception "Exception" bm
+defexception [$1]
+
+@type t :: %__MODULE__{}
+
+@impl Exception
+def message(%__MODULE__{} = self) do
+	Kernel.inspect(self)
+end
+endsnippet
+
 snippet schema "Ecto schema" bm
 alias __MODULE__, as: Self
 alias Ecto.Changeset
@@ -185,9 +196,9 @@ use GenServer
 
 # Client
 
-@spec start_link(map()) :: {:ok, pid()}
-def start_link(${1:%{} = state}) do
-	GenServer.start_link(Self, ${2:state})
+@spec start_link(Keyword.t()) :: {:ok, pid()}
+def start_link(${1:_opts \\ []}) do
+	GenServer.start_link(Self, ${2:%{}}, name: __MODULE__)
 end
 
 @spec get_state(GenServer.server()) :: map()
@@ -232,6 +243,10 @@ snippet test "Test function" b
 test "$1"${2:, %\{\} = context} do
 	${3:assert true}
 end
+endsnippet
+
+snippet tagcap "@tag :capture_log" b
+@tag :capture_log
 endsnippet
 
 snippet doc "@doc tag" b
