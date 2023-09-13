@@ -230,7 +230,8 @@ nvim_lsp['rust_analyzer'].setup({
 nvim_lsp['tsserver'].setup({})
 
 -- VueJS
-nvim_lsp['vuels'].setup({})
+-- nvim_lsp['vuels'].setup({})
+nvim_lsp['volar'].setup({})
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
