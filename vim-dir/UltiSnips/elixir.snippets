@@ -21,6 +21,15 @@ endsnippet
 snippet struct "defstruct with typespec" bm
 alias __MODULE__, as: Self
 
+@enforce_keys [$1]
+defstruct @enforce_keys
+
+@type t :: %Self{${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}}
+endsnippet
+
+snippet struct_full "defstruct with the trimmings" bm
+alias __MODULE__, as: Self
+
 @derive {Inspect, except: [:__private__]}
 @enforce_keys [$1]
 defstruct [
@@ -47,7 +56,8 @@ end
 endsnippet
 
 snippet exception "Exception" bm
-defexception [$1]
+@enforce_keys [$1]
+defexception @enforce_keys
 
 @type t :: %__MODULE__{}
 
