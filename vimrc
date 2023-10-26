@@ -149,10 +149,10 @@ set exrc
 :nnoremap <silent> <Leader>mn :match<CR>:2match<CR>
 
 " Automatic window size adjustment
-set winheight=5
-set winminheight=5
 set winheight=25
-set winwidth=80
+set winwidth=86
+set winminheight=5
+set winminwidth=15
 
 " Terminal interaction
 set mouse=a             " Turn on mouse support
