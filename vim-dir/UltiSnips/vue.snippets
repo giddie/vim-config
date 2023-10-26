@@ -5,12 +5,9 @@ $3
 endsnippet
 
 snippet script "Script Tag" b
-<script${1: lang="ts"}>
-import Vue from 'vue'
+<script${1: lang="ts"}${2: setup}>
+import { ref } from "vue";
 
-export default Vue.extend({
-	$2
-})
 </script>
 endsnippet
 
