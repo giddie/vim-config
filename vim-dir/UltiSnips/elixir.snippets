@@ -241,6 +241,30 @@ def handle_cast({:store, key, value}, %{} = state) do
 end
 endsnippet
 
+snippet handle_call "GenServer handle_call" bm
+@impl GenServer
+def handle_call(${1::get_state}, _from, ${2:%{} = state}) do
+	${3:reply = state}
+	{:reply, reply, state}
+end
+endsnippet
+
+snippet handle_cast "GenServer handle_cast" bm
+@impl GenServer
+def handle_cast(${1::store, key, value}, ${2:%{} = state}) do
+	${3:state = Map.put(state, key, value)}
+	{:noreply, state}
+end
+endsnippet
+
+snippet handle_info "GenServer handle_info" bm
+@impl GenServer
+def handle_info(${1:message}, ${2:%{} = state}) do
+	${3:dbg(message)}
+	{:noreply, state}
+end
+endsnippet
+
 snippet testmod "Simple test module" b
 defmodule $1 do
 	@moduledoc false
