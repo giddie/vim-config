@@ -18,6 +18,12 @@ defmodule $1 do
 end
 endsnippet
 
+snippet prot "Protocol" b
+defprotocol $1 do
+	@moduledoc ${2:false}
+end
+endsnippet
+
 snippet struct "defstruct with typespec" bm
 alias __MODULE__, as: Self
 
@@ -251,7 +257,7 @@ endsnippet
 
 snippet handle_cast "GenServer handle_cast" bm
 @impl GenServer
-def handle_cast(${1::store, key, value}, ${2:%{} = state}) do
+def handle_cast(${1:{:store, key, value}}, ${2:%{} = state}) do
 	${3:state = Map.put(state, key, value)}
 	{:noreply, state}
 end
