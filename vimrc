@@ -13,9 +13,8 @@ call plug#begin('~/.vim/vim-plug')
 Plug 'nvim-lua/plenary.nvim'
 
 " Colorschemes
+" Plug 'EdenEast/nightfox.nvim'
 Plug 'KeitaNakamura/neodark.vim'
-" Plug 'morhetz/gruvbox'
-" Plug 'ajh17/Spacegray.vim'
 
 " Navigation
 Plug 'easymotion/vim-easymotion'
@@ -49,25 +48,24 @@ Plug 'Shougo/echodoc'
 Plug 'tommcdo/vim-lister'
 
 " Editing
-Plug 'adelarsq/vim-matchit'
-Plug 'ap/vim-css-color'
+Plug 'andymass/vim-matchup'
+Plug 'NvChad/nvim-colorizer.lua'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'junegunn/vim-easy-align'
 Plug 'machakann/vim-highlightedyank'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'jiangmiao/auto-pairs'
+Plug 'windwp/nvim-autopairs'
 Plug 'sirver/UltiSnips'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-commentary'
 Plug 'glts/vim-textobj-comment'
-Plug 'suy/vim-context-commentstring'
+" Plug 'suy/vim-context-commentstring'
 Plug 'mattn/emmet-vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -89,6 +87,14 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'deoplete-plugins/deoplete-lsp'
 
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'ziontee113/syntax-tree-surfer'
+Plug 'RRethy/nvim-treesitter-endwise'
+
 call plug#end()
 
 if has('termguicolors')
@@ -102,18 +108,61 @@ endif
 set background=dark
 let g:neodark#solid_vertsplit = 1
 let g:neodark#background = '#303030'
-" let g:gruvbox_italic = 1
-" let g:gruvbox_contrast_dark = 'soft'
-" let g:spacegray_low_contrast = 1
 colorscheme neodark
 
-" Colourscheme Tweaks
-highlight Error ctermbg=none guibg=none
-highlight ColorColumn ctermbg=red ctermfg=white guibg=#404040
-highlight DiagnosticError guifg=#DC657D
-highlight DiagnosticWarn guifg=#D4B261
-highlight DiagnosticUnderlineError gui=NONE guibg=#423538
-highlight DiagnosticUnderlineWarn gui=NONE guibg=#413d35
+" Colourscheme and highlighting
+
+" red           #DC657D
+" green         #84B97C
+" yellow        #D4AE58
+" blue          #639EE4
+" purple        #B888E2
+" orange        #E18254
+" pink          #DC94A2
+" teal          #4BB1A7
+" golden_yellow #C99720
+" light_blue    #72C7D1
+" brown         #AE8785
+
+highlight Error                    ctermbg=none guibg=none
+highlight ColorColumn              ctermbg=red ctermfg=white guibg=#404040
+highlight DiagnosticError          guifg=#DC657D
+highlight DiagnosticWarn           guifg=#D4AE58
+highlight DiagnosticUnderlineError gui=none guibg=#423538
+highlight DiagnosticUnderlineWarn  gui=none guibg=#413d35
+highlight MatchParen               gui=none guibg=#404040 guifg=none
+highlight Identifier               guifg=#AE8785
+highlight Constant                 guifg=#4BB1A7
+highlight Special                  guifg=#DC657D
+highlight Search                   guibg=#484336 guifg=none
+highlight @function.call           guifg=#84B97C
+
+" Treesitter-Refactor
+highlight TSDefinition guibg=#433d3d gui=bold
+highlight TSDefinitionUsage guibg=#433d3d
+
+" Rainbow Delimiters
+highlight RainbowDelimiterA guifg=#D4AE58
+highlight RainbowDelimiterB guifg=#84B97C
+highlight RainbowDelimiterC guifg=#B888E2
+highlight RainbowDelimiterD guifg=#639EE4
+highlight RainbowDelimiterE guifg=#4BB1A7
+highlight RainbowDelimiterF guifg=#DC657D
+highlight RainbowDelimiterG guifg=#E18254
+
+lua << EOF
+require("rainbow-delimiters.setup").setup({
+  highlight = {
+    'RainbowDelimiterA',
+    'RainbowDelimiterB',
+    'RainbowDelimiterC',
+    'RainbowDelimiterD',
+    'RainbowDelimiterE',
+    'RainbowDelimiterF',
+    'RainbowDelimiterG',
+  }
+})
+EOF
 
 set nowrap               " Don't wrap by default
 set linebreak            " Wrap at word boundaries
@@ -147,7 +196,7 @@ set exrc
 " Cursor position highlighting
 :nnoremap <silent> <Leader>ml :execute 'match Search /\%'.line('.').'l/'<CR>
 :nnoremap <silent> <Leader>mc :execute '2match Search /\%'.virtcol('.').'v/'<CR>
-:nmap <Leader>mx <Leader>ml <Leader>mc
+:nmap <Leader>mx <Leader>ml<Leader>mc
 :nnoremap <silent> <Leader>mn :match<CR>:2match<CR>
 
 " Automatic window size adjustment
@@ -202,11 +251,103 @@ let g:dirvish_dovish_map_keys = 0
 " Ranger
 let g:ranger_map_keys = 0
 
-" Gitsigns
-lua require("gitsigns").setup()
-
-" LSP - Language Server Protocol
 lua << EOF
+require("nvim-autopairs").setup({})
+require("gitsigns").setup()
+require("colorizer").setup()
+
+-- TreeSitter
+require("nvim-treesitter.configs").setup({
+  auto_install = true,
+  highlight = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<CR>",
+      node_incremental = "<CR>",
+      scope_incremental = "<Tab>",
+      node_decremental = "-"
+    }
+  },
+  indent = {
+    enable = true
+  },
+  endwise = {
+    enable = true
+  },
+  refactor = {
+    highlight_definitions = {
+      enable = true,
+      clear_on_cursor_move = false
+    },
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "<Leader>bR"
+      }
+    },
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition = "<Leader>bg",
+        list_definitions = "<Leader>br",
+        list_definitions_toc = "gO",
+        goto_next_usage = "]]",
+        goto_previous_usage = "[[",
+      }
+    }
+  }
+})
+
+-- TreeSitter Highlights - General
+vim.api.nvim_set_hl(0, "@keyword", { link = "Define" })
+vim.api.nvim_set_hl(0, "@keyword.function", { link = "Define" })
+
+-- TreeSetter Highlights - Elixir
+vim.api.nvim_set_hl(0, "@module.elixir", { link = "Type" })
+
+-- Syntax Tree Surfer
+require("syntax-tree-surfer").setup({})
+local opts = { noremap = true, silent = true }
+
+--   Normal Mode Swapping:
+--   Swap The Master Node relative to the cursor with its siblings. Dot-repeatable.
+vim.keymap.set("n", "<Leader>K", function()
+	vim.opt.opfunc = "v:lua.STSSwapUpNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+vim.keymap.set("n", "<Leader>J", function()
+	vim.opt.opfunc = "v:lua.STSSwapDownNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+
+--   Swap Current Node at the Cursor with its siblings. Dot-repeatable.
+vim.keymap.set("n", "<Leader>k", function()
+	vim.opt.opfunc = "v:lua.STSSwapCurrentNodePrevNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+vim.keymap.set("n", "<Leader>j", function()
+	vim.opt.opfunc = "v:lua.STSSwapCurrentNodeNextNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+
+--   Visual Selection from Normal Mode
+-- vim.keymap.set("n", "vx", '<cmd>STSSelectMasterNode<cr>', opts)
+-- vim.keymap.set("n", "vn", '<cmd>STSSelectCurrentNode<cr>', opts)
+
+--   Select Nodes in Visual Mode
+vim.keymap.set("x", "gk", '<cmd>STSSelectPrevSiblingNode<cr>', opts)
+vim.keymap.set("x", "gj", '<cmd>STSSelectNextSiblingNode<cr>', opts)
+vim.keymap.set("x", "gh", '<cmd>STSSelectParentNode<cr>', opts)
+vim.keymap.set("x", "gl", '<cmd>STSSelectChildNode<cr>', opts)
+
+--   Swapping Nodes in Visual Mode
+vim.keymap.set("x", "<Leader>k", '<cmd>STSSwapPrevVisual<cr>', opts)
+vim.keymap.set("x", "<Leader>j", '<cmd>STSSwapNextVisual<cr>', opts)
+
+-- LSP - Language Server Protocol
 local nvim_lsp = require('lspconfig')
 
 -- Elixir
@@ -402,7 +543,7 @@ map ]+ <Plug>(IndentWiseNextEqualIndent)
 " map ]_ <Plug>(IndentWiseNextAbsoluteIndent)
 
 " Ack (Searching)
-command -nargs=* Find :Ack! <q-args>
+command! -nargs=* Find :Ack! <q-args>
 noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>:pclose<CR>
 let g:ackprg = 'rg --vimgrep --smart-case -F'
@@ -457,7 +598,7 @@ map! <F1> <ESC>
 
 " Shortcuts
 nnoremap <Leader>lt :TlistToggle<CR>
-vmap <Enter> <Plug>(LiveEasyAlign)
+vmap <Leader>a <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 nnoremap <Leader>ts :split +terminal<CR>i
 nnoremap <Leader>tv :vsplit +terminal<CR>i
@@ -537,24 +678,6 @@ omap z         <Plug>(easymotion-s2)
 nmap <Leader>s <Plug>(easymotion-sn)
 xmap <Leader>s <Plug>(easymotion-sn)
 omap <Leader>z <Plug>(easymotion-sn)
-
-" Auto-Pairs
-let g:AutoPairsCenterLine = 0
-" augroup AutoPairs
-"   autocmd!
-"   autocmd FileType *
-"     \ let b:AutoPairs = AutoPairsDefine({
-"       \ '<' : '>',
-"       \ '<<' : '',
-"       \ '<!--' : '-->',
-"       \ '<%' : '%>',
-"       \ '<%-' : '%>',
-"       \ '<%=' : '%>'
-"     \ })
-"   " Angle bracket pairing breaks auto-indentation of tags
-"   autocmd FileType html,xhtml,eruby,vue
-"     \ let b:AutoPairs = AutoPairsDefine({}, ['<', '<<'])
-" augroup END
 
 " Emmet
 let g:user_emmet_leader_key=','
