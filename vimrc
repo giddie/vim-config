@@ -84,6 +84,7 @@ Plug 'tpope/vim-dadbod'
 
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
+Plug 'elixir-tools/elixir-tools.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'deoplete-plugins/deoplete-lsp'
@@ -209,9 +210,22 @@ lua << EOF
 local nvim_lsp = require('lspconfig')
 
 -- Elixir
-nvim_lsp['elixirls'].setup({
-  cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
+require("elixir").setup({
+  nextls = {
+    enable = true,
+    init_options = {
+      experimental = {
+        completions = {
+          enable = true
+        }
+      }
+    }
+  },
+  elixirls = {enable = false}
 })
+-- nvim_lsp['elixirls'].setup({
+--   cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
+-- })
 
 -- C/C++
 nvim_lsp['clangd'].setup({})
@@ -241,7 +255,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.eslint.with({
       prefer_local = "node_modules/.bin"
     }),
-    null_ls.builtins.diagnostics.credo,
+    -- null_ls.builtins.diagnostics.credo,
     null_ls.builtins.formatting.prettier.with({
       prefer_local = "node_modules/.bin"
     }),
