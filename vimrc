@@ -251,6 +251,9 @@ let g:dirvish_dovish_map_keys = 0
 " Ranger
 let g:ranger_map_keys = 0
 
+" Matchup
+let g:matchup_matchparen_offscreen = {'method': 'popup'}
+
 lua << EOF
 require("nvim-autopairs").setup({})
 require("gitsigns").setup()
