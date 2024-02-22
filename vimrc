@@ -126,15 +126,18 @@ colorscheme neodark
 
 highlight Error                    ctermbg=none guibg=none
 highlight ColorColumn              ctermbg=red ctermfg=white guibg=#404040
-highlight DiagnosticError          guifg=#DC657D
-highlight DiagnosticWarn           guifg=#D4AE58
+highlight DiagnosticError          guifg=#DC657D guibg=#423538
+highlight DiagnosticWarn           guifg=#D4AE58 guibg=#413d35
+highlight DiagnosticInfo           guifg=#639EE4 guibg=#353b42
 highlight DiagnosticUnderlineError gui=none guibg=#423538
 highlight DiagnosticUnderlineWarn  gui=none guibg=#413d35
+highlight DiagnosticUnderlineInfo  gui=none guibg=#353b42
 highlight MatchParen               gui=none guibg=#404040 guifg=none
 highlight Identifier               guifg=#AE8785
 highlight Constant                 guifg=#4BB1A7
 highlight Special                  guifg=#DC657D
-highlight Search                   guibg=#484336 guifg=none
+highlight Search                   guifg=none guibg=#484336
+highlight Visual                   guifg=none guibg=#484336
 highlight @function.call           guifg=#84B97C
 
 " Treesitter-Refactor
