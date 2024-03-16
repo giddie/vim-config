@@ -193,7 +193,8 @@ set splitright           " When splitting, place cursor in right-hand window
 set noequalalways        " Don't resize all windows when closing one
 set completeopt-=preview " The float-preview plugin handles completion popups
 set listchars+=precedes:<,extends:> " Mark invisible portion of lines
-set inccommand=split
+set inccommand=split     " Preview effects of substitutions in real time
+set wildmode=longest:full,full " More expected command-mode completion
 set exrc
 
 " Cursor position highlighting
