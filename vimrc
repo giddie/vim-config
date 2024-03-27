@@ -251,11 +251,10 @@ let &stl .= "| %l-%c/%L "           " Line/column number
 " Sort directories at the top
 let g:dirvish_mode = ':sort _^.*[\/]_'
 let g:dirvish_dovish_map_keys = 0
-nmap _ <Plug>(dirvish_up)
 " See ftplugin/dirvish.vim
 
 " choosewin
-nmap - <Plug>(choosewin)
+nmap _ <Plug>(choosewin)
 " let g:choosewin_overlay_enable = 1
 
 " Ranger
