@@ -151,8 +151,7 @@ highlight RainbowDelimiterB guifg=#84B97C
 highlight RainbowDelimiterC guifg=#B888E2
 highlight RainbowDelimiterD guifg=#639EE4
 highlight RainbowDelimiterE guifg=#4BB1A7
-highlight RainbowDelimiterF guifg=#DC657D
-highlight RainbowDelimiterG guifg=#E18254
+highlight RainbowDelimiterF guifg=#E18254
 
 lua << EOF
 require("rainbow-delimiters.setup").setup({
@@ -162,8 +161,7 @@ require("rainbow-delimiters.setup").setup({
     'RainbowDelimiterC',
     'RainbowDelimiterD',
     'RainbowDelimiterE',
-    'RainbowDelimiterF',
-    'RainbowDelimiterG',
+    'RainbowDelimiterF'
   }
 })
 EOF
