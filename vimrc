@@ -364,6 +364,7 @@ local nvim_lsp = require('lspconfig')
 require("elixir").setup({
   nextls = {
     enable = true,
+    spitfire = true,
     init_options = {
       experimental = {
         completions = {
