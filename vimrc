@@ -54,7 +54,6 @@ Plug 'NvChad/nvim-colorizer.lua'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'junegunn/vim-easy-align'
-Plug 'machakann/vim-highlightedyank'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'windwp/nvim-autopairs'
@@ -125,8 +124,14 @@ colorscheme neodark
 " light_blue    #72C7D1
 " brown         #AE8785
 
+highlight StatusLine               guifg=#bcbcbc guibg=#545454
+highlight StatusLineNC             guifg=#8a8a8a guibg=#3a3a3a
+highlight WinSeparator             guibg=#3a3a3a
+highlight ColorColumn              ctermbg=red ctermfg=white guibg=#343434
+highlight NormalFloat              guibg=#3a3a3a
+set fillchars+=vert:\ 
+
 highlight Error                    ctermbg=none guibg=none
-highlight ColorColumn              ctermbg=red ctermfg=white guibg=#404040
 highlight DiagnosticError          guifg=#DC657D guibg=#423538
 highlight DiagnosticWarn           guifg=#D4AE58 guibg=#413d35
 highlight DiagnosticInfo           guifg=#639EE4 guibg=#353b42
@@ -134,12 +139,19 @@ highlight DiagnosticUnderlineError gui=none guibg=#423538
 highlight DiagnosticUnderlineWarn  gui=none guibg=#413d35
 highlight DiagnosticUnderlineInfo  gui=none guibg=#353b42
 highlight MatchParen               gui=none guibg=#404040 guifg=none
-highlight Identifier               guifg=#AE8785
-highlight Constant                 guifg=#4BB1A7
-highlight Special                  guifg=#DC657D
-highlight Search                   guifg=none guibg=#484336
+highlight Search                   guifg=none guibg=#484336 gui=none
+highlight CurSearch                guifg=none guibg=#484336 gui=none
+highlight IncSearch                guifg=none guibg=#484336 gui=bold
 highlight Visual                   guifg=none guibg=#484336
-highlight @function.call           guifg=#84B97C
+highlight QuickFixLine             guifg=none guibg=#484336 gui=none
+
+" highlight Identifier               guifg=#AE8785
+highlight Constant                    guifg=#4BB1A7
+highlight Special                     guifg=#DC657D
+highlight @operator                   guifg=#84B97C
+highlight @function.call              guifg=#84B97C
+highlight @variable                   guifg=#AE8785
+highlight @markup.raw.markdown_inline guifg=#E18254
 
 " Treesitter-Refactor
 highlight TSDefinition guibg=#433d3d gui=bold
@@ -727,6 +739,9 @@ command! PrettyXML %!xmllint --format -
 
 augroup vimrc
   autocmd!
+
+  " https://neovim.io/doc/user/lua.html#vim.highlight
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='Visual', timeout=1000}
 
   " Place the cursor where it was when the file was last edited
   autocmd BufReadPost *
