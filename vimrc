@@ -642,6 +642,7 @@ nnoremap <silent> yfa :call <SID>toggle_autoformat()<CR>
 " Git / Fugitive
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>gg :G<CR>
+nnoremap <Leader>gt :GV --all<CR>
 nnoremap <Leader>gca :G commit --amend<CR>
 nnoremap <Leader>gcc :G commit<CR>
 nnoremap <Leader>gco :G checkout<Space>
