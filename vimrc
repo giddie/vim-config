@@ -21,7 +21,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'junegunn/gv.vim'
+Plug 'rbong/vim-flog'
 Plug 'vim-scripts/taglist.vim'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf.vim'
@@ -642,7 +642,9 @@ nnoremap <silent> yfa :call <SID>toggle_autoformat()<CR>
 " Git / Fugitive
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>gg :G<CR>
-nnoremap <Leader>gt :GV --all<CR>
+nnoremap <Leader>gt :Flog -all<CR>
+vnoremap <Leader>gt :Flog<CR>
+nnoremap <Leader>gT :Flog -path=%<CR>
 nnoremap <Leader>gca :G commit --amend<CR>
 nnoremap <Leader>gcc :G commit<CR>
 nnoremap <Leader>gco :G checkout<Space>
