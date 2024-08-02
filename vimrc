@@ -392,7 +392,12 @@ require("elixir").setup({
 -- })
 
 -- C/C++
-nvim_lsp['clangd'].setup({})
+nvim_lsp['clangd'].setup({
+  capabilities = {
+    -- https://github.com/neovim/nvim-lspconfig/issues/2184
+    offsetEncoding = 'utf-16'
+  }
+})
 
 -- Rust
 nvim_lsp['rust_analyzer'].setup({
@@ -428,19 +433,22 @@ null_ls.setup({
 })
 
 lsp_autoformat = function(opts)
-  if opts == nil then
-    opts = {}
-  end
-  local async = opts["async"]
-  if async == nil then
-    async = true
+  opts = opts or {}
+  local async = opts["async"] or true
+  local range = nil
+  if opts["only_selected"] then
+    range = {
+      ["start"] = vim.api.nvim_buf_get_mark(0, "<"),
+      ["end"] = vim.api.nvim_buf_get_mark(0, ">")
+    }
   end
   vim.lsp.buf.format({
     async = async,
     filter =
       function(client)
         return client.name ~= "tsserver"
-      end
+      end,
+    range = range
   })
 end
 EOF
@@ -453,6 +461,7 @@ nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <Leader>af :lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <Leader>aF :lua lsp_autoformat()<CR>
+vnoremap <silent> <Leader>aF :lua lsp_autoformat({ only_selected = true})<CR>
 nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 
