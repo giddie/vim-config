@@ -417,6 +417,9 @@ nvim_lsp['tsserver'].setup({})
 -- nvim_lsp['vuels'].setup({})
 nvim_lsp['volar'].setup({})
 
+-- Python
+nvim_lsp['pylsp'].setup({})
+
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
 null_ls.setup({
