@@ -71,6 +71,7 @@ Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'TiuSh/vim-toggline'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'RRethy/vim-illuminate'
 
 " Other
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
@@ -153,9 +154,10 @@ highlight @function.call              guifg=#84B97C
 highlight @variable                   guifg=#AE8785
 highlight @markup.raw.markdown_inline guifg=#E18254
 
-" Treesitter-Refactor
-highlight TSDefinition guibg=#433d3d gui=bold
-highlight TSDefinitionUsage guibg=#433d3d
+" vim-illuminate
+highlight IlluminatedWordText guibg=#433d3d
+highlight IlluminatedWordRead guibg=#433d3d
+highlight IlluminatedWordWrite guibg=#433d3d
 
 " Rainbow Delimiters
 highlight RainbowDelimiterA guifg=#D4AE58
@@ -300,10 +302,11 @@ require("nvim-treesitter.configs").setup({
     enable = true
   },
   refactor = {
-    highlight_definitions = {
-      enable = true,
-      clear_on_cursor_move = false
-    },
+    ---- Disabled due to excessive slow-down in long C++ files
+    -- highlight_definitions = {
+    --   enable = true,
+    --   clear_on_cursor_move = false
+    -- },
     smart_rename = {
       enable = true,
       keymaps = {
@@ -316,12 +319,18 @@ require("nvim-treesitter.configs").setup({
         goto_definition = "<Leader>bg",
         list_definitions = "<Leader>br",
         list_definitions_toc = "gO",
-        goto_next_usage = "]]",
-        goto_previous_usage = "[[",
+        ---- Using vim-illuminate instead due to performance
+        -- goto_next_usage = "]]",
+        -- goto_previous_usage = "[[",
       }
     }
   }
 })
+
+-- vim-illuminate
+vim.keymap.set("n", "[[", require('illuminate').goto_prev_reference)
+vim.keymap.set("n", "]]", require('illuminate').goto_next_reference)
+vim.keymap.set("n", "yom", require('illuminate').toggle)
 
 -- TreeSitter Highlights - General
 vim.api.nvim_set_hl(0, "@keyword", { link = "Define" })
