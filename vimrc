@@ -468,6 +468,7 @@ EOF
 " LSP bindings
 " See `:help vim.lsp.*` for documentation on any of the below functions
 nnoremap <silent> <Leader>aa :lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <Leader>ad :lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <Leader>ag :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <Leader>ai :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <Leader>ah :lua vim.lsp.buf.hover()<CR>
