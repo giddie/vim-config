@@ -274,6 +274,7 @@ let g:ranger_map_keys = 0
 
 " Matchup
 let g:matchup_matchparen_offscreen = {'method': 'popup'}
+command! WhereAmI :MatchupWhereAmI?
 
 lua << EOF
 require("nvim-autopairs").setup({})
