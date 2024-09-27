@@ -588,7 +588,7 @@ map ]+ <Plug>(IndentWiseNextEqualIndent)
 " map ]_ <Plug>(IndentWiseNextAbsoluteIndent)
 
 " Ack (Searching)
-command! -nargs=* Find :Ack! <q-args>
+command! -nargs=* Find :Ack! -- <q-args>
 noremap <Leader>f :Find<Space>
 noremap <Leader>x :cclose<CR>:pclose<CR>
 let g:ackprg = 'rg --vimgrep --smart-case -F'
