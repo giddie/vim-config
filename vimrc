@@ -421,7 +421,7 @@ nvim_lsp['rust_analyzer'].setup({
 })
 
 -- Typescript
-nvim_lsp['tsserver'].setup({})
+nvim_lsp['ts_ls'].setup({})
 
 -- VueJS
 -- nvim_lsp['vuels'].setup({})
@@ -457,10 +457,6 @@ lsp_autoformat = function(opts)
   end
   vim.lsp.buf.format({
     async = async,
-    filter =
-      function(client)
-        return client.name ~= "tsserver"
-      end,
     range = range
   })
 end
