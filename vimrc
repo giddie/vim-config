@@ -386,6 +386,7 @@ local nvim_lsp = require('lspconfig')
 require("elixir").setup({
   nextls = {
     enable = true,
+    cmd = "nextls",
     spitfire = true,
     init_options = {
       experimental = {
@@ -395,7 +396,10 @@ require("elixir").setup({
       }
     }
   },
-  elixirls = {enable = false}
+  elixirls = {
+    enable = false,
+    cmd = "elixir-ls"
+  }
 })
 -- nvim_lsp['elixirls'].setup({
 --   cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
