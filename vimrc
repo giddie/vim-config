@@ -451,7 +451,8 @@ null_ls.setup({
 
 lsp_autoformat = function(opts)
   opts = opts or {}
-  local async = opts["async"] or true
+  local async = opts["async"]
+  async = (async == nil or async == true)
   local range = nil
   if opts["only_selected"] then
     range = {
