@@ -843,7 +843,13 @@ augroup vimrc
   autocmd BufRead *.md set filetype=markdown
   autocmd BufRead *.qml set filetype=qml smartindent
   autocmd FileType asciidoc setlocal wrap spell
-  autocmd FileType elixir setlocal textwidth=98 colorcolumn=99 formatoptions+=c foldlevel=1 formatexpr=
+  autocmd FileType elixir
+    \ setlocal textwidth=98
+             \ colorcolumn=99
+             \ formatoptions+=c
+             \ foldlevel=1
+             \ formatexpr=
+             \ indentkeys-=0{
   autocmd FileType help setlocal nospell
   autocmd FileType text setlocal formatoptions=ant
   autocmd FileType mail setlocal textwidth=75 colorcolumn=76 formatoptions=ant
