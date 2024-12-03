@@ -280,7 +280,24 @@ let g:matchup_matchparen_offscreen = {'method': 'popup'}
 command! WhereAmI :MatchupWhereAmI?
 
 lua << EOF
-require("nvim-autopairs").setup({})
+local npairs = require("nvim-autopairs")
+npairs.setup({})
+
+local Rule = require("nvim-autopairs.rule")
+local cond = require("nvim-autopairs.conds")
+npairs.add_rule(
+  Rule("fn ", " end", "elixir")
+)
+npairs.add_rule(
+  Rule("->", " end", "elixir")
+  :only_cr()
+)
+npairs.add_rule(
+  Rule("fn", "end", "elixir")
+  :end_wise(cond.not_after_regex(".*->", 50))
+  :end_wise(cond.not_after_regex(".*end", 50))
+)
+
 require("gitsigns").setup()
 require("colorizer").setup()
 
