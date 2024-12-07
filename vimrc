@@ -44,8 +44,6 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'tpope/vim-obsession'
 Plug 'simeji/winresizer'
 Plug 'yssl/QFEnter'
-Plug 'ncm2/float-preview'
-Plug 'Shougo/echodoc'
 Plug 'tommcdo/vim-lister'
 
 " Editing
@@ -84,8 +82,14 @@ Plug 'tpope/vim-dadbod'
 Plug 'neovim/nvim-lspconfig'
 Plug 'elixir-tools/elixir-tools.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'deoplete-plugins/deoplete-lsp'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'dmitmel/cmp-cmdline-history'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'hrsh7th/nvim-cmp'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -380,9 +384,11 @@ vim.keymap.set("x", "<Leader>j", '<cmd>STSSwapNextVisual<cr>', opts)
 
 -- LSP - Language Server Protocol
 local nvim_lsp = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Elixir
 require("elixir").setup({
+  capabilities = capabilities,
   nextls = {
     enable = true,
     cmd = "nextls",
@@ -406,14 +412,15 @@ require("elixir").setup({
 
 -- C/C++
 nvim_lsp['clangd'].setup({
-  capabilities = {
+  capabilities = vim.tbl_deep_extend('force', capabilities, {
     -- https://github.com/neovim/nvim-lspconfig/issues/2184
     offsetEncoding = 'utf-16'
-  }
+  })
 })
 
 -- Rust
 nvim_lsp['rust_analyzer'].setup({
+  capabilities = capabilities,
   settings = {
     ["rust-analyzer"] = {
       checkOnSave = {
@@ -424,14 +431,20 @@ nvim_lsp['rust_analyzer'].setup({
 })
 
 -- Typescript
-nvim_lsp['ts_ls'].setup({})
+nvim_lsp['ts_ls'].setup({
+  capabilities = capabilities,
+})
 
 -- VueJS
 -- nvim_lsp['vuels'].setup({})
-nvim_lsp['volar'].setup({})
+nvim_lsp['volar'].setup({
+  capabilities = capabilities,
+})
 
 -- Python
-nvim_lsp['pylsp'].setup({})
+nvim_lsp['pylsp'].setup({
+  capabilities = capabilities,
+})
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
@@ -479,12 +492,57 @@ vnoremap <silent> <Leader>aF :lua lsp_autoformat({ only_selected = true})<CR>
 nnoremap <silent> <Leader>ar :lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <Leader>aR :lua vim.lsp.buf.rename()<CR>
 
-" Deoplete options
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-call deoplete#custom#source('lsp', 'max_abbr_width', 0)
-call deoplete#custom#source('lsp', 'max_menu_width', 0)
+" CMP
+lua <<EOF
+local cmp = require("cmp")
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body)
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered()
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-n>'] = cmp.mapping.complete(),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping.scroll_docs(4),
+    ['<C-k>'] = cmp.mapping.scroll_docs(-4),
+    ['<CR>'] = cmp.mapping.confirm(),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp', keyword_length = 3 },
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'ultisnips', keyword_length = 3 },
+  }, {
+    { name = 'buffer', keyword_length = 3 }
+  })
+})
+
+for _, cmd_type in ipairs({'/', '?'}) do
+  cmp.setup.cmdline(cmd_type, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'buffer', keyword_length = 3 }
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false }
+  })
+end
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path', keyword_length = 3 }
+  }, {
+    { name = 'cmdline_history', keyword_length = 3, max_item_count = 5 },
+    { name = 'cmdline', keyword_length = 3, max_item_count = 5 },
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false }
+})
+EOF
 
 " VimTest
 let test#strategy = "neovim"
@@ -510,10 +568,6 @@ xnoremap ah :<C-U>Gitsigns select_hunk<CR>
 onoremap ah :<C-U>Gitsigns select_hunk<CR>
 xnoremap ih :<C-U>Gitsigns select_hunk<CR>
 onoremap ih :<C-U>Gitsigns select_hunk<CR>
-
-" echodoc
-let g:echodoc_enable_at_startup = 1
-let g:echodoc#type = 'floating'
 
 " FZF (Fuzzy Find)
 noremap <Leader>oc :BTags<CR>
