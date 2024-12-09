@@ -733,6 +733,47 @@ function! s:toggle_autoformat()
 endfunction
 nnoremap <silent> yfa :call <SID>toggle_autoformat()<CR>
 
+lua << EOF
+local function split_line_normal()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1]
+  local before = line:sub(1, col)
+  local after = line:sub(col + 1)
+  vim.api.nvim_buf_set_lines(0, row - 1, row, false, { before, after })
+  vim.api.nvim_feedkeys('Vj=j^', 'n', false)
+end
+
+local function split_line_visual()
+  -- Ensure visual selection marks are set.
+  local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(0, '<'))
+  local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(0, '>'))
+  local lines = vim.api.nvim_buf_get_lines(0, start_row - 1, end_row,  false)
+  local new_lines = {}
+  table.insert(new_lines, lines[1]:sub(1, start_col))
+  if #lines == 1 then
+    table.insert(new_lines, lines[1]:sub(start_col + 1, end_col + 1))
+  else
+    table.insert(new_lines, lines[1]:sub(start_col + 1))
+    for i = 2, #lines - 1 do
+      table.insert(new_lines, lines[i])
+    end
+    table.insert(new_lines, lines[#lines]:sub(1, end_col + 1))
+  end
+  table.insert(new_lines, lines[#lines]:sub(end_col + 2))
+  vim.api.nvim_buf_set_lines(0, start_row - 1, end_row, false, new_lines)
+  vim.api.nvim_feedkeys(
+    'V' .. (#new_lines - 1) .. 'j=' .. (#new_lines - 1) .. 'j^',
+    'n', false
+  )
+end
+vim.api.nvim_create_user_command(
+  "SplitLineVisual", split_line_visual, { range = true }
+)
+
+vim.keymap.set({'n'}, '<Leader>S', split_line_normal)
+vim.keymap.set({'v'}, '<Leader>S', ":SplitLineVisual<CR>")
+EOF
+
 " Git / Fugitive
 nnoremap <Leader>gu :GundoToggle<CR>
 nnoremap <Leader>gg :G<CR>
