@@ -49,7 +49,6 @@ Plug 'tommcdo/vim-lister'
 " Editing
 Plug 'andymass/vim-matchup'
 Plug 'NvChad/nvim-colorizer.lua'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'junegunn/vim-easy-align'
 Plug 'michaeljsmith/vim-indent-object'
@@ -64,7 +63,6 @@ Plug 'tpope/vim-commentary'
 Plug 'glts/vim-textobj-comment'
 " Plug 'suy/vim-context-commentstring'
 Plug 'mattn/emmet-vim'
-Plug 'christianrondeau/vim-base64'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'TiuSh/vim-toggline'
 Plug 'lewis6991/gitsigns.nvim'
@@ -98,6 +96,7 @@ Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'ziontee113/syntax-tree-surfer'
 Plug 'RRethy/nvim-treesitter-endwise'
+Plug 'Wansmer/treesj'
 
 call plug#end()
 
@@ -399,6 +398,13 @@ vim.keymap.set("x", "gl", '<cmd>STSSelectChildNode<cr>', opts)
 vim.keymap.set("x", "<Leader>k", '<cmd>STSSwapPrevVisual<cr>', opts)
 vim.keymap.set("x", "<Leader>j", '<cmd>STSSwapNextVisual<cr>', opts)
 
+-- Tree Split-Join
+local treesj = require("treesj")
+treesj.setup({
+  use_default_keymaps = false
+})
+vim.keymap.set("n", "<Leader>bt", treesj.toggle)
+
 -- LSP - Language Server Protocol
 local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -575,7 +581,9 @@ nmap <silent> <Leader>tT :TestLast<CR><C-o><C-w>_i
 nmap <silent> <Leader>tg :TestVisit<CR>
 
 " BufExplorer
+let g:bufExplorerDisableDefaultKeyMapping=1
 let g:bufExplorerShowRelativePath=1
+nnoremap <silent> <Leader>be :BufExplorer<CR>
 
 " GitSigns
 nnoremap <silent> <Leader>hp :Gitsigns preview_hunk<CR>
