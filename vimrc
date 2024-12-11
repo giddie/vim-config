@@ -79,7 +79,7 @@ Plug 'tpope/vim-dadbod'
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
 Plug 'elixir-tools/elixir-tools.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvimtools/none-ls.nvim'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -473,9 +473,6 @@ nvim_lsp['pylsp'].setup({
 local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
-    null_ls.builtins.diagnostics.eslint.with({
-      prefer_local = "node_modules/.bin"
-    }),
     -- null_ls.builtins.diagnostics.credo,
     null_ls.builtins.formatting.prettier.with({
       prefer_local = "node_modules/.bin"
