@@ -284,8 +284,10 @@ npairs.setup({})
 
 local Rule = require("nvim-autopairs.rule")
 local cond = require("nvim-autopairs.conds")
+local ts_cond = require("nvim-autopairs.ts-conds")
 npairs.add_rule(
   Rule("fn ", " end", "elixir")
+  :with_pair(ts_cond.is_not_ts_node("anonymous_function"))
 )
 npairs.add_rule(
   Rule("->", " end", "elixir")
