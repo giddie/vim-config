@@ -294,7 +294,8 @@ npairs.add_rule(
   :only_cr()
 )
 npairs.add_rule(
-  Rule("fn", "end", "elixir")
+  Rule("fn$", "end", "elixir")
+  :use_regex(true)
   :end_wise(cond.not_after_regex(".*->", 50))
   :end_wise(cond.not_after_regex(".*end", 50))
 )
