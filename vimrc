@@ -432,12 +432,12 @@ require("elixir").setup({
     cmd = "elixir-ls"
   }
 })
--- nvim_lsp['elixirls'].setup({
+-- nvim_lsp.elixirls.setup({
 --   cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
 -- })
 
 -- C/C++
-nvim_lsp['clangd'].setup({
+nvim_lsp.clangd.setup({
   capabilities = vim.tbl_deep_extend('force', capabilities, {
     -- https://github.com/neovim/nvim-lspconfig/issues/2184
     offsetEncoding = 'utf-16'
@@ -445,7 +445,7 @@ nvim_lsp['clangd'].setup({
 })
 
 -- Rust
-nvim_lsp['rust_analyzer'].setup({
+nvim_lsp.rust_analyzer.setup({
   capabilities = capabilities,
   settings = {
     ["rust-analyzer"] = {
@@ -457,20 +457,23 @@ nvim_lsp['rust_analyzer'].setup({
 })
 
 -- Typescript
-nvim_lsp['ts_ls'].setup({
+nvim_lsp.ts_ls.setup({
   capabilities = capabilities,
 })
 
 -- VueJS
 -- nvim_lsp['vuels'].setup({})
-nvim_lsp['volar'].setup({
+nvim_lsp.volar.setup({
   capabilities = capabilities,
 })
 
 -- Python
-nvim_lsp['pylsp'].setup({
+nvim_lsp.pylsp.setup({
   capabilities = capabilities,
 })
+
+-- Zig
+nvim_lsp.zls.setup({})
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
