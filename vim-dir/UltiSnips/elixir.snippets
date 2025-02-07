@@ -37,6 +37,18 @@ defstruct @enforce_keys
 @type t :: %Self{${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}}
 endsnippet
 
+snippet typed_struct "TypeStruct" bm
+alias __MODULE__, as: Self
+
+use TypedStruct
+
+typedstruct ${1:module: MyStruct, }enforce: true do
+	@typedoc ""
+	field :one, String.t(), default: ""
+	$2
+end
+endsnippet
+
 snippet struct_full "defstruct with the trimmings" bm
 alias __MODULE__, as: Self
 
