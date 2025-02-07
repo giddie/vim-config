@@ -218,7 +218,7 @@ use GenServer
 
 @spec start_link(Keyword.t()) :: GenServer.on_start()
 def start_link(${1:_opts \\\\ []}) do
-	GenServer.start_link(Self, ${2:%{}}, name: Self)
+	GenServer.start_link(Self, ${2:%{}})
 end
 
 @spec get_state(GenServer.server()) :: map()
@@ -235,6 +235,7 @@ end
 
 @impl GenServer
 def init(${3:%{} = state}) do
+	Process.set_label(Self)
 	{:ok, ${4:state}}
 end
 
