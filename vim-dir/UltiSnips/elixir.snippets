@@ -229,39 +229,39 @@ use GenServer
 # Client
 
 @spec start_link(Keyword.t()) :: GenServer.on_start()
-def start_link(${1:_opts \\\\ []}) do
-	GenServer.start_link(Self, ${2:%{}})
+def start_link([]) do
+	GenServer.start_link(Self, %{$1})
 end
 
-@spec get_state(GenServer.server()) :: map()
-def get_state(server) do
-	GenServer.call(server, :get_state)
-end
-
-@spec store(GenServer.server(), atom(), any()) :: :ok | {:error, any()}
-def store(server, key, value) do
-	GenServer.cast(server, {:store, key, value})
-end
+# @spec get_state(GenServer.server()) :: map()
+# def get_state(server) do
+# 	GenServer.call(server, :get_state)
+# end
+#
+# @spec store(GenServer.server(), atom(), any()) :: :ok | {:error, any()}
+# def store(server, key, value) do
+# 	GenServer.cast(server, {:store, key, value})
+# end
 
 # Server
 
 @impl GenServer
-def init(${3:%{} = state}) do
+def init(state = %{}) do
 	Process.set_label(Self)
-	{:ok, ${4:state}}
+	{:ok, state}
 end
 
-@impl GenServer
-def handle_call(:get_state, _from, %{} = state) do
-	reply = state
-	{:reply, reply, state}
-end
-
-@impl GenServer
-def handle_cast({:store, key, value}, %{} = state) do
-	state = Map.put(state, key, value)
-	{:noreply, state}
-end
+# @impl GenServer
+# def handle_call(:get_state, _from, %{} = state) do
+# 	reply = state
+# 	{:reply, reply, state}
+# end
+#
+# @impl GenServer
+# def handle_cast({:store, key, value}, %{} = state) do
+# 	state = Map.put(state, key, value)
+# 	{:noreply, state}
+# end
 endsnippet
 
 snippet handle_call "GenServer handle_call" bm
