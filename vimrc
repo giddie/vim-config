@@ -78,7 +78,7 @@ Plug 'tpope/vim-dadbod'
 
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
-Plug 'elixir-tools/elixir-tools.nvim'
+" Plug 'elixir-tools/elixir-tools.nvim'
 Plug 'nvimtools/none-ls.nvim'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -413,28 +413,32 @@ local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Elixir
-require("elixir").setup({
-  capabilities = capabilities,
-  nextls = {
-    enable = true,
-    cmd = "nextls",
-    spitfire = true,
-    init_options = {
-      experimental = {
-        completions = {
-          enable = true
-        }
-      }
-    }
-  },
-  elixirls = {
-    enable = false,
-    cmd = "elixir-ls"
-  }
-})
+-- require("elixir").setup({
+--   capabilities = capabilities,
+--   nextls = {
+--     enable = true,
+--     cmd = "nextls",
+--     spitfire = true,
+--     init_options = {
+--       experimental = {
+--         completions = {
+--           enable = true
+--         }
+--       }
+--     }
+--   },
+--   elixirls = {
+--     enable = false,
+--     cmd = "elixir-ls"
+--   }
+-- })
 -- nvim_lsp.elixirls.setup({
 --   cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
 -- })
+nvim_lsp.lexical.setup({
+  capabilities = capabilities,
+  cmd = { "lexical" },
+})
 
 -- C/C++
 nvim_lsp.clangd.setup({
@@ -473,7 +477,9 @@ nvim_lsp.pylsp.setup({
 })
 
 -- Zig
-nvim_lsp.zls.setup({})
+nvim_lsp.zls.setup({
+  capabilities = capabilities,
+})
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
