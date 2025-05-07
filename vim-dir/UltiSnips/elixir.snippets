@@ -229,7 +229,7 @@ use GenServer
 # Client
 
 @spec start_link(Keyword.t()) :: GenServer.on_start()
-def start_link([]) do
+def start_link(_opts \\\\ []) do
 	GenServer.start_link(Self, %{$1})
 end
 
