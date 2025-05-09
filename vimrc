@@ -351,8 +351,8 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- vim-illuminate
-vim.keymap.set("n", "[[", require('illuminate').goto_prev_reference)
-vim.keymap.set("n", "]]", require('illuminate').goto_next_reference)
+vim.keymap.set("n", "<Leader>bp", require('illuminate').goto_prev_reference)
+vim.keymap.set("n", "<Leader>bn", require('illuminate').goto_next_reference)
 vim.keymap.set("n", "yom", require('illuminate').toggle)
 
 -- TreeSitter Highlights - General
