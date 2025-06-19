@@ -347,6 +347,9 @@ require("nvim-treesitter.configs").setup({
         -- goto_previous_usage = "[[",
       }
     }
+  },
+  matchup = {
+    enable = true,
   }
 })
 
@@ -492,6 +495,10 @@ null_ls.setup({
     }),
     null_ls.builtins.code_actions.gitsigns
   }
+})
+
+vim.diagnostic.config({
+  virtual_text = true
 })
 
 lsp_autoformat = function(opts)
