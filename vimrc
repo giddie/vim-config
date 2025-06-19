@@ -75,6 +75,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-dadbod'
+Plug 'j-hui/fidget.nvim'
 
 " LSP & Completion
 Plug 'neovim/nvim-lspconfig'
@@ -266,6 +267,11 @@ let &stl .= "| %l-%c/%L "           " Line/column number
 let g:dirvish_mode = ':sort _^.*[\/]_'
 let g:dirvish_dovish_map_keys = 0
 " See ftplugin/dirvish.vim
+
+" Fidget (Progress and LSP Notifications)
+lua <<EOF
+require("fidget").setup({})
+EOF
 
 " choosewin
 nmap _ <Plug>(choosewin)
