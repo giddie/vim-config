@@ -806,8 +806,8 @@ vim.keymap.set({'v'}, '<Leader>S', ":SplitLineVisual<CR>")
 EOF
 
 " Git / Fugitive
-nnoremap <Leader>gu :GundoToggle<CR>
-nnoremap <Leader>gg :G<CR>
+nnoremap <Leader>gg :Gedit :<CR>
+nnoremap <Leader>gG :G<CR>
 nnoremap <Leader>gt :Flog -all<CR>
 vnoremap <Leader>gt :Flog<CR>
 nnoremap <Leader>gT :Flog -path=%<CR>
@@ -819,6 +819,8 @@ nnoremap <Leader>gia :G add<Space>
 nnoremap <Leader>gid :G diff --cached<CR>
 nnoremap <Leader>gs :G stash<Space>
 nnoremap <Leader>gwd :G diff<Space>
+
+nnoremap <Leader>gu :GundoToggle<CR>
 
 " Echo highlight group name under cursor
 nnoremap <F8> :echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
