@@ -24,8 +24,10 @@ Plug 'tpope/vim-rhubarb'
 Plug 'rbong/vim-flog'
 Plug 'vim-scripts/taglist.vim'
 Plug 'mileszs/ack.vim'
-Plug 'junegunn/fzf.vim'
-Plug 'gfanto/fzf-lsp.nvim'
+" Plug 'junegunn/fzf.vim'
+" Plug 'gfanto/fzf-lsp.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'justinmk/vim-dirvish'
 Plug 'roginfarrer/vim-dirvish-dovish'
 Plug 'francoiscabrol/ranger.vim'
@@ -174,6 +176,9 @@ highlight RainbowDelimiterC guifg=#B888E2
 highlight RainbowDelimiterD guifg=#639EE4
 highlight RainbowDelimiterE guifg=#4BB1A7
 highlight RainbowDelimiterF guifg=#E18254
+
+" Telescope
+highlight TelescopeMatching guifg=#84B97C
 
 lua << EOF
 require("rainbow-delimiters.setup").setup({
@@ -683,49 +688,75 @@ xnoremap ih :<C-U>Gitsigns select_hunk<CR>
 onoremap ih :<C-U>Gitsigns select_hunk<CR>
 
 " FZF (Fuzzy Find)
-noremap <Leader>oc :BTags<CR>
-noremap <Leader>ob :Buffers<CR>
-noremap <Leader>of :Files<CR>
-noremap <Leader>oh :Helptags<CR>
-noremap <Leader>ol :BLines<CR>
-noremap <Leader>ot :Tags<CR>
-noremap <Leader>oz :Rg<Space>
-imap <C-X><C-w> <plug>(fzf-complete-word)
-imap <C-X><C-f> <plug>(fzf-complete-path)
-let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_colors = {
-  \ "fg":      ["fg", "Normal"],
-  \ "bg":      ["bg", "Normal"],
-  \ "hl":      ["fg", "Conditional"],
-  \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
-  \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
-  \ "hl+":     ["fg", "Conditional"],
-  \ "info":    ["fg", "Conditional"],
-  \ "border":  ["fg", "Ignore"],
-  \ "prompt":  ["fg", "Comment"],
-  \ "pointer": ["fg", "Conditional"],
-  \ "marker":  ["fg", "Conditional"],
-  \ "spinner": ["fg", "Conditional"],
-  \ "header":  ["fg", "WildMenu"]
-  \ }
-augroup FZF
-  autocmd!
-  autocmd! User FzfStatusLine setlocal statusline=[fzf]
-augroup END
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-function! s:build_location_list(lines)
-  call setloclist(0, map(copy(a:lines), '{ "filename": v:val }'))
-  lopen
-  ll
-endfunction
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-l': function('s:build_location_list')
-  \ }
+" noremap <Leader>oc :BTags<CR>
+" noremap <Leader>ob :Buffers<CR>
+" noremap <Leader>of :Files<CR>
+" noremap <Leader>oh :Helptags<CR>
+" noremap <Leader>ol :BLines<CR>
+" noremap <Leader>ot :Tags<CR>
+" noremap <Leader>oz :Rg<Space>
+" imap <C-X><C-w> <plug>(fzf-complete-word)
+" imap <C-X><C-f> <plug>(fzf-complete-path)
+" let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_colors = {
+"   \ "fg":      ["fg", "Normal"],
+"   \ "bg":      ["bg", "Normal"],
+"   \ "hl":      ["fg", "Conditional"],
+"   \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
+"   \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
+"   \ "hl+":     ["fg", "Conditional"],
+"   \ "info":    ["fg", "Conditional"],
+"   \ "border":  ["fg", "Ignore"],
+"   \ "prompt":  ["fg", "Comment"],
+"   \ "pointer": ["fg", "Conditional"],
+"   \ "marker":  ["fg", "Conditional"],
+"   \ "spinner": ["fg", "Conditional"],
+"   \ "header":  ["fg", "WildMenu"]
+"   \ }
+" augroup FZF
+"   autocmd!
+"   autocmd! User FzfStatusLine setlocal statusline=[fzf]
+" augroup END
+" function! s:build_quickfix_list(lines)
+"   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+"   copen
+"   cc
+" endfunction
+" function! s:build_location_list(lines)
+"   call setloclist(0, map(copy(a:lines), '{ "filename": v:val }'))
+"   lopen
+"   ll
+" endfunction
+" let g:fzf_action = {
+"   \ 'ctrl-q': function('s:build_quickfix_list'),
+"   \ 'ctrl-l': function('s:build_location_list')
+"   \ }
+
+" Telescope
+lua << LUA
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
+  }
+}
+require('telescope').load_extension('fzf')
+
+local builtin = require("telescope.builtin")
+vim.keymap.set('n', '<Leader>oo', ':Telescope<CR>', { noremap = true })
+vim.keymap.set('n', '<Leader>oc', builtin.lsp_document_symbols, { noremap = true })
+vim.keymap.set('n', '<Leader>ob', builtin.buffers, { noremap = true })
+vim.keymap.set('n', '<Leader>of', builtin.find_files, { noremap = true })
+vim.keymap.set('n', '<Leader>oh', builtin.help_tags, { noremap = true })
+vim.keymap.set('n', '<Leader>ol', builtin.current_buffer_fuzzy_find, { noremap = true })
+vim.keymap.set('n', '<Leader>ot', builtin.treesitter, { noremap = true })
+vim.keymap.set('n', '<Leader>og', builtin.live_grep, { noremap = true })
+LUA
 
 " Folding
 noremap <Leader>zz :setlocal foldmethod=syntax<CR>
