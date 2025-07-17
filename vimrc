@@ -67,6 +67,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'TiuSh/vim-toggline'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'RRethy/vim-illuminate'
+Plug 'OKY2DEV/markview.nvim'  " Must be loaded before treesitter
 
 " Other
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
@@ -89,6 +90,10 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'dmitmel/cmp-cmdline-history'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/nvim-cmp'
+
+" AI Agents and Tools
+" Plug 'zbirenbaum/copilot.lua'   " Only required :Copilot auth
+Plug 'olimorris/codecompanion.nvim'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -285,6 +290,13 @@ let g:matchup_matchparen_offscreen = {'method': 'popup'}
 command! WhereAmI :MatchupWhereAmI?
 
 lua << EOF
+require("markview").setup({
+  preview = {
+    filetypes = { "markdown", "codecompanion" },
+    ignore_buftypes = {},
+  }
+})
+
 local npairs = require("nvim-autopairs")
 npairs.setup({})
 
@@ -416,6 +428,59 @@ treesj.setup({
   use_default_keymaps = false
 })
 vim.keymap.set("n", "<Leader>bt", treesj.toggle)
+
+-- AI Agents and Tools
+-- require("copilot").setup()   -- Only required for :Copilot auth
+
+-- CodeCompanion per-project config
+-- NOTE: Local plugin at: lua/plugins/codecompanion/fidget-spinner.lua
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    api_keys = {}
+
+    base_config = {
+      init = function()
+        require("plugins.codecompanion.fidget-spinner"):init()
+      end,
+
+      adapters = {
+        copilot = function()
+          oauth_token = vim.fn.inputsecret("Copilot OAuth Token: ")
+          return require("codecompanion.adapters").extend("copilot", {
+            env = {
+              oauth_token = oauth_token
+            }
+          })
+        end,
+
+        anthropic = function()
+          api_keys.anthropic =
+            api_keys.anthropic or
+              vim.fn.inputsecret("Anthropic API Key: ")
+          return require("codecompanion.adapters").extend("anthropic", {
+            env = {
+              api_key = api_keys.anthropic
+            }
+          })
+        end
+      }
+    }
+
+    local ok, project_config = pcall(require, "config.codecompanion")
+    if not ok then
+      project_config = {}
+    end
+
+    config = vim.tbl_deep_extend("force", base_config, project_config)
+    require("codecompanion").setup(config)
+  end
+})
+
+vim.keymap.set('n', '<Leader>ic', ':CodeCompanionChat Toggle<CR>', { silent = true })
+vim.keymap.set('v', '<Leader>i<Space>', ':CodeCompanionChat Add<CR>', { silent = true })
+vim.keymap.set({'n', 'v'}, '<Leader>ia', ':CodeCompanionActions<CR>', { silent = true })
+vim.keymap.set({'n', 'v'}, '<Leader>ii', ':CodeCompanion<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>i:', ':CodeCompanionCmd ')
 
 -- LSP - Language Server Protocol
 local nvim_lsp = require('lspconfig')
