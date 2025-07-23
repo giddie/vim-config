@@ -29,17 +29,13 @@ end
 endsnippet
 
 snippet struct "defstruct with typespec" bm
-alias __MODULE__, as: Self
-
 @enforce_keys [$1]
 defstruct @enforce_keys
 
-@type t :: %Self{${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}}
+@type t :: %__MODULE__{${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}}
 endsnippet
 
 snippet typed_struct "TypeStruct" bm
-alias __MODULE__, as: Self
-
 use TypedStruct
 
 typedstruct ${1:module: MyStruct, }enforce: true do
@@ -50,21 +46,19 @@ end
 endsnippet
 
 snippet struct_full "defstruct with the trimmings" bm
-alias __MODULE__, as: Self
-
 @derive {Inspect, except: [:__private__]}
 @enforce_keys [$1]
 defstruct [
 	__private__: %{},${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}$2
 ]
 
-@type t :: %Self{
+@type t :: %__MODULE__{
 	__private__: map(),${1/.*?:(.*?)(,|$)/\n		$1: nil,/g}${2/(.*?):.*?(,|$)/$1: nil,/g}
 }
 
-@spec validate(Self.t()) :: Result.ok_or(Self.t(), Ecto.Changeset.t())
-def validate(%Self{} = self) do
-	data = %Self{}
+@spec validate(__MODULE__.t()) :: Result.ok_or(__MODULE__.t(), Ecto.Changeset.t())
+def validate(%__MODULE__{} = self) do
+	data = %__MODULE__{}
 	params = Map.from_struct(self)
 
 	types = %{
@@ -90,7 +84,6 @@ end
 endsnippet
 
 snippet schema "Ecto schema" bm
-alias __MODULE__, as: Self
 alias Ecto.Changeset
 
 use Ecto.Schema
@@ -102,38 +95,38 @@ embedded_schema do
 	timestamps(type: :utc_datetime_usec)
 end
 
-@type t :: %Self{
+@type t :: %__MODULE__{
 	$2
 	inserted_at: DateTime.t(),
 	updated_at: DateTime.t()
 }$4
 
-@spec new(map() | list()) :: Result.ok_or(Self.t(), Changeset.t())
+@spec new(map() | list()) :: Result.ok_or(__MODULE__.t(), Changeset.t())
 def new(params \\\\ %{}), do: changeset_for_new(params) |> apply_action(:new)
 
-@spec new!(map() | list()) :: Self.t()
+@spec new!(map() | list()) :: __MODULE__.t()
 def new!(params \\\\ %{}), do: changeset_for_new(params) |> apply_action!(:new)
 
 @doc """
 Use this instead of \`new/1\` to get Dialyzer to check field types on the input struct.
 """
-@spec from_struct(Self.t()) :: Result.ok_or(Self.t(), Changeset.t())
-def from_struct(%Self{} = self), do: self |> Map.from_struct() |> new()
+@spec from_struct(__MODULE__.t()) :: Result.ok_or(__MODULE__.t(), Changeset.t())
+def from_struct(%__MODULE__{} = self), do: self |> Map.from_struct() |> new()
 
 @spec changeset_for_new(map() | list()) :: Changeset.t()
 def changeset_for_new(params) do
-	change(%Self{id: params[:id]})
+	change(%__MODULE__{id: params[:id]})
 	|> changeset(Enum.into(params, %{}))
 end
 
-@spec changeset(Self.t() | Changeset.t(), Self.t() | map()) :: Changeset.t()
+@spec changeset(__MODULE__.t() | Changeset.t(), __MODULE__.t() | map()) :: Changeset.t()
 def changeset(self, params \\\\ %{})
 
-def changeset(%Self{} = self, %Self{} = params) do
+def changeset(%__MODULE__{} = self, %__MODULE__{} = params) do
 	changeset(self, Map.from_struct(params))
 end
 
-def changeset(%Self{} = self, params) do
+def changeset(%__MODULE__{} = self, params) do
 	change(self) |> changeset(params)
 end
 
@@ -222,7 +215,7 @@ end
 endsnippet
 
 snippet genserver "GenServer" bm
-alias __MODULE__, as: Self
+alias __MODULE__
 
 use GenServer
 
@@ -230,7 +223,7 @@ use GenServer
 
 @spec start_link(Keyword.t()) :: GenServer.on_start()
 def start_link(_opts \\\\ []) do
-	GenServer.start_link(Self, %{$1})
+	GenServer.start_link(${1:__MODULE__}, %{$2})
 end
 
 # @spec get_state(GenServer.server()) :: map()
@@ -247,7 +240,7 @@ end
 
 @impl GenServer
 def init(state = %{}) do
-	Process.set_label(Self)
+	Process.set_label($1)
 	{:ok, state}
 end
 
