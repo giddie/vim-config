@@ -69,7 +69,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'TiuSh/vim-toggline'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'RRethy/vim-illuminate'
-Plug 'OKY2DEV/markview.nvim'  " Must be loaded before treesitter
+Plug 'OXY2DEV/markview.nvim'  " Must be loaded before treesitter
 
 " Other
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
