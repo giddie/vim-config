@@ -488,77 +488,53 @@ vim.keymap.set({'n', 'v'}, '<Leader>ii', ':CodeCompanion<CR>', { silent = true }
 vim.keymap.set('n', '<Leader>i:', ':CodeCompanionCmd ')
 
 -- LSP - Language Server Protocol
-local nvim_lsp = require('lspconfig')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+vim.lsp.config('*', {
+  capabilities = require('cmp_nvim_lsp').default_capabilities()
+})
 
 -- Elixir
--- require("elixir").setup({
+vim.lsp.enable('expert')
+
+-- -- C/C++
+-- nvim_lsp.clangd.setup({
+--   capabilities = vim.tbl_deep_extend('force', capabilities, {
+--     -- https://github.com/neovim/nvim-lspconfig/issues/2184
+--     offsetEncoding = 'utf-16'
+--   })
+-- })
+--
+-- -- Rust
+-- nvim_lsp.rust_analyzer.setup({
 --   capabilities = capabilities,
---   nextls = {
---     enable = true,
---     cmd = "nextls",
---     spitfire = true,
---     init_options = {
---       experimental = {
---         completions = {
---           enable = true
---         }
+--   settings = {
+--     ["rust-analyzer"] = {
+--       checkOnSave = {
+--         command = "clippy"
 --       }
 --     }
---   },
---   elixirls = {
---     enable = false,
---     cmd = "elixir-ls"
 --   }
 -- })
--- nvim_lsp.elixirls.setup({
---   cmd = { os.getenv("HOME") .. "/.vim/elixir-ls/rel/language_server.sh" },
+--
+-- -- Typescript
+-- nvim_lsp.ts_ls.setup({
+--   capabilities = capabilities,
 -- })
-nvim_lsp.lexical.setup({
-  capabilities = capabilities,
-  cmd = { "lexical" },
-})
-
--- C/C++
-nvim_lsp.clangd.setup({
-  capabilities = vim.tbl_deep_extend('force', capabilities, {
-    -- https://github.com/neovim/nvim-lspconfig/issues/2184
-    offsetEncoding = 'utf-16'
-  })
-})
-
--- Rust
-nvim_lsp.rust_analyzer.setup({
-  capabilities = capabilities,
-  settings = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy"
-      }
-    }
-  }
-})
-
--- Typescript
-nvim_lsp.ts_ls.setup({
-  capabilities = capabilities,
-})
-
--- VueJS
--- nvim_lsp['vuels'].setup({})
-nvim_lsp.volar.setup({
-  capabilities = capabilities,
-})
-
--- Python
-nvim_lsp.pylsp.setup({
-  capabilities = capabilities,
-})
-
--- Zig
-nvim_lsp.zls.setup({
-  capabilities = capabilities,
-})
+--
+-- -- VueJS
+-- -- nvim_lsp['vuels'].setup({})
+-- nvim_lsp.volar.setup({
+--   capabilities = capabilities,
+-- })
+--
+-- -- Python
+-- nvim_lsp.pylsp.setup({
+--   capabilities = capabilities,
+-- })
+--
+-- -- Zig
+-- nvim_lsp.zls.setup({
+--   capabilities = capabilities,
+-- })
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
