@@ -1,4 +1,6 @@
 *.swp
-/vim-dir/vim-plug
+/.netrwhist
 /vim-dir/autoload/plug.vim.old
-/vim-dir/elixir-ls
+/vim-dir/spell
+/vim-dir/lsp/
+/vim-dir/vim-plug/
