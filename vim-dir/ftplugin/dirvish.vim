@@ -5,3 +5,5 @@ nmap <silent><buffer> <Leader>r <Plug>(dovish_rename)
 nmap <silent><buffer> <Leader>yy <Plug>(dovish_yank)
 nmap <silent><buffer> <Leader>c <Plug>(dovish_copy)
 nmap <silent><buffer> <Leader>m <Plug>(dovish_move)
+
+nmap <silent><buffer> <Leader>th :lcd %<CR>:terminal<CR>i

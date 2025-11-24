@@ -826,6 +826,7 @@ vmap <Leader>a <Plug>(LiveEasyAlign)
 nmap <Leader>a <Plug>(LiveEasyAlign)
 nnoremap <Leader>ts :split +terminal<CR>i
 nnoremap <Leader>tv :vsplit +terminal<CR>i
+nnoremap <Leader>th :execute 'lcd' expand("%:p:h")<CR>:terminal<CR>i
 nnoremap <C-w>S :botright split<CR>
 nnoremap <C-w>V :botright vsplit<CR>
 
