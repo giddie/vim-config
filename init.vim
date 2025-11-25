@@ -36,7 +36,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'jeetsukumaran/vim-indentwise'
 Plug 'unblevable/quick-scope'
 Plug 'bronson/vim-visual-star-search'
-Plug 't9md/vim-choosewin'
+Plug 'ten3roberts/window-picker.nvim'
 
 " Buffers
 Plug 'jlanzarotta/bufexplorer'
@@ -283,9 +283,13 @@ lua <<EOF
 require("fidget").setup({})
 EOF
 
-" choosewin
-nmap _ <Plug>(choosewin)
-" let g:choosewin_overlay_enable = 1
+" window-picker
+lua <<EOF
+require("window-picker").setup({
+  keys = "hutenosadifygpcrl"
+})
+vim.keymap.set('n', '_', "<cmd>WindowPick<cr>")
+EOF
 
 " Ranger
 let g:ranger_map_keys = 0
