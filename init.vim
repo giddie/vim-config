@@ -502,14 +502,9 @@ vim.lsp.config('lexical', {
 })
 vim.lsp.enable('lexical')
 
--- -- C/C++
--- nvim_lsp.clangd.setup({
---   capabilities = vim.tbl_deep_extend('force', capabilities, {
---     -- https://github.com/neovim/nvim-lspconfig/issues/2184
---     offsetEncoding = 'utf-16'
---   })
--- })
---
+-- C/C++
+vim.lsp.enable('clangd')
+
 -- -- Rust
 -- nvim_lsp.rust_analyzer.setup({
 --   capabilities = capabilities,
