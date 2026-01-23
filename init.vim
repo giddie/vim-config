@@ -532,11 +532,9 @@ vim.lsp.enable('clangd')
 -- nvim_lsp.pylsp.setup({
 --   capabilities = capabilities,
 -- })
---
--- -- Zig
--- nvim_lsp.zls.setup({
---   capabilities = capabilities,
--- })
+
+-- Zig
+vim.lsp.enable('zls')
 
 -- Diagnostics and Formatting
 local null_ls = require("null-ls")
