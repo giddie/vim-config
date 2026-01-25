@@ -1023,6 +1023,9 @@ augroup vimrc
   autocmd FileType markdown setlocal wrap spell
   autocmd FileType typescript syntax sync fromstart
   autocmd FileType vue setlocal formatoptions-=t
+  autocmd FileType zig
+    \ setlocal textwidth=120
+             \ colorcolumn=121
 
   autocmd FileType * let &l:formatprg = "par -w" . &l:textwidth
 augroup END
