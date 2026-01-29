@@ -497,10 +497,7 @@ vim.lsp.config('*', {
 })
 
 -- Elixir
-vim.lsp.config('lexical', {
-  cmd = { "lexical" }
-})
-vim.lsp.enable('lexical')
+vim.lsp.enable('expert')
 
 -- C/C++
 vim.lsp.enable('clangd')
