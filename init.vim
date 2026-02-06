@@ -301,8 +301,7 @@ command! WhereAmI :MatchupWhereAmI?
 lua << EOF
 require("markview").setup({
   preview = {
-    filetypes = { "markdown", "codecompanion" },
-    ignore_buftypes = {},
+    enable = false,
   }
 })
 
