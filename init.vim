@@ -760,10 +760,10 @@ map ]+ <Plug>(IndentWiseNextEqualIndent)
 " map ]_ <Plug>(IndentWiseNextAbsoluteIndent)
 
 " Ack (Searching)
-command! -nargs=* Find :Ack! -- <q-args>
-noremap <Leader>f :Find<Space>
-noremap <Leader>x :cclose<CR>:pclose<CR>
 let g:ackprg = 'rg --vimgrep --smart-case -F'
+noremap <Leader>f :Ack! -- ""<Left>
+noremap <Leader>F :Ack! -uu -- ""<Left>
+noremap <Leader>x :cclose<CR>:pclose<CR>
 
 " UltiSnips options
 let g:UltiSnipsUsePythonVersion=3
