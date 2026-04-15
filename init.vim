@@ -326,7 +326,15 @@ npairs.add_rule(
   :end_wise(cond.not_after_regex(".*end", 50))
 )
 
-require("gitsigns").setup()
+-- GitSigns
+local gitsigns = require("gitsigns")
+gitsigns.setup()
+vim.keymap.set("n", "<Leader>hp", gitsigns.preview_hunk)
+vim.keymap.set("n", "[h", function() gitsigns.nav_hunk("prev") end)
+vim.keymap.set("n", "]h", function() gitsigns.nav_hunk("next") end)
+vim.keymap.set("n", "[H", function() gitsigns.nav_hunk("prev", { target = "staged" }) end)
+vim.keymap.set("n", "]H", function() gitsigns.nav_hunk("next", { target = "staged" }) end)
+
 require("colorizer").setup()
 
 -- TreeSitter
@@ -649,15 +657,6 @@ nmap <silent> <Leader>tg :TestVisit<CR>
 let g:bufExplorerDisableDefaultKeyMapping=1
 let g:bufExplorerShowRelativePath=1
 nnoremap <silent> <Leader>be :BufExplorer<CR>
-
-" GitSigns
-nnoremap <silent> <Leader>hp :Gitsigns preview_hunk<CR>
-nnoremap <silent> [h :Gitsigns prev_hunk<CR>
-nnoremap <silent> ]h :Gitsigns next_hunk<CR>
-xnoremap ah :<C-U>Gitsigns select_hunk<CR>
-onoremap ah :<C-U>Gitsigns select_hunk<CR>
-xnoremap ih :<C-U>Gitsigns select_hunk<CR>
-onoremap ih :<C-U>Gitsigns select_hunk<CR>
 
 " FZF (Fuzzy Find)
 " noremap <Leader>oc :BTags<CR>
