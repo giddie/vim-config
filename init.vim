@@ -93,10 +93,6 @@ Plug 'dmitmel/cmp-cmdline-history'
 Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/nvim-cmp'
 
-" AI Agents and Tools
-" Plug 'zbirenbaum/copilot.lua'   " Only required :Copilot auth
-Plug 'olimorris/codecompanion.nvim'
-
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
@@ -444,59 +440,6 @@ treesj.setup({
   use_default_keymaps = false
 })
 vim.keymap.set("n", "<Leader>bt", treesj.toggle)
-
--- AI Agents and Tools
--- require("copilot").setup()   -- Only required for :Copilot auth
-
--- CodeCompanion per-project config
--- NOTE: Local plugin at: lua/plugins/codecompanion/fidget-spinner.lua
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    api_keys = {}
-
-    base_config = {
-      init = function()
-        require("plugins.codecompanion.fidget-spinner"):init()
-      end,
-
-      adapters = {
-        copilot = function()
-          oauth_token = vim.fn.inputsecret("Copilot OAuth Token: ")
-          return require("codecompanion.adapters").extend("copilot", {
-            env = {
-              oauth_token = oauth_token
-            }
-          })
-        end,
-
-        anthropic = function()
-          api_keys.anthropic =
-            api_keys.anthropic or
-              vim.fn.inputsecret("Anthropic API Key: ")
-          return require("codecompanion.adapters").extend("anthropic", {
-            env = {
-              api_key = api_keys.anthropic
-            }
-          })
-        end
-      }
-    }
-
-    local ok, project_config = pcall(require, "config.codecompanion")
-    if not ok then
-      project_config = {}
-    end
-
-    config = vim.tbl_deep_extend("force", base_config, project_config)
-    require("codecompanion").setup(config)
-  end
-})
-
-vim.keymap.set('n', '<Leader>ic', ':CodeCompanionChat Toggle<CR>', { silent = true })
-vim.keymap.set('v', '<Leader>i<Space>', ':CodeCompanionChat Add<CR>', { silent = true })
-vim.keymap.set({'n', 'v'}, '<Leader>ia', ':CodeCompanionActions<CR>', { silent = true })
-vim.keymap.set({'n', 'v'}, '<Leader>ii', ':CodeCompanion<CR>', { silent = true })
-vim.keymap.set('n', '<Leader>i:', ':CodeCompanionCmd ')
 
 -- LSP - Language Server Protocol
 vim.lsp.config('*', {
