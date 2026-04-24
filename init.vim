@@ -26,7 +26,7 @@ Plug 'vim-scripts/taglist.vim'
 Plug 'mileszs/ack.vim'
 " Plug 'junegunn/fzf.vim'
 " Plug 'gfanto/fzf-lsp.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'justinmk/vim-dirvish'
 Plug 'roginfarrer/vim-dirvish-dovish'
@@ -94,11 +94,12 @@ Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/nvim-cmp'
 
 " Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim-treesitter/treesitter-parser-registry'
+Plug 'neovim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'shushtain/incselect.nvim'
 Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-Plug 'nvim-treesitter/nvim-treesitter-refactor'
-Plug 'ziontee113/syntax-tree-surfer'
+Plug 'Wansmer/sibling-swap.nvim'
 Plug 'RRethy/nvim-treesitter-endwise'
 Plug 'Wansmer/treesj'
 
@@ -334,59 +335,35 @@ vim.keymap.set("n", "]H", function() gitsigns.nav_hunk("next", { target = "stage
 require("colorizer").setup()
 
 -- TreeSitter
-require("nvim-treesitter.configs").setup({
-  auto_install = true,
-  highlight = {
-    enable = true
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<CR>",
-      node_incremental = "<CR>",
-      scope_incremental = "<Tab>",
-      node_decremental = "-"
-    }
-  },
-  indent = {
-    enable = true
-  },
-  endwise = {
-    enable = true
-  },
-  refactor = {
-    ---- Disabled due to excessive slow-down in long C++ files
-    -- highlight_definitions = {
-    --   enable = true,
-    --   clear_on_cursor_move = false
-    -- },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "<Leader>bR"
-      }
-    },
-    navigation = {
-      enable = true,
-      keymaps = {
-        goto_definition = "<Leader>bg",
-        list_definitions = "<Leader>br",
-        list_definitions_toc = "gO",
-        ---- Using vim-illuminate instead due to performance
-        -- goto_next_usage = "]]",
-        -- goto_previous_usage = "[[",
-      }
-    }
-  },
-  matchup = {
-    enable = true,
-  }
+local treesitter_languages = {
+  "elixir",
+}
+require("nvim-treesitter").install(treesitter_languages)
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup('treesitter.setup', {}),
+  pattern = treesitter_languages,
+  callback = function(args)
+    local buf = args.buf
+    vim.treesitter.start(buf)
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo.foldmethod = 'expr'
+    vim.wo.foldlevel = 99
+    vim.bo[buf].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+  end,
 })
+
+-- Incremental Selection
+vim.keymap.set("n", "<CR>", require("incselect").init)
+vim.keymap.set("x", "<CR>", require("incselect").parent)
+vim.keymap.set("x", "<Tab>", require("incselect").next)
+vim.keymap.set("x", "<S-Tab>", require("incselect").prev)
+vim.keymap.set("x", "-", require("incselect").undo)
 
 -- vim-illuminate
 vim.keymap.set("n", "<Leader>bp", require('illuminate').goto_prev_reference)
 vim.keymap.set("n", "<Leader>bn", require('illuminate').goto_next_reference)
 vim.keymap.set("n", "yom", require('illuminate').toggle)
+vim.keymap.set("n", "yoM", require('illuminate').toggle_freeze_buf)
 
 -- TreeSitter Highlights - General
 vim.api.nvim_set_hl(0, "@keyword", { link = "Define" })
@@ -395,44 +372,15 @@ vim.api.nvim_set_hl(0, "@keyword.function", { link = "Define" })
 -- TreeSetter Highlights - Elixir
 vim.api.nvim_set_hl(0, "@module.elixir", { link = "Type" })
 
--- Syntax Tree Surfer
-require("syntax-tree-surfer").setup({})
-local opts = { noremap = true, silent = true }
-
---   Normal Mode Swapping:
---   Swap The Master Node relative to the cursor with its siblings. Dot-repeatable.
-vim.keymap.set("n", "<Leader>K", function()
-	vim.opt.opfunc = "v:lua.STSSwapUpNormal_Dot"
-	return "g@l"
-end, { silent = true, expr = true })
-vim.keymap.set("n", "<Leader>J", function()
-	vim.opt.opfunc = "v:lua.STSSwapDownNormal_Dot"
-	return "g@l"
-end, { silent = true, expr = true })
-
---   Swap Current Node at the Cursor with its siblings. Dot-repeatable.
-vim.keymap.set("n", "<Leader>k", function()
-	vim.opt.opfunc = "v:lua.STSSwapCurrentNodePrevNormal_Dot"
-	return "g@l"
-end, { silent = true, expr = true })
-vim.keymap.set("n", "<Leader>j", function()
-	vim.opt.opfunc = "v:lua.STSSwapCurrentNodeNextNormal_Dot"
-	return "g@l"
-end, { silent = true, expr = true })
-
---   Visual Selection from Normal Mode
--- vim.keymap.set("n", "vx", '<cmd>STSSelectMasterNode<cr>', opts)
--- vim.keymap.set("n", "vn", '<cmd>STSSelectCurrentNode<cr>', opts)
-
---   Select Nodes in Visual Mode
-vim.keymap.set("x", "gk", '<cmd>STSSelectPrevSiblingNode<cr>', opts)
-vim.keymap.set("x", "gj", '<cmd>STSSelectNextSiblingNode<cr>', opts)
-vim.keymap.set("x", "gh", '<cmd>STSSelectParentNode<cr>', opts)
-vim.keymap.set("x", "gl", '<cmd>STSSelectChildNode<cr>', opts)
-
---   Swapping Nodes in Visual Mode
-vim.keymap.set("x", "<Leader>k", '<cmd>STSSwapPrevVisual<cr>', opts)
-vim.keymap.set("x", "<Leader>j", '<cmd>STSSwapNextVisual<cr>', opts)
+-- sibling-swap
+require("sibling-swap").setup({
+  keymaps = {
+    ["<Leader>k"] = 'swap_with_left',
+    ["<Leader>j"] = 'swap_with_right',
+    ["<Leader>K"] = 'swap_with_left_with_opp',
+    ["<Leader>J"] = 'swap_with_right_with_opp',
+  }
+})
 
 -- Tree Split-Join
 local treesj = require("treesj")
@@ -951,7 +899,6 @@ augroup vimrc
     \ setlocal textwidth=98
              \ colorcolumn=99
              \ formatoptions+=c
-             \ foldlevel=1
              \ formatexpr=
              \ indentkeys-=0{
   autocmd FileType help setlocal nospell
