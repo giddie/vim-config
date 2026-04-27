@@ -261,13 +261,14 @@ endif
 
 " Status Line
 set laststatus=2
-let &stl = ""
-let &stl .= "%<%F "                 " File path
-let &stl .= "%(| %R%M | %)"         " Flags
-let &stl .= "%= "                   " Right-align
-" let &stl.="%(| %{fugitive#statusline()} %)"
-let &stl .= "%(| %{&filetype} %)"   " File type
-let &stl .= "| %l-%c/%L "           " Line/column number
+let s:stl = ""
+let s:stl .= "%<%F "                 " File path
+let s:stl .= "%(| %R%M | %)"         " Flags
+let s:stl .= "%= "                   " Right-align
+" let s:stl .= "%(| %{fugitive#statusline()} %)"
+let s:stl .= "%(| %{&filetype} %)"   " File type
+let s:stl .= "| %l-%c/%L "           " Line/column number
+let &l:statusline = s:stl
 
 " Dirvish
 " Sort directories at the top
