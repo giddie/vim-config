@@ -267,8 +267,8 @@ let s:stl .= "%(| %R%M | %)"         " Flags
 let s:stl .= "%= "                   " Right-align
 " let s:stl .= "%(| %{fugitive#statusline()} %)"
 let s:stl .= "%(| %{&filetype} %)"   " File type
-let s:stl .= "| %l-%c/%L "           " Line/column number
-let &l:statusline = s:stl
+let s:stl .= "| %l/%L(%p%%)-%c"           " Line/column number
+let &statusline = s:stl
 
 " Dirvish
 " Sort directories at the top
