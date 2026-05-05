@@ -358,7 +358,7 @@ vim.keymap.set("n", "<CR>", require("incselect").init)
 vim.keymap.set("x", "<CR>", require("incselect").parent)
 vim.keymap.set("x", "<Tab>", require("incselect").next)
 vim.keymap.set("x", "<S-Tab>", require("incselect").prev)
-vim.keymap.set("x", "-", require("incselect").undo)
+vim.keymap.set("x", "<S-CR>", require("incselect").undo)
 
 -- vim-illuminate
 vim.keymap.set("n", "<Leader>bp", require('illuminate').goto_prev_reference)
