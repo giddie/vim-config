@@ -375,13 +375,12 @@ vim.api.nvim_set_hl(0, "@module.elixir", { link = "Type" })
 
 -- sibling-swap
 require("sibling-swap").setup({
-  keymaps = {
-    ["<Leader>k"] = 'swap_with_left',
-    ["<Leader>j"] = 'swap_with_right',
-    ["<Leader>K"] = 'swap_with_left_with_opp',
-    ["<Leader>J"] = 'swap_with_right_with_opp',
-  }
+  use_default_keymaps = false,
 })
+vim.keymap.set("n", "<Leader>k", require("sibling-swap").swap_with_left)
+vim.keymap.set("n", "<Leader>j", require("sibling-swap").swap_with_right)
+vim.keymap.set("n", "<Leader>K", require("sibling-swap").swap_with_left_with_opp)
+vim.keymap.set("n", "<Leader>J", require("sibling-swap").swap_with_right_with_opp)
 
 -- Tree Split-Join
 local treesj = require("treesj")
