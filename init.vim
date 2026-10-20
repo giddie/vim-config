@@ -872,11 +872,23 @@ command! PrettyXML %!xmllint --format -
 " Review Branch
 lua << LUA
 vim.api.nvim_create_user_command('ReviewBranch', function(opts)
-  local branch = opts.args
-  require('gitsigns').change_base(branch, true)
-  vim.cmd('G difftool ' .. branch)
-  vim.cmd('cfdo edit')
-  vim.cmd('BufExplorer')
+  local gitsigns = require('gitsigns')
+  gitsigns.change_base(opts.args, true, function(err)
+    vim.schedule(function()
+      if err then
+        vim.notify(err, vim.log.levels.ERROR)
+      else
+        gitsigns.setqflist('all', nil, function()
+          vim.schedule(function()
+            vim.cmd('cclose')
+            vim.cmd('cfdo edit')
+            vim.cmd('cfirst')
+            vim.cmd('BufExplorer')
+          end)
+        end)
+      end
+    end)
+  end)
 end, {
   nargs = 1,
   complete = function(arg)
