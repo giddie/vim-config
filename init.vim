@@ -869,6 +869,23 @@ command! SudoWrite :w suda://%
 " XML Formatting
 command! PrettyXML %!xmllint --format -
 
+" Review Branch
+lua << LUA
+vim.api.nvim_create_user_command('ReviewBranch', function(opts)
+  local branch = opts.args
+  require('gitsigns').change_base(branch, true)
+  vim.cmd('G difftool ' .. branch)
+  vim.cmd('cfdo edit')
+  vim.cmd('BufExplorer')
+end, {
+  nargs = 1,
+  complete = function(arg)
+    local out = vim.fn.systemlist('git for-each-ref --format="%(refname:short)" refs/heads refs/remotes')
+    return vim.tbl_filter(function(b) return vim.startswith(b, arg) end, out)
+  end,
+})
+LUA
+
 augroup vimrc
   autocmd!
 
