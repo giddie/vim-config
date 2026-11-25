@@ -766,6 +766,35 @@ vim.keymap.set({'n'}, '<Leader>S', split_line_normal)
 vim.keymap.set({'v'}, '<Leader>S', ":SplitLineVisual<CR>")
 EOF
 
+lua << EOF
+local function copy_file_line_ref(line1, line2)
+  local path = vim.fn.expand("%:p")
+  if path == "" then
+    vim.notify("No file name for this buffer", vim.log.levels.WARN)
+    return
+  end
+
+  -- Relative to cwd; falls back to the absolute path if the file is outside it
+  local rel = vim.fn.fnamemodify(path, ":.")
+
+  local ref = rel .. ":" .. line1
+  if line2 and line2 ~= line1 then
+    ref = ref .. "-" .. line2
+  end
+
+  vim.fn.setreg("+", ref)
+  vim.fn.setreg('"', ref) -- also the unnamed register, handy if clipboard is flaky
+  vim.notify("Copied: " .. ref)
+end
+
+-- Command: works for the current line, or with a range (:5,10CopyLineRef or visual :'<,'>CopyLineRef)
+vim.api.nvim_create_user_command("CopyLineRef", function(opts)
+  copy_file_line_ref(opts.line1, opts.line2)
+end, { range = true, desc = "Copy path:line[-line] relative to cwd" })
+
+vim.keymap.set({ "n", "x" }, "<leader>yy", ":CopyLineRef<CR>", { desc = "Copy file:line[-line] ref" })
+EOF
+
 " Git / Fugitive
 nnoremap <Leader>gg :Gedit :<CR>
 nnoremap <Leader>gG :G<CR>
